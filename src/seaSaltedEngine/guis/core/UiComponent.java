@@ -1,0 +1,191 @@
+package seaSaltedEngine.guis.core;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import seaSaltedEngine.Engine;
+import seaSaltedEngine.basic.input.Mouse;
+import seaSaltedEngine.guis.transitions.UiAnimator;
+import seaSaltedEngine.tools.math.Vector2f;
+import seaSaltedEngine.tools.math.Vector4f;
+
+public class UiComponent {
+
+	private List<UiComponent> children;
+	private UiComponent parentComponent;
+	
+	private boolean isActive;
+	private boolean isHovering;
+	
+	private int level;
+	private float alpha;
+	private UiAnimator animator;
+	
+	private int guiTexture;
+	private Vector4f overrideColor;
+	
+	private Vector2f position;
+	private Vector2f scale;
+	
+	public UiComponent(int level) {
+		this.children = new ArrayList<UiComponent>();
+		this.isActive = true;
+		this.level = level;
+		this.guiTexture = 0;
+		this.animator = new UiAnimator(this);
+		this.alpha = 1;
+		
+		this.position = new Vector2f(0,0);
+		this.scale = new Vector2f(0.15f,0.25f);
+		UiMaster.add(this);
+	}
+	
+	public void addComponent(UiComponent component) {
+		component.setParentComponent(this);
+		component.setActive(isActive());
+		children.add(component);
+	}
+	
+	public void updateComponent() {
+		animator.update(this);
+		updateClick();
+	}
+	
+	public void updateSelf() {
+		//Update method that will be overridden
+	}
+	
+	private void updateClick() {
+		Vector2f location = getPosition();
+        Vector2f scale = getScale();
+        double mouseCoordinatesX = Mouse.getMouseCoordsX();
+        double mouseCoordinatesY = Mouse.getMouseCoordsY();
+        if (location.y + scale.y > -mouseCoordinatesY && location.y - scale.y < -mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX) {
+        	whileHover();
+        	if(!isHovering)
+        		onHover();
+        	isHovering = true;
+        	if(Engine.getInputHandler().getMouseInstance().getButtonEvent().isLeftDown())
+        		onClick();
+        } else {
+        	isHovering = false;
+        }
+	}
+	
+	protected void onHover() {
+		
+	}
+	
+	protected void whileHover() {
+		
+	}
+	
+	protected void onClick() {
+		
+	}
+	
+	public void show() {
+		this.isActive = true;
+	}
+	
+	public void hide() {
+		this.isActive = false;
+	}
+	
+	public void increasePosition(float dx, float dy) {
+		this.position.x += dx;
+		this.position.y += dy;
+	}
+	
+	public void setPosition(float dx, float dy) {
+		this.position.x = dx;
+		this.position.y = dy;
+	}
+	
+	public void increaseScale(float dx, float dy) {
+		this.scale.x += dx;
+		this.scale.y += dy;
+	}
+	
+	public void setScale(float dx, float dy) {
+		this.scale.x = dx;
+		this.scale.y = dy;
+	}
+	
+	public void increaseAlpha(float dx) {
+		this.alpha += dx;
+	}
+
+	public List<UiComponent> getChildren() {
+		return children;
+	}
+
+	public UiComponent getParentComponent() {
+		return parentComponent;
+	}
+
+	public void setParentComponent(UiComponent parentComponent) {
+		this.parentComponent = parentComponent;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getGuiTexture() {
+		return guiTexture;
+	}
+
+	public Vector4f getOverrideColor() {
+		return overrideColor;
+	}
+
+	public void setGuiTexture(int guiTexture) {
+		this.guiTexture = guiTexture;
+	}
+
+	public void setColor(Vector4f overrideColor) {
+		this.overrideColor = overrideColor;
+	}
+
+	public Vector2f getPosition() {
+		return position;
+	}
+
+	public Vector2f getScale() {
+		return scale;
+	}
+
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
+
+	public void setScale(Vector2f scale) {
+		this.scale = scale;
+	}
+
+	public UiAnimator getAnimator() {
+		return animator;
+	}
+
+	public float getAlpha() {
+		return alpha;
+	}
+
+	public void setAlpha(float ammount) {
+		this.alpha = ammount;
+	}
+	
+}
