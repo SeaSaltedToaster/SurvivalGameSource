@@ -1,36 +1,41 @@
 package survivalGame.world.terrain;
 
 import seaSaltedEngine.render.model.Mesh;
-import seaSaltedEngine.render.model.MeshData;
-import seaSaltedEngine.tools.MeshBuilder;
-import seaSaltedEngine.tools.Triangulator;
+import seaSaltedEngine.render.resourceManagement.main.MainRequestProcessor;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.resources.Models;
+import survivalGame.world.TerrainGenerator;
 import survivalGame.world.dualContouring.DualContouring;
 import survivalGame.world.dualContouring.OctreeBuilder;
 import survivalGame.world.dualContouring.octree.OctreeNode;
+import survivalGame.world.terrain.loading.MeshGenerationRequest;
 import survivalGame.world.terrain.mesh.TerrainMeshData;
+import survivalGame.world.terrain.objects.TerrainObjectManager;
 
 public class TerrainChunk {
 
 	private TerrainTransform transform;
-	private int chunkSize = 32;
+	private int chunkSize;
 	
 	private Mesh terrainMesh;
 	private TerrainMeshData terrainData;
+	private TerrainObjectManager manager;
 	
 	private OctreeNode voxelOctree;
 	private boolean meshDataReady;
 	
 	public TerrainChunk(Vector3f position) {
+		this.chunkSize = TerrainGenerator.size;
 		this.transform = new TerrainTransform(position,(int) position.x/chunkSize,(int) position.z/chunkSize);
 		this.terrainMesh = Models.getModelFromID(1);
 		this.terrainData = new TerrainMeshData();
+		this.manager = new TerrainObjectManager();
 	}
 	
 	public void generate() {
 		this.voxelOctree = OctreeBuilder.BuildOctree(transform.getPosition(), chunkSize, null);
-		DualContouring.GenerateMeshFromOctree(getVoxelOctree(), terrainData.getVertices(), terrainData.getIndices());
+		DualContouring.GenerateMeshFromOctree(getVoxelOctree(), terrainData.getVertices(), terrainData.getIndices(), this);
+		
 	}
 	
 	public void update() {
@@ -39,7 +44,8 @@ public class TerrainChunk {
 	
 	private void checkMesh() {
 		if(meshDataReady) {
-			terrainMesh = new Mesh(new MeshData(MeshBuilder.createModel(terrainData.getVertices(), Triangulator.triangulateIndices(terrainData.getIndices()))));
+//			MeshGenerationRequest request = new MeshGenerationRequest(this);
+//			MainRequestProcessor.sendRequest(request);
 		}
 	}
 
@@ -89,6 +95,14 @@ public class TerrainChunk {
 
 	public void setMeshDataReady(boolean meshDataReady) {
 		this.meshDataReady = meshDataReady;
+	}
+
+	public TerrainObjectManager getManager() {
+		return manager;
+	}
+
+	public void setManager(TerrainObjectManager manager) {
+		this.manager = manager;
 	}
 	
 }

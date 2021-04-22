@@ -1,37 +1,51 @@
 package survivalGame.world.terrain.renderer;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import seaSaltedEngine.basic.logger.Logger;
+import java.util.ArrayList;
+import java.util.List;
+import seaSaltedEngine.tools.math.Vector3f;
+import survivalGame.world.TerrainGenerator;
 import survivalGame.world.terrain.TerrainChunk;
+import survivalGame.world.terrain.TerrainTransform;
 
 public class ChunkManager {
 	
-	private HashMap<Boolean, TerrainChunk> worldTerrainList;
+	private static List<TerrainChunk> worldTerrainList;
 	private ChunkRenderer renderer;
 	
 	public ChunkManager() {
-		this.worldTerrainList = new HashMap<Boolean, TerrainChunk>();
+		ChunkManager.worldTerrainList = new ArrayList<TerrainChunk>();
 		this.renderer = new ChunkRenderer();
 	}
 	
 	public void renderChunks() {
-		for(Entry<Boolean, TerrainChunk> ei : worldTerrainList.entrySet()) {
-			ei.getValue().update();
-			renderer.renderEntities(ei.getValue());
+		for(TerrainChunk terrain : worldTerrainList) {
+			terrain.update();
+			renderer.renderEntities(terrain);
 		}
 	}
 	
-	public void setLoadState(TerrainChunk chunk, boolean isLoaded) {
-		for(Entry<Boolean, TerrainChunk> ei : worldTerrainList.entrySet()) {
-			if(ei.getValue().getTransform().equals(chunk.getTransform())) {
-				
+	public static TerrainChunk getTerrainInPosition(Vector3f position) {
+		int indexX = (int) (position.getX() / TerrainGenerator.size);
+		int indexY = (int) (position.getZ() / TerrainGenerator.size);
+		
+		for(TerrainChunk chunk : worldTerrainList) {
+			TerrainTransform transform = chunk.getTransform();
+			if(transform.getIndexX() == indexX && transform.getIndexY() == indexY) {
+				return chunk;
 			}
 		}
+		return null;
+	}
+	
+	public boolean containsChunk(TerrainTransform position) {
+		for(TerrainChunk chunk : worldTerrainList) {
+			if(chunk.getTransform().equals(position))
+				return true;
+		}
+		return false;
 	}
 
-	public HashMap<Boolean, TerrainChunk> getWorldTerrainList() {
+	public List<TerrainChunk> getWorldTerrainList() {
 		return worldTerrainList;
 	}
 

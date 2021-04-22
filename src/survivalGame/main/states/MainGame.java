@@ -1,15 +1,12 @@
 package survivalGame.main.states;
 
-import javax.swing.JOptionPane;
-
 import seaSaltedEngine.Engine;
 import survivalGame.GameManager;
 import survivalGame.main.GameState;
-import survivalGame.networking.client.ClientsideManager;
 import survivalGame.networking.server.Server;
 import survivalGame.world.GameWorld;
 import survivalGame.world.TerrainGenerator;
-import testing.TestEntityBatch;
+import survivalGame.world.skybox.SkyboxRenderer;
 
 public class MainGame extends GameState {
 
@@ -17,10 +14,11 @@ public class MainGame extends GameState {
 	public void init() {
 		//Start Game
 		GameManager.initGame();
+		SkyboxRenderer.init();
 		
 		//Server Process
-		Server.open(25565);
-		ClientsideManager.addHost(JOptionPane.showInputDialog("Please Enter a name"));
+//		Server.open(25565);
+//		ClientsideManager.addHost(JOptionPane.showInputDialog("Please Enter a name"));
 	}
 
 	@Override
@@ -32,6 +30,7 @@ public class MainGame extends GameState {
 	@Override
 	public void update() {
 		//Game Related Things
+		GameWorld.update();
 		Server.updateServer();
 	}
 
@@ -40,6 +39,8 @@ public class MainGame extends GameState {
 		//Render Objects
 		Engine.render(GameWorld.getMainWorldEntityBatch());
 		TerrainGenerator.getManager().renderChunks();
+		SkyboxRenderer.renderSkybox();
+		Engine.renderUi();
 	}
 
 }

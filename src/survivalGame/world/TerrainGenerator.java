@@ -10,15 +10,19 @@ public class TerrainGenerator {
 
 	private static ChunkManager manager = new ChunkManager();
 	
-	private static final int size = 32;
-	private static final int distance = 16;
+	public static final int size = 64;
+	private static final int renderDistance = 2;
+	private static final int distance = renderDistance * size;
 	
 	public static void generateTerrain() {
-		for(int x = -distance; x < distance; x++) {
-			for(int y = -distance; y < distance; y++) {
+		for(int x = -distance; x < distance; x+=size/2) {
+			for(int y = -distance; y < distance; y+=size/2) {
 				//Create Instance
-				TerrainChunk chunk = new TerrainChunk(new Vector3f(x*size,0,y*size));
-				manager.getWorldTerrainList().put(false, chunk);
+				TerrainChunk chunk = new TerrainChunk(new Vector3f(x,0,y));
+				
+				//Check if it exists
+				if(!manager.containsChunk(chunk.getTransform()))
+					manager.getWorldTerrainList().add(chunk);
 				
 				//Background Loading
 				TerrainGenerationRequest request = new TerrainGenerationRequest(chunk);

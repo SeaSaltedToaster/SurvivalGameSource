@@ -64,6 +64,11 @@ public class Vector3f {
 		return new Vector3f(this.x * r, this.y * r, this.z * r);
 	}
     
+    public Vector3f mul(Vector3f r)
+	{
+		return new Vector3f(this.x * r.x, this.y * r.y, this.z * r.z);
+	}
+    
     public Vector3f div(Vector3f r)
 	{
 		return new Vector3f(this.x / r.getX(), this.y / r.getY(), this.getZ() / r.getZ());

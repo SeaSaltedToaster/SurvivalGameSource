@@ -1,12 +1,9 @@
 package survivalGame.world.terrain.renderer;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import seaSaltedEngine.Engine;
-import seaSaltedEngine.basic.logger.Logger;
-import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.render.model.Vao;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
@@ -35,6 +32,7 @@ public class ChunkRenderer {
 	private void beginRendering() {
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
+		shader.getLightPosition().loadVec3(Engine.getCamera().getPosition());
 	}
 	
 	private void finishRendering() {
@@ -54,7 +52,7 @@ public class ChunkRenderer {
 	}
 	
 	private void prepareInstance(TerrainChunk entity) {
-		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(Transform.Default.getPosition(), 0, 0, 0, 1));
+		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(entity.getTransform().getPosition(), 0, 0, 0, 1));
 	}
 
 }

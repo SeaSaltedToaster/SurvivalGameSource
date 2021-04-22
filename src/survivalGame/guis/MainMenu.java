@@ -2,6 +2,7 @@ package survivalGame.guis;
 
 import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.guis.core.UiMaster;
 import seaSaltedEngine.guis.transitions.Transition;
 import seaSaltedEngine.guis.transitions.drivers.SlideDriver;
 import seaSaltedEngine.tools.math.Vector2f;
@@ -16,15 +17,10 @@ public class MainMenu extends UiComponent {
 		this.setColor(UiColors.GRAY);
 		this.setScale(new Vector2f(1,1));
 		this.setPosition(new Vector2f(0,0));
-	}
-	
-	public void init() {
-		this.setColor(UiColors.GRAY);
-		this.setScale(new Vector2f(1,1));
-		this.setPosition(new Vector2f(0,0));
-//		this.increaseAlpha(1);
+		this.setAlpha(1);
+		this.getAnimator().doTransition(APPEAR);
 		
-//		this.getAnimator().doTransition(APPEAR);
+		UiMaster.add(this);
 	}
 
 }

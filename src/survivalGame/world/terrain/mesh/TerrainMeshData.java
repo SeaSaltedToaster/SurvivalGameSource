@@ -9,10 +9,17 @@ public class TerrainMeshData {
 	
 	private List<Vertex> vertices;
 	private List<Integer> indices;
+	private Float[][][] chunkArray;
 
 	public TerrainMeshData() {
 		this.vertices = new ArrayList<Vertex>();
 		this.indices = new ArrayList<Integer>();
+		
+		this.chunkArray = new Float[32][32][32];
+	}
+	
+	public void setVoxelAt(int x, int y, int z, float m) {
+		this.chunkArray[x][y][z] = m;
 	}
 
 	public List<Vertex> getVertices() {
@@ -29,6 +36,14 @@ public class TerrainMeshData {
 
 	public void setIndices(List<Integer> indices) {
 		this.indices = indices;
+	}
+
+	public Float[][][] getChunkArray() {
+		return chunkArray;
+	}
+
+	public void setChunkArray(Float[][][] chunkArray) {
+		this.chunkArray = chunkArray;
 	}
 	
 }

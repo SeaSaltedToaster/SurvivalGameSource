@@ -28,8 +28,8 @@ public class MasterRenderer {
 ;		renderer.render(batch); 
 	}
 	
-	public void clearOpenGL() {
-		OpenGL.clearColor(); 
+	public void clearOpenGL() { 
+		OpenGL.clearColor();
 		OpenGL.clearDepth();
 		OpenGL.clearColor(Engine.getConfigs().getDefaultColor().toVector(), 1);
 	}

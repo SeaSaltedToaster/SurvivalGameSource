@@ -3,6 +3,7 @@ package seaSaltedEngine.guis.transitions;
 import java.util.ArrayList;
 import java.util.List;
 
+import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.guis.core.UiComponent;
 
 public class UiAnimator {
@@ -17,10 +18,13 @@ public class UiAnimator {
 	}
 	
 	public void update(UiComponent component) {
-		activeTransitions.removeAll(toRemove);
 		for(Transition transition : activeTransitions) {
+			if(transition.isDone) {
+				remove(transition); continue; }
 			transition.update(component);
 		}
+		activeTransitions.removeAll(toRemove);
+		toRemove.clear();
 	}
 	
 	public void doTransition(Transition transition) {

@@ -7,12 +7,14 @@ import java.util.Map.Entry;
 import org.lwjgl.glfw.GLFW;
 
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.render.display.Window;
 
 public class Transition {
 
 	private HashMap<TransitionDriver, TransitionType> drivers;
+	private HashMap<TransitionDriver, TransitionType> backup;
 	
-	private double timeStarted;
+	private double currentTime;
 	public boolean isDone = false; 
 	
 	public Transition() {
@@ -20,20 +22,26 @@ public class Transition {
 	}
 	
 	public void start() {
-		timeStarted = GLFW.glfwGetTime();
+		backup = drivers;
+	}
+
+	public void reset() {
+		drivers = backup;
 	}
 	
 	public void update(UiComponent component) {
 		Iterator<Entry<TransitionDriver, TransitionType>> iterator = drivers.entrySet().iterator();
 		while(iterator.hasNext()) {
 			Entry<TransitionDriver, TransitionType> entry = iterator.next();
-			updateDriver(entry.getKey(),entry.getValue(), component);
+			updateDriver(entry.getKey(),entry.getValue(), component, iterator);
 		}
 	}
 	
-	private void updateDriver(TransitionDriver driver, TransitionType type, UiComponent component) {
+	private void updateDriver(TransitionDriver driver, TransitionType type, UiComponent component, Iterator<Entry<TransitionDriver, TransitionType>> entry) {
+		if(drivers.size() == 0) {		}
 		if(driver.hasCompletedOnePeriod()) {
-			component.getAnimator().remove(this); isDone = true; return;
+			component.getAnimator().remove(this);
+			entry.remove();
 		}
 		switch(type) {
 			case AXIS_X:
@@ -80,7 +88,8 @@ public class Transition {
 	}
 	
 	private float getTime() {
-		return (float) (GLFW.glfwGetTime() - timeStarted);
+		this.currentTime += Window.getDelta();
+		return (float) (currentTime);
 	}
 	
 	public Transition xDriver(TransitionDriver driver) {

@@ -3,6 +3,7 @@ package seaSaltedEngine.tools;
 import java.util.List;
 
 import seaSaltedEngine.Engine;
+import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.basic.objects.Triangle;
 import seaSaltedEngine.basic.objects.Vertex;
 import seaSaltedEngine.render.model.Vao;
@@ -59,9 +60,10 @@ public class MeshBuilder {
 		float[] indices = new float[triangles.size() * 3 + 1];
 		int vertexPointer = 0;
 		for(int i = 0; i < triangles.size(); i++, vertexPointer+=3) {
-			indices[vertexPointer] = 0;
-			indices[vertexPointer+1] = 1;
-			indices[vertexPointer+2] = 0;
+			Color color = triangles.get(i).getVertexColor();
+			indices[vertexPointer] = color.getR();
+			indices[vertexPointer+1] = color.getG();
+			indices[vertexPointer+2] = color.getB();
 		}
 		return indices;
 	}

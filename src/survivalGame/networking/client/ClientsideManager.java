@@ -3,14 +3,12 @@ package survivalGame.networking.client;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.entity.component.ComponentType;
 import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.entity.EntityPickaxeTest;
 import survivalGame.entity.core.EntityIdentifier;
 import survivalGame.entity.core.EntityType;
 import survivalGame.networking.server.Server;

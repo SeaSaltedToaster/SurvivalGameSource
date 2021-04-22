@@ -62,14 +62,21 @@ public class UiComponent {
         double mouseCoordinatesY = Mouse.getMouseCoordsY();
         if (location.y + scale.y > -mouseCoordinatesY && location.y - scale.y < -mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX) {
         	whileHover();
+        	Engine.getCamera().setCancelUpdate(true);
         	if(!isHovering)
         		onHover();
         	isHovering = true;
         	if(Engine.getInputHandler().getMouseInstance().getButtonEvent().isLeftDown())
         		onClick();
         } else {
+        	if(isHovering)
+        		stopHover();
         	isHovering = false;
         }
+	}
+	
+	protected void stopHover() {
+		
 	}
 	
 	protected void onHover() {

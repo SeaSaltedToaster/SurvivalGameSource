@@ -13,9 +13,12 @@ public class FirstPersonCamera extends Camera {
 	private float upwardsSpeed = 0;
 	
 	private float multiplier = 15;
+	private boolean uiHover = false;
 	
 	@Override
 	public void update() {
+		if(this.cancelUpdate) return;
+		
 		updatePitch();
 		updateYaw();
 		checkInputs();
@@ -58,6 +61,14 @@ public class FirstPersonCamera extends Camera {
 		this.position.x += dx;
 		this.position.y += dy;
 		this.position.z += dz;
+	}
+
+	public boolean isUiHover() {
+		return uiHover;
+	}
+
+	public void setUiHover(boolean uiHover) {
+		this.uiHover = uiHover;
 	}
 	
 }

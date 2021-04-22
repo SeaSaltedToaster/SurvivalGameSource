@@ -1,5 +1,7 @@
 package seaSaltedEngine.render.renderers;
 
+import java.util.Iterator;
+
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
@@ -22,8 +24,9 @@ public class StaticRenderer {
 	public void render(IBatch batch) {
 		beginRendering();
 		
-		for(Entity entity : batch.getEntities()) {
-			shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
+		for (Iterator<Entity> iterator = batch.getEntities().iterator(); iterator.hasNext();) {
+		    Entity entity = iterator.next();
+		    shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
 			renderModel(entity);
 		}
 
@@ -34,14 +37,12 @@ public class StaticRenderer {
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
-		
 		OpenGL.enableCull();
 		OpenGL.setDepthTest(true);
 	}
 	
 	private void endRendering() {
 		shader.stop();
-		
 		OpenGL.disableCull();
 	}
 	

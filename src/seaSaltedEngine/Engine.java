@@ -10,6 +10,7 @@ import seaSaltedEngine.render.MasterRenderer;
 import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.render.display.Window;
 import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
+import seaSaltedEngine.render.resourceManagement.main.MainRequestProcessor;
 
 public class Engine {
 
@@ -41,15 +42,19 @@ public class Engine {
 		camera.update();
 		inputHandler.pollInput();
 		windowInstance.update(); 
+		MainRequestProcessor.dealWithTopRequests();
 	} 
 	
 	public static void render(IBatch batch) { 
 		renderer.render(batch);
+	}
+	
+	public static void renderUi() {
 		UiMaster.update();
 	}
 	
 	public static void end() {
-		
+		GlRequestProcessor.end();
 	}
 
 

@@ -2,6 +2,7 @@ package survivalGame.world.terrain.renderer;
 
 import seaSaltedEngine.render.shaders.Shader;
 import seaSaltedEngine.render.shaders.objects.UniformMatrix4f;
+import seaSaltedEngine.render.shaders.objects.UniformVec3;
 
 public class ChunkShader extends Shader {
 	
@@ -11,12 +12,13 @@ public class ChunkShader extends Shader {
 	protected UniformMatrix4f viewMatrix = new UniformMatrix4f("viewMatrix");
 	protected UniformMatrix4f transformationMatrix = new UniformMatrix4f("transformationMatrix");
 	protected UniformMatrix4f projectionMatrix = new UniformMatrix4f("projectionMatrix");
+	protected UniformVec3 lightPosition = new UniformVec3("lightPosition");
 	
 	private int location_color;
 	
 	public ChunkShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE, "in_position", "in_vertexColor", "in_normal");
-		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix); 
+		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition); 
 	}
 
 	public static String getVertexFile() {
@@ -41,6 +43,10 @@ public class ChunkShader extends Shader {
 
 	public int getLocation_color() {
 		return location_color;
+	}
+
+	public UniformVec3 getLightPosition() {
+		return lightPosition;
 	}
 	
 }

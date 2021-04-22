@@ -1,59 +1,52 @@
 package survivalGame.world.dualContouring;
 
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.world.dualContouring.octree.OctreeData;
 import survivalGame.world.dualContouring.octree.OctreeDrawInfo;
 import survivalGame.world.dualContouring.octree.OctreeNode;
 import survivalGame.world.dualContouring.octree.OctreeNodeType;
 import survivalGame.world.dualContouring.qef.LevenQefSolver;
 import survivalGame.world.dualContouring.qef.QEFData;
+import survivalGame.world.terrain.TerrainChunk;
 
 import static survivalGame.world.dualContouring.DualContouring.*;
 import static survivalGame.world.dualContouring.octree.OctreeNodeType.Node_Leaf;
 
 public class OctreeBuilder {
 	
-	public static OctreeNode BuildOctree(Vector3f min, int size, OctreeData data) {
-        OctreeNode root = new OctreeNode(min, size, OctreeNodeType.Node_Internal, data);
-        root = ConstructOctreeNodes(root, data);
+	
+	//Base function called to generate octree
+	public static OctreeNode BuildOctree(Vector3f min, int size, TerrainChunk chunk) {
+        OctreeNode root = new OctreeNode(min, size, OctreeNodeType.Node_Internal);
+        root = ConstructOctreeNodes(root, chunk);
         return root;
     }
 
-	private static OctreeNode ConstructOctreeNodes(OctreeNode node, OctreeData data) {
-        if (node == null) {
-            return null;
-        }
-        if (node.size == 1) {
-            return ConstructLeaf(node);
-        }
+	//Method goes through every node until the size is equal to 1
+	private static OctreeNode ConstructOctreeNodes(OctreeNode node, TerrainChunk chunk) {
+        if (node == null) return null;
+        
+        if (node.size == 1)
+            return ConstructLeaf(node, chunk);
 
 	    int childSize = node.size / 2;
-        boolean hasChildren = false;
-
         for (int i = 0; i < 8; i++) {
             Vector3f childMin = node.min.add(CHILD_MIN_OFFSETS[i].mul(childSize));
-            OctreeNode child = new OctreeNode(childMin, childSize, OctreeNodeType.Node_Internal, data);
-            node.children[i] = ConstructOctreeNodes(child, data);
-            hasChildren |= (node.children[i] != null);
-        }
-
-        if (!hasChildren) {
-            return null;
+            OctreeNode child = new OctreeNode(childMin, childSize, OctreeNodeType.Node_Internal);
+            node.children[i] = ConstructOctreeNodes(child, chunk);
         }
 
         return node;
     }
 	
-	private static OctreeNode ConstructLeaf(OctreeNode leaf) {
-        if (leaf == null || leaf.size != 1) {
-            return null;
-        }
+	//Only called for nodes with a size of 1 (Leaf)
+	private static OctreeNode ConstructLeaf(OctreeNode leaf, TerrainChunk chunk) {
+        if (leaf == null || leaf.size != 1) return null;
 
         int corners = 0;
         for (int i = 0; i < 8; i++) {
             Vector3f cornerPos = leaf.min.add(CHILD_MIN_OFFSETS[i]);
             
-            float density = SimplexNoise.Sample(cornerPos); //IMPORTANTE THING POG
+            float density = SimplexNoise.Sample(cornerPos);
             
 		    int material = density < 0.f ? MATERIAL_SOLID : MATERIAL_AIR;
 		    
@@ -93,7 +86,7 @@ public class OctreeBuilder {
         OctreeDrawInfo drawInfo = new OctreeDrawInfo();
         drawInfo.position = qef.solve();
         drawInfo.qef = qef;
-        drawInfo.averageNormal = averageNormal.div((float)edgeCount);//.normalize();
+        drawInfo.averageNormal = averageNormal.div((float)edgeCount).normalize();
         drawInfo.averageNormal.normalize();
         drawInfo.corners = corners;
 
@@ -137,5 +130,22 @@ public class OctreeBuilder {
         v.normalize();
         return v;
     }
+    
+    public static final int[][] edgevmap = {
+            {0,4},{1,5},{2,6},{3,7},
+            {0,2},{1,3},{4,6},{5,7},
+            {0,1},{2,3},{4,5},{6,7}
+    };
+    
+    static final Vector3f[] CHILD_MIN_OFFSETS = {
+            new Vector3f( 0, 0, 0 ),
+            new Vector3f( 0, 0, 1 ),
+            new Vector3f( 0, 1, 0 ),
+            new Vector3f( 0, 1, 1 ),
+            new Vector3f( 1, 0, 0 ),
+            new Vector3f( 1, 0, 1 ),
+            new Vector3f( 1, 1, 0 ),
+            new Vector3f( 1, 1, 1 ),
+    };
 	
 }

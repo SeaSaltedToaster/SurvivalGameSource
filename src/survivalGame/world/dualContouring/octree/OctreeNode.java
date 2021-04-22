@@ -9,13 +9,11 @@ public class OctreeNode {
     public OctreeNode[] children;
     public OctreeDrawInfo drawInfo;
 
-    public OctreeNode(Vector3f position, int size, OctreeNodeType type, OctreeData data) {
+    public OctreeNode(Vector3f position, int size, OctreeNodeType type) {
         this.Type = type;
         this.min = position;
         this.size = size;
         this.drawInfo = new OctreeDrawInfo();
         this.children = new OctreeNode[8];
-        
-//        data.getOctree()[(int) position.x][(int) position.y][(int) position.z] = this;
     }
 }
