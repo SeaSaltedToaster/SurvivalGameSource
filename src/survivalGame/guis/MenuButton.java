@@ -7,7 +7,7 @@ import seaSaltedEngine.guis.transitions.drivers.SlideDriver;
 
 public class MenuButton extends UiComponent {
 	
-	private final float TIME = 50f;
+	private final float TIME = 100f;
 	private Transition SLIDE_APPEAR = new Transition().alphaDriver(new SlideDriver(0,0.9f,TIME)).xDriver(new SlideDriver(-2f,-0.65f,TIME));
 	private Transition SLIDE_DISAPPEAR = new Transition().alphaDriver(new SlideDriver(0.9f,0f,TIME)).xDriver(new SlideDriver(-0.65f,-2f,TIME));
 

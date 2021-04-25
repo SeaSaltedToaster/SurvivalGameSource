@@ -14,6 +14,7 @@ import seaSaltedEngine.render.display.Window;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.main.GameState;
 import survivalGame.main.states.MainGame;
+import survivalGame.main.states.MainMenu;
 import survivalGame.resources.Models;
 import survivalGame.world.GameWorld;
 import testing.TestMenu;
@@ -28,9 +29,6 @@ public class MainApp {
 		
 		GameState gameState = new MainGame();
 		gameState.init();
-		
-		TestMenu menu = new TestMenu();
-		menu.init();
 		
 		Logger.Log("Game Load time: "+GLFW.glfwGetTime());
 		
@@ -48,16 +46,8 @@ public class MainApp {
 		configs.windowName = "Survival Game";
 		configs.loggerType = LoggerType.BOTH;
 		configs.defaultColor = new Color(1,1,1);
-		configs.fpsCap = 1000;
+		configs.fpsCap = 100;
 		return configs;
-	}
-	
-	public static void addEntityAt(Vector3f position) {
-		Transform transform = new Transform(position,0,0,0);
-		Entity entity = new Entity(transform);
-		entity.addComponent(new ModelComponent(Models.getModelFromID(1), 1));
-		
-		GameWorld.getMainWorldEntityBatch().getEntities().add(entity);
 	}
 	
 }

@@ -16,27 +16,20 @@ public class UiComponent {
 	
 	private boolean isActive;
 	private boolean isHovering;
-	
-	private int level;
-	private float alpha;
 	private UiAnimator animator;
-	
-	private int guiTexture;
-	private Vector4f overrideColor;
 	
 	private Vector2f position;
 	private Vector2f scale;
+	private UiMeta meta;
 	
 	public UiComponent(int level) {
 		this.children = new ArrayList<UiComponent>();
 		this.isActive = true;
-		this.level = level;
-		this.guiTexture = 0;
 		this.animator = new UiAnimator(this);
-		this.alpha = 1;
 		
 		this.position = new Vector2f(0,0);
 		this.scale = new Vector2f(0.15f,0.25f);
+		this.meta = new UiMeta(level, 1, 0, new Vector4f(0,0,0,0), false);
 		UiMaster.add(this);
 	}
 	
@@ -46,13 +39,31 @@ public class UiComponent {
 		children.add(component);
 	}
 	
+	public void removeComponent(UiComponent component) {
+		component.setParentComponent(null);
+		children.remove(component);
+	}
+	
 	public void updateComponent() {
 		animator.update(this);
 		updateClick();
+		updateSelf();
+		renderUi();
+		updateChildren();
 	}
 	
 	public void updateSelf() {
 		//Update method that will be overridden
+	}
+	
+	private void updateChildren() {
+		for(UiComponent component : children) {
+			component.updateComponent();
+		}
+	}
+	
+	private void renderUi() {
+		UiMaster.renderUi(this);
 	}
 	
 	private void updateClick() {
@@ -120,7 +131,7 @@ public class UiComponent {
 	}
 	
 	public void increaseAlpha(float dx) {
-		this.alpha += dx;
+		this.meta.setAlpha(meta.getAlpha()+dx);
 	}
 
 	public List<UiComponent> getChildren() {
@@ -144,27 +155,27 @@ public class UiComponent {
 	}
 
 	public int getLevel() {
-		return level;
+		return meta.getLevel();
 	}
 
 	public void setLevel(int level) {
-		this.level = level;
+		this.meta.setLevel(level);
 	}
 
 	public int getGuiTexture() {
-		return guiTexture;
+		return meta.getGuiTexture();
 	}
 
 	public Vector4f getOverrideColor() {
-		return overrideColor;
+		return meta.getOverrideColor();
 	}
 
 	public void setGuiTexture(int guiTexture) {
-		this.guiTexture = guiTexture;
+		this.meta.getGuiTexture();
 	}
 
 	public void setColor(Vector4f overrideColor) {
-		this.overrideColor = overrideColor;
+		this.meta.setOverrideColor(overrideColor);
 	}
 
 	public Vector2f getPosition() {
@@ -188,11 +199,19 @@ public class UiComponent {
 	}
 
 	public float getAlpha() {
-		return alpha;
+		return meta.getAlpha();
 	}
 
 	public void setAlpha(float ammount) {
-		this.alpha = ammount;
+		this.meta.setAlpha(ammount);
+	}
+	
+	public boolean hasTexture() {
+		return meta.isHasTexture();
+	}
+	
+	public void setHasTexture(boolean state) {
+		this.meta.setHasTexture(state);
 	}
 	
 }

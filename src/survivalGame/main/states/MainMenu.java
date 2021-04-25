@@ -26,6 +26,7 @@ public class MainMenu extends GameState {
 		
 		MenuButton button = new MenuButton(1);
 		button.setAlpha(0.9f);
+		menu.addComponent(button);
 		
 		GameWorld.initialize();
 		GameManager.initGame();
@@ -44,6 +45,7 @@ public class MainMenu extends GameState {
 	@Override
 	public void render() {
 		Engine.render(GameWorld.getMainWorldEntityBatch());
+		Engine.renderUi();
 	}
 
 }

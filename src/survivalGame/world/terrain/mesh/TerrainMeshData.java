@@ -14,8 +14,7 @@ public class TerrainMeshData {
 	public TerrainMeshData() {
 		this.vertices = new ArrayList<Vertex>();
 		this.indices = new ArrayList<Integer>();
-		
-		this.chunkArray = new Float[32][32][32];
+		this.chunkArray = new Float[64][64][64];
 	}
 	
 	public void setVoxelAt(int x, int y, int z, float m) {

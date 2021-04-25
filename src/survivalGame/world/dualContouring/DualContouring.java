@@ -22,12 +22,10 @@ public class DualContouring {
     	if(node == null) return;
         
         switch(node.Type) {
-        	case Node_Leaf: //Actual Voxels with Verticies (Generator Spot)
+        	case Node_Leaf:
         		node.drawInfo.index = vertexBuffer.size();
                 Vertex vertex = new Vertex(node.drawInfo.position.getVec3f(), node.drawInfo.averageNormal, new Color(0,1,0));
-                chunk.getManager().addArea(vertex.getPosition());
                 adjustEdgeVertex(vertex, node);
-                
                 vertexBuffer.add(vertex);
                 break;
         	case Node_Internal:

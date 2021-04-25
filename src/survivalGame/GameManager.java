@@ -7,8 +7,8 @@ import survivalGame.world.TerrainGenerator;
 public class GameManager {
 
 	public static void initGame() { //Initialize Game Systems
-		GameWorld.initialize();
 		Models.loadModelCache();
+		GameWorld.initialize();
 		TerrainGenerator.generateTerrain();
 	}
 	

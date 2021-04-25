@@ -10,25 +10,31 @@ public class TerrainGenerator {
 
 	private static ChunkManager manager = new ChunkManager();
 	
-	public static final int size = 64;
+	public static final int TERRAIN_SIZE = 64;
 	private static final int renderDistance = 2;
-	private static final int distance = renderDistance * size;
+	private static final int viewDistance = renderDistance * TERRAIN_SIZE;
 	
 	public static void generateTerrain() {
-		for(int x = -distance; x < distance; x+=size/2) {
-			for(int y = -distance; y < distance; y+=size/2) {
-				//Create Instance
-				TerrainChunk chunk = new TerrainChunk(new Vector3f(x,0,y));
-				
-				//Check if it exists
-				if(!manager.containsChunk(chunk.getTransform()))
-					manager.getWorldTerrainList().add(chunk);
-				
-				//Background Loading
-				TerrainGenerationRequest request = new TerrainGenerationRequest(chunk);
-				GlRequestProcessor.sendRequest(request);
-			}
-		}
+		createNewChunk(0,0);
+//		for(int x = -viewDistance; x < viewDistance; x+=TERRAIN_SIZE/2) {
+//			for(int y = -viewDistance; y < viewDistance; y+=TERRAIN_SIZE/2) {
+//				//Add new chunk at position (x,y)
+//				createNewChunk(x,y);
+//			}
+//		}
+	}
+	
+	private static void createNewChunk(int x, int z) {
+		//Create Instance
+		TerrainChunk chunk = new TerrainChunk(new Vector3f(x,0,z));
+		
+		//Check if it exists
+		if(!manager.containsChunk(chunk.getTransform()))
+			manager.getWorldTerrainList().add(chunk);
+		
+		//Background Loading
+		TerrainGenerationRequest request = new TerrainGenerationRequest(chunk);
+		GlRequestProcessor.sendRequest(request);
 	}
 
 	public static ChunkManager getManager() {
@@ -36,11 +42,11 @@ public class TerrainGenerator {
 	}
 
 	public static int getSize() {
-		return size;
+		return TERRAIN_SIZE;
 	}
 
 	public static int getDistance() {
-		return distance;
+		return viewDistance;
 	}
 	
 }

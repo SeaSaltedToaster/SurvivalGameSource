@@ -12,6 +12,7 @@ import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.entity.EntityPickaxeTest;
 import survivalGame.entity.core.EntityIdentifier;
 import survivalGame.entity.core.EntityType;
+import survivalGame.networking.commands.ServerCommands;
 import survivalGame.networking.server.packets.ServerClosePacket;
 import survivalGame.networking.server.packets.entity.EntityCreatedPacket;
 
@@ -22,9 +23,11 @@ public class Server {
 	private static ServerCommandThread commandThread;
 	
 	private static List<Client> clients = new ArrayList<Client>();
+	private static boolean isRunning;
 	
 	public static void open(int port) {
 		try {
+			isRunning = true;
 			serverSocket = new DatagramSocket(port);
 			thread = new ServerThread();
 			thread.startServerThread(serverSocket);
@@ -34,6 +37,7 @@ public class Server {
 			e.printStackTrace();
 		}
 		
+		ServerCommands.registerCommands();
 		Logger.ServerLog("Sucessfully Created Server.");
 	}
 	
@@ -50,6 +54,9 @@ public class Server {
 		thread.setRunning(false);
 		commandThread.setRunning(false);
 		serverSocket.close();
+		isRunning = false;
+		
+		Logger.Log("Server Closed...");
 	}
 	
 	public static void addPlayer(Client addClient, String username) {
@@ -74,6 +81,12 @@ public class Server {
 				return;
 			}
 		}
+	}
+	
+	public static void kickPlayer(int index) {
+		Client client = clients.get(index);
+		Logger.ServerLog(client.getName() + " has been kicked from the server.");
+		removePlayer(client, client.getName());
 	}
 	
 	public static void send(String message, Client reciever, DatagramSocket sender) {
@@ -106,6 +119,10 @@ public class Server {
 
 	public static List<Client> getClients() {
 		return clients;
+	}
+
+	public static boolean isRunning() {
+		return isRunning;
 	}
 
 }

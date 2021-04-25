@@ -7,11 +7,11 @@ out vec4 out_Color;
 uniform sampler2D guiTexture;
 uniform vec4 uiOverrideColor;
 uniform float alpha;
+uniform float uiWidth;
+uniform float uiHeight;
 
-float radius = 0.1;
-float uiHeight = 0.25;
-float uiWidth = 0.15;
-float cornerSmooth = 0.55;
+float radius = 0.5f;
+const float cornerSmooth = 0.55f;
 
 float square(float val) {
     return val * val;
@@ -39,6 +39,9 @@ float calcRoundedCorners() {
 void main(void){
 
 	out_Color = uiOverrideColor;
+
+	float alphaValue = calcRoundedCorners();
 	out_Color.a = alpha;
+	out_Color.a *= alphaValue;
 
 }

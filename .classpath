@@ -42,5 +42,9 @@
 	<classpathentry kind="lib" path="library/pngdecoder-0.13.jar"/>
 	<classpathentry kind="lib" path="library/slick-util.jar"/>
 	<classpathentry kind="lib" path="library/vecmath.jar"/>
+	<classpathentry kind="lib" path="library/lwjgl-stb-javadoc.jar"/>
+	<classpathentry kind="lib" path="library/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="library/lwjgl-stb-sources.jar"/>
+	<classpathentry kind="lib" path="library/lwjgl-stb.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -14,14 +14,11 @@ public class UiMaster {
 		Engine.getCamera().setCancelUpdate(false);
 		for(UiComponent component : components) {
 			component.updateComponent();
-			component.updateSelf();
-			if(component.isActive()) {
-				Engine.getUiRenderer().renderGui(component);
-				for(UiComponent componentChild : component.getChildren()) {
-					Engine.getUiRenderer().renderGui(componentChild);
-				}
-			}
 		}
+	}
+	
+	public static void renderUi(UiComponent component) {
+		Engine.getUiRenderer().renderGui(component);
 	}
 	
 	public static void add(UiComponent component) {

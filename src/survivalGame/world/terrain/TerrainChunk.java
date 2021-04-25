@@ -25,7 +25,7 @@ public class TerrainChunk {
 	private boolean meshDataReady;
 	
 	public TerrainChunk(Vector3f position) {
-		this.chunkSize = TerrainGenerator.size;
+		this.chunkSize = TerrainGenerator.TERRAIN_SIZE;
 		this.transform = new TerrainTransform(position,(int) position.x/chunkSize,(int) position.z/chunkSize);
 		this.terrainMesh = Models.getModelFromID(1);
 		this.terrainData = new TerrainMeshData();
@@ -44,8 +44,8 @@ public class TerrainChunk {
 	
 	private void checkMesh() {
 		if(meshDataReady) {
-//			MeshGenerationRequest request = new MeshGenerationRequest(this);
-//			MainRequestProcessor.sendRequest(request);
+			MeshGenerationRequest request = new MeshGenerationRequest(this);
+			MainRequestProcessor.sendRequest(request);
 		}
 	}
 

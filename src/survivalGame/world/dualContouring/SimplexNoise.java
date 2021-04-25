@@ -47,8 +47,8 @@ public class SimplexNoise {
 
 	private static float Noise(Vector3f pos) {
 		float r = 0.05f;
-//		return (float) Cuboid(pos.mul(r));
-		return (float) noise3d((double)pos.getX() * r, (double) pos.getY() * r, (double) pos.getZ() * r);
+		return (float) Sphere(pos.mul(r));
+//		return (float) noise3d((double)pos.getX() * r, (double) pos.getY() * r, (double) pos.getZ() * r);
 	}
 
 	public static float Cuboid(Vector3f pos) {

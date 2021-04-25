@@ -9,11 +9,11 @@ import survivalGame.world.terrain.TerrainTransform;
 
 public class ChunkManager {
 	
-	private static List<TerrainChunk> worldTerrainList;
+	private List<TerrainChunk> worldTerrainList;
 	private ChunkRenderer renderer;
 	
 	public ChunkManager() {
-		ChunkManager.worldTerrainList = new ArrayList<TerrainChunk>();
+		this.worldTerrainList = new ArrayList<TerrainChunk>();
 		this.renderer = new ChunkRenderer();
 	}
 	
@@ -24,9 +24,9 @@ public class ChunkManager {
 		}
 	}
 	
-	public static TerrainChunk getTerrainInPosition(Vector3f position) {
-		int indexX = (int) (position.getX() / TerrainGenerator.size);
-		int indexY = (int) (position.getZ() / TerrainGenerator.size);
+	public TerrainChunk getTerrainInPosition(Vector3f position) {
+		int indexX = (int) (position.getX() / TerrainGenerator.TERRAIN_SIZE);
+		int indexY = (int) (position.getZ() / TerrainGenerator.TERRAIN_SIZE);
 		
 		for(TerrainChunk chunk : worldTerrainList) {
 			TerrainTransform transform = chunk.getTransform();

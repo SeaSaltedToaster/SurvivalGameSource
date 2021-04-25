@@ -29,9 +29,11 @@ public class UiRenderer {
 		shader.getTransformationMatrix().loadMatrix(getTransformation(component));
 		if(component.getOverrideColor() != null)
 			shader.getUiOverrideColor().loadVec4(component.getOverrideColor());
-		if((Integer)component.getGuiTexture() != null)
+		if(component.hasTexture())
 			shader.getGuiTexture().loadTexUnit(component.getGuiTexture());
 		shader.getAlpha().loadFloat(component.getAlpha());
+		shader.getWidth().loadFloat(component.getScale().x);
+		shader.getHeight().loadFloat(component.getScale().y);
 		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

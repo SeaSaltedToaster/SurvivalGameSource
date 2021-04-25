@@ -12,36 +12,30 @@ import survivalGame.entity.core.EntityIdentifier;
 
 public class GameWorld {
 
-	private static EntityBatch mainWorldEntityBatch;
-	private static List<Entity> toAddOnFrame;
+	//Handles Everything to do with entities in the game world
+	private static EntityBatch entities;
 	
 	public static void initialize() {
-		mainWorldEntityBatch = new EntityBatch();
-		toAddOnFrame = new ArrayList<Entity>();
-	}
-	
-	public static void update() {
-		mainWorldEntityBatch.getEntities().addAll(toAddOnFrame);
-		toAddOnFrame.clear();
+		entities = new EntityBatch();
 	}
 	
 	public static void addWorldEntity(Entity entity, EntityIdentifier identifier) {
-		mainWorldEntityBatch.add(entity);
-		mainWorldEntityBatch.getEntityList().put(entity, identifier);
+		entities.add(entity);
+		entities.getEntityList().put(entity, identifier);
 	}
 	
 	public static void removeWorldEntity(EntityIdentifier identifier) {
-		for(Entry<Entity, EntityIdentifier> ei : mainWorldEntityBatch.getEntityList().entrySet()) {
+		for(Entry<Entity, EntityIdentifier> ei : entities.getEntityList().entrySet()) {
 			if(ei.getValue().getEntityID() == identifier.getEntityID() || ei.getValue().getType() == identifier.getType()) {
 				Logger.Log("Entity Removed from world with an ID of "+ei.getValue().getEntityID());
-				mainWorldEntityBatch.getEntities().remove(ei.getKey());
-				mainWorldEntityBatch.getEntityList().remove(identifier, ei.getKey());
+				entities.getEntities().remove(ei.getKey());
+				entities.getEntityList().remove(identifier, ei.getKey());
 			}
 		}
 	}
 	
 	public static void updateEntityTransform(Transform transform, EntityIdentifier identifier) {
-		for(Entry<Entity, EntityIdentifier> ei : mainWorldEntityBatch.getEntityList().entrySet()) {
+		for(Entry<Entity, EntityIdentifier> ei : entities.getEntityList().entrySet()) {
 			if(ei.getValue().getEntityID() == identifier.getEntityID() || ei.getValue().getType() == identifier.getType()) {
 				ei.getKey().setTransform(transform);
 			}
@@ -49,11 +43,7 @@ public class GameWorld {
 	}
 
 	public static EntityBatch getMainWorldEntityBatch() {
-		return mainWorldEntityBatch;
-	}
-
-	public static List<Entity> getToAddOnFrame() {
-		return toAddOnFrame;
+		return entities;
 	}
 	
 }

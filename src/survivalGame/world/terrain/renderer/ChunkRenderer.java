@@ -22,10 +22,10 @@ public class ChunkRenderer {
 	
 	public void renderEntities(TerrainChunk chunk) {
 		beginRendering();
-		prepareTexturedModel(chunk.getTerrainMesh().getMeshVao());
+		prepareModel(chunk.getTerrainMesh().getMeshVao());
 		prepareInstance(chunk);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, chunk.getTerrainMesh().getMeshVao().getIndexCount(), GL11.GL_UNSIGNED_INT, 0);
-		unbindTexturedModel();	
+		unbindModel();	
 		finishRendering();
 	}
 	
@@ -39,13 +39,13 @@ public class ChunkRenderer {
 		shader.stop();
 	}
 	
-	private void prepareTexturedModel(Vao model) {
+	private void prepareModel(Vao model) {
 		GL30.glBindVertexArray(model.id);
 		OpenGL.enableVertexAttribArrays(0,1,2);
 		OpenGL.enableCull();
 	}
 	
-	private void unbindTexturedModel() {
+	private void unbindModel() {
 		GL30.glBindVertexArray(0);
 		OpenGL.disableVertexAttribArrays(0,1,2);
 		OpenGL.disableCull();

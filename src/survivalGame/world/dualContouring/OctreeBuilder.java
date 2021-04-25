@@ -7,12 +7,15 @@ import survivalGame.world.dualContouring.octree.OctreeNodeType;
 import survivalGame.world.dualContouring.qef.LevenQefSolver;
 import survivalGame.world.dualContouring.qef.QEFData;
 import survivalGame.world.terrain.TerrainChunk;
+import survivalGame.world.terrain.blocks.VoxelTerrainGenerator;
 
 import static survivalGame.world.dualContouring.DualContouring.*;
 import static survivalGame.world.dualContouring.octree.OctreeNodeType.Node_Leaf;
 
 public class OctreeBuilder {
 	
+	//Generates array of voxels
+	protected static VoxelTerrainGenerator generator;
 	
 	//Base function called to generate octree
 	public static OctreeNode BuildOctree(Vector3f min, int size, TerrainChunk chunk) {
@@ -41,12 +44,12 @@ public class OctreeBuilder {
 	//Only called for nodes with a size of 1 (Leaf)
 	private static OctreeNode ConstructLeaf(OctreeNode leaf, TerrainChunk chunk) {
         if (leaf == null || leaf.size != 1) return null;
-
+        
         int corners = 0;
         for (int i = 0; i < 8; i++) {
             Vector3f cornerPos = leaf.min.add(CHILD_MIN_OFFSETS[i]);
             
-            float density = SimplexNoise.Sample(cornerPos);
+            float density = (float) cornerPos.y * 15 - (cornerPos.x * 5);
             
 		    int material = density < 0.f ? MATERIAL_SOLID : MATERIAL_AIR;
 		    
