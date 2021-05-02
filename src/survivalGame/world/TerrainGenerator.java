@@ -11,17 +11,16 @@ public class TerrainGenerator {
 	private static ChunkManager manager = new ChunkManager();
 	
 	public static final int TERRAIN_SIZE = 64;
-	private static final int renderDistance = 2;
+	private static final int renderDistance = 1;
 	private static final int viewDistance = renderDistance * TERRAIN_SIZE;
 	
 	public static void generateTerrain() {
-		createNewChunk(0,0);
-//		for(int x = -viewDistance; x < viewDistance; x+=TERRAIN_SIZE/2) {
-//			for(int y = -viewDistance; y < viewDistance; y+=TERRAIN_SIZE/2) {
-//				//Add new chunk at position (x,y)
-//				createNewChunk(x,y);
-//			}
-//		}
+		for(int x = 0; x < viewDistance; x+=TERRAIN_SIZE/2) {
+			for(int y = 0; y < viewDistance; y+=TERRAIN_SIZE/2) {
+				//Add new chunk at position (x,y)
+				createNewChunk(x,y);
+			}
+		}
 	}
 	
 	private static void createNewChunk(int x, int z) {

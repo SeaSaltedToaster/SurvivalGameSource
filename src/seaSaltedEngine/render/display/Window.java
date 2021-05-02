@@ -1,7 +1,6 @@
 package seaSaltedEngine.render.display;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
@@ -9,8 +8,6 @@ import seaSaltedEngine.Engine;
 import seaSaltedEngine.tools.GLFWUtils;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
-
-import java.nio.ByteBuffer;
 
 public class Window {
 	
@@ -47,16 +44,6 @@ public class Window {
 		glfwShowWindow(windowID);
 		
 		return windowID;
-	}
-	
-	private void createIcon() {
-		ByteBuffer bufferedImage = IconLoader.loadImageToByteBuffer("./resources/res/icon.png");
-		
-		GLFWImage image = new GLFWImage(bufferedImage);
-		GLFWImage.Buffer images = GLFWImage.malloc(1);
-        images.put(0, image);
-		
-		glfwSetWindowIcon(windowID, images);
 	}
 	
 	public void update() {

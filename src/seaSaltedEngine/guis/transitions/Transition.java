@@ -4,21 +4,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.lwjgl.glfw.GLFW;
-
+import seaSaltedEngine.guis.core.UiAspect;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.render.display.Window;
 
 public class Transition {
 
-	private HashMap<TransitionDriver, TransitionType> drivers;
-	private HashMap<TransitionDriver, TransitionType> backup;
+	private HashMap<TransitionDriver, UiAspect> drivers;
+	private HashMap<TransitionDriver, UiAspect> backup;
 	
 	private double currentTime;
 	public boolean isDone = false; 
 	
 	public Transition() {
-		this.drivers = new HashMap<TransitionDriver, TransitionType>();
+		this.drivers = new HashMap<TransitionDriver, UiAspect>();
 	}
 	
 	public void start() {
@@ -30,14 +29,14 @@ public class Transition {
 	}
 	
 	public void update(UiComponent component) {
-		Iterator<Entry<TransitionDriver, TransitionType>> iterator = drivers.entrySet().iterator();
+		Iterator<Entry<TransitionDriver, UiAspect>> iterator = drivers.entrySet().iterator();
 		while(iterator.hasNext()) {
-			Entry<TransitionDriver, TransitionType> entry = iterator.next();
+			Entry<TransitionDriver, UiAspect> entry = iterator.next();
 			updateDriver(entry.getKey(),entry.getValue(), component, iterator);
 		}
 	}
 	
-	private void updateDriver(TransitionDriver driver, TransitionType type, UiComponent component, Iterator<Entry<TransitionDriver, TransitionType>> entry) {
+	private void updateDriver(TransitionDriver driver, UiAspect type, UiComponent component, Iterator<Entry<TransitionDriver, UiAspect>> entry) {
 		if(drivers.size() == 0) {		}
 		if(driver.hasCompletedOnePeriod()) {
 			component.getAnimator().remove(this);
@@ -93,28 +92,38 @@ public class Transition {
 	}
 	
 	public Transition xDriver(TransitionDriver driver) {
-		drivers.put(driver, TransitionType.AXIS_X);
+		drivers.put(driver, UiAspect.AXIS_X);
 		return this;
 	}
 	
 	public Transition yDriver(TransitionDriver driver) {
-		drivers.put(driver, TransitionType.AXIS_Y);
+		drivers.put(driver, UiAspect.AXIS_Y);
 		return this;
 	}
 	
 	public Transition xScaleDriver(TransitionDriver driver) {
-		drivers.put(driver, TransitionType.SCALE_X);
+		drivers.put(driver, UiAspect.SCALE_X);
 		return this;
 	}
 	
 	public Transition yScaleDriver(TransitionDriver driver) {
-		drivers.put(driver, TransitionType.SCALE_Y);
+		drivers.put(driver, UiAspect.SCALE_Y);
 		return this;
 	}
 	
 	public Transition alphaDriver(TransitionDriver driver) {
-		drivers.put(driver, TransitionType.ALPHA);
+		drivers.put(driver, UiAspect.ALPHA);
 		return this;
+	}
+
+	@Override
+	protected Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

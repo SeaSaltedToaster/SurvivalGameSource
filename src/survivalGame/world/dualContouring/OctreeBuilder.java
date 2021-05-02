@@ -20,6 +20,8 @@ public class OctreeBuilder {
 	//Base function called to generate octree
 	public static OctreeNode BuildOctree(Vector3f min, int size, TerrainChunk chunk) {
         OctreeNode root = new OctreeNode(min, size, OctreeNodeType.Node_Internal);
+        generator = new VoxelTerrainGenerator();
+        generator.generate();
         root = ConstructOctreeNodes(root, chunk);
         return root;
     }
@@ -48,8 +50,8 @@ public class OctreeBuilder {
         int corners = 0;
         for (int i = 0; i < 8; i++) {
             Vector3f cornerPos = leaf.min.add(CHILD_MIN_OFFSETS[i]);
-            
-            float density = (float) cornerPos.y * 15 - (cornerPos.x * 5);
+
+            float density = getDensity(cornerPos, chunk);
             
 		    int material = density < 0.f ? MATERIAL_SOLID : MATERIAL_AIR;
 		    
@@ -61,7 +63,7 @@ public class OctreeBuilder {
         }
 
         // otherwise the voxel contains the surface, so find the edge intersections
-	    int MAX_CROSSINGS = 6;
+	    int MAX_CROSSINGS = 12;
         int edgeCount = 0;
         Vector3f averageNormal = new Vector3f();
         QEFData qef = new QEFData(new LevenQefSolver());
@@ -80,7 +82,7 @@ public class OctreeBuilder {
             Vector3f p1 = leaf.min.add(CHILD_MIN_OFFSETS[c1]);
             Vector3f p2 = leaf.min.add(CHILD_MIN_OFFSETS[c2]);
             Vector3f p = ApproximateZeroCrossingPosition(p1, p2);
-            Vector3f n = CalculateSurfaceNormal(p);
+            Vector3f n = CalculateSurfaceNormal(p, p1, p2, p1);
             qef.qef_add_point(p, n);
             averageNormal = averageNormal.add(n);
             edgeCount++;
@@ -95,8 +97,18 @@ public class OctreeBuilder {
 
         leaf.Type = Node_Leaf;
         leaf.drawInfo = drawInfo;
+        
         return leaf;
     }
+	
+	private static float getDensity(Vector3f cornerPos, TerrainChunk chunk) {
+		float density = 0;
+		int x = (int) (Math.abs(cornerPos.x));
+		int y = (int) (Math.abs(cornerPos.y));
+		int z = (int) (Math.abs(cornerPos.z));
+		density = generator.getBlockMap()[x][y][z] * 10 - 5;
+		return density;
+	}
 	
 	private static Vector3f ApproximateZeroCrossingPosition(Vector3f p0, Vector3f p1) {
         // approximate the zero crossing by finding the min value along the edge
@@ -109,7 +121,7 @@ public class OctreeBuilder {
         {
             Vector3f p = p0.add(p1.subtract(p0).mul(currentT)); // p = p0 + ((p1 - p0) * currentT);
             
-            float density = Math.abs(SimplexNoise.Sample(p));
+            float density = Math.abs(getDensity(p, null));
             
             if (density < minValue) {
                 minValue = density;
@@ -120,7 +132,7 @@ public class OctreeBuilder {
         return p0.add((p1.subtract(p0)).mul(t)); // p0 + ((p1 - p0) * t);
     }
 
-    public static Vector3f CalculateSurfaceNormal(Vector3f p) {
+    public static Vector3f CalculateSurfaceNormal(Vector3f p, Vector3f a, Vector3f b, Vector3f c) {
         float H = 1f;
         Vector3f xOffcet = new Vector3f(H, 0.f, 0.f);
         Vector3f yOffcet = new Vector3f(0.f, H, 0.f);

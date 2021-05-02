@@ -7,17 +7,9 @@ import seaSaltedEngine.EngineConfigs;
 import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.basic.logger.LoggerType;
 import seaSaltedEngine.basic.objects.Color;
-import seaSaltedEngine.basic.objects.Transform;
-import seaSaltedEngine.entity.Entity;
-import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.render.display.Window;
-import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.main.GameState;
 import survivalGame.main.states.MainGame;
-import survivalGame.main.states.MainMenu;
-import survivalGame.resources.Models;
-import survivalGame.world.GameWorld;
-import testing.TestMenu;
 
 public class MainApp {
 

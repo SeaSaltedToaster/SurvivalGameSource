@@ -2,6 +2,7 @@ package survivalGame.world.dualContouring.qef;
 
 import java.util.List;
 
+import seaSaltedEngine.basic.objects.Triangle;
 import survivalGame.world.dualContouring.octree.OctreeNode;
 import survivalGame.world.dualContouring.octree.OctreeNodeType;
 import static survivalGame.world.dualContouring.DualContouring.*;
@@ -36,7 +37,7 @@ public class Dc {
 
     private static int[][] processEdgeMask = {{3,2,1,0},{7,5,6,4},{11,10,9,8}} ;
 
-    private static void ContourProcessEdge(OctreeNode[] node, int dir, List<Integer> indexBuffer)
+    private static void ContourProcessEdge(OctreeNode[] node, int dir, List<Triangle> triangleBuffer)
     {
         int minSize = 1000000;		// arbitrary big number
         int minIndex = 0;
@@ -71,28 +72,22 @@ public class Dc {
         {
             if (!flip)
             {
-                indexBuffer.add(indices[0]);
-                indexBuffer.add(indices[1]);
-                indexBuffer.add(indices[3]);
-
-                indexBuffer.add(indices[0]);
-                indexBuffer.add(indices[3]);
-                indexBuffer.add(indices[2]);
+            	Triangle triangle = new Triangle(indices[0], indices[1], indices[3]);
+            	triangleBuffer.add(triangle);
+                Triangle triangle2 = new Triangle(indices[0], indices[3], indices[2]);
+                triangleBuffer.add(triangle2);
             }
             else
             {
-                indexBuffer.add(indices[0]);
-                indexBuffer.add(indices[3]);
-                indexBuffer.add(indices[1]);
-
-                indexBuffer.add(indices[0]);
-                indexBuffer.add(indices[2]);
-                indexBuffer.add(indices[3]);
+            	Triangle triangle = new Triangle(indices[0], indices[3], indices[1]);
+            	triangleBuffer.add(triangle);
+            	Triangle triangle2 = new Triangle(indices[0], indices[2], indices[3]);
+            	triangleBuffer.add(triangle2);
             }
         }
     }
 
-    private static void ContourEdgeProc(OctreeNode[] node, int dir, List<Integer> indexBuffer)
+    private static void ContourEdgeProc(OctreeNode[] node, int dir, List<Triangle> triangleBuffer)
     {
         if (node[0] == null || node[1] == null || node[2] == null || node[3] == null) {
             return;
@@ -103,7 +98,7 @@ public class Dc {
                 node[2].Type != OctreeNodeType.Node_Internal &&
                 node[3].Type != OctreeNodeType.Node_Internal)
         {
-            ContourProcessEdge(node, dir, indexBuffer);
+            ContourProcessEdge(node, dir, triangleBuffer);
         }
         else
         {
@@ -129,12 +124,12 @@ public class Dc {
                     }
                 }
 
-                ContourEdgeProc(edgeNodes, edgeProcEdgeMask[dir][i][4], indexBuffer);
+                ContourEdgeProc(edgeNodes, edgeProcEdgeMask[dir][i][4], triangleBuffer);
             }
         }
     }
 
-    private static void ContourFaceProc(OctreeNode[] node, int dir, List<Integer> indexBuffer) {
+    private static void ContourFaceProc(OctreeNode[] node, int dir, List<Triangle> triangleBuffer) {
         if (node[0] == null || node[1] == null) {
             return;
         }
@@ -160,7 +155,7 @@ public class Dc {
                     }
                 }
 
-                ContourFaceProc(faceNodes, faceProcFaceMask[dir][i][2], indexBuffer);
+                ContourFaceProc(faceNodes, faceProcFaceMask[dir][i][2], triangleBuffer);
             }
 
             int[][] orders = {
@@ -191,21 +186,20 @@ public class Dc {
                     }
                 }
 
-                ContourEdgeProc(edgeNodes, faceProcEdgeMask[dir][i][5], indexBuffer);
+                ContourEdgeProc(edgeNodes, faceProcEdgeMask[dir][i][5], triangleBuffer);
             }
         }
     }
 
-    public static void ContourCellProc(OctreeNode node, List<Integer> indexBuffer) {
-        if (node == null) {
-            return;
-        }
-
+    public static void ContourCellProc(OctreeNode node, List<Triangle> triangleBuffer) {
+    	if(node == null) return;
+    	
         if (node.Type == OctreeNodeType.Node_Internal)
         {
+        	//Counter Cell Child Node
             for (int i = 0; i < 8; i++)
             {
-                ContourCellProc(node.children[i], indexBuffer);
+                ContourCellProc(node.children[i], triangleBuffer);
             }
 
             for (int i = 0; i < 12; i++)
@@ -216,7 +210,7 @@ public class Dc {
                 faceNodes[0] = node.children[c[0]];
                 faceNodes[1] = node.children[c[1]];
 
-                ContourFaceProc(faceNodes, cellProcFaceMask[i][2], indexBuffer);
+                ContourFaceProc(faceNodes, cellProcFaceMask[i][2], triangleBuffer);
             }
 
             for (int i = 0; i < 6; i++)
@@ -234,7 +228,7 @@ public class Dc {
                     edgeNodes[j] = node.children[c[j]];
                 }
 
-                ContourEdgeProc(edgeNodes, cellProcEdgeMask[i][4], indexBuffer);
+                ContourEdgeProc(edgeNodes, cellProcEdgeMask[i][4], triangleBuffer);
             }
         }
     }

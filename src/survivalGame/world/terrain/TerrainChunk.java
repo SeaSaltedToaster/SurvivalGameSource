@@ -1,5 +1,8 @@
 package survivalGame.world.terrain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.render.resourceManagement.main.MainRequestProcessor;
 import seaSaltedEngine.tools.math.Vector3f;
@@ -33,7 +36,7 @@ public class TerrainChunk {
 	}
 	
 	public void generate() {
-		this.voxelOctree = OctreeBuilder.BuildOctree(transform.getPosition(), chunkSize, null);
+		this.voxelOctree = OctreeBuilder.BuildOctree(transform.getPosition(), chunkSize, this);
 		DualContouring.GenerateMeshFromOctree(getVoxelOctree(), terrainData.getVertices(), terrainData.getIndices(), this);
 		
 	}
@@ -103,6 +106,11 @@ public class TerrainChunk {
 
 	public void setManager(TerrainObjectManager manager) {
 		this.manager = manager;
+	}
+	
+	private List<Vector3f> placableAreas = new ArrayList<Vector3f>();
+	public List<Vector3f> getPlacableAreas() {
+		return placableAreas;
 	}
 	
 }

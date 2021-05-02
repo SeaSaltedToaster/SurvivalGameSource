@@ -9,32 +9,43 @@ public class VoxelTerrainGenerator {
 	protected float[][][] blockMap;
 	
 	public VoxelTerrainGenerator() {
-		blockMap = new float[64+1][64+1][64+1];
+		blockMap = new float[65][65][65];
 	}
 	
 	public void generate() {
-		noise = new OpenSimplexNoise(121);
-		this.blockMap = new float[64+1][64+1][64+1];
+		noise = new OpenSimplexNoise(11111);
 		for (int x = 0; x < 64 + 1; x++) {
             for (int z = 0; z < 64 + 1; z++) {
                 for (int y = 0; y < 64 + 1; y++) {
 
-                	float thisHeight = (float) (SURFACE_LEVEL+(noise.eval(x, z)));
+                	float voxel = (float) (SURFACE_LEVEL+(noise.eval(x, z)));
                 	float point = 0;
                     
-                    if (y <= thisHeight - 16)
+                    if (y <= voxel - 16)
                         point = 0f;
-                    else if (y > thisHeight + 16)
+                    else if (y > voxel + 16)
                         point = 1f;
-                    else if (y > thisHeight)
-                        point = (float)y - thisHeight;
+                    else if (y > voxel)
+                        point = (float)y - voxel;
                     else
-                        point = thisHeight - (float)y;
+                        point = voxel - (float)y;
                     
                     this.blockMap[x][y][z] = point;
                 }
             }
         }
+	}
+
+	public OpenSimplexNoise getNoise() {
+		return noise;
+	}
+
+	public static float getSURFACE_LEVEL() {
+		return SURFACE_LEVEL;
+	}
+
+	public float[][][] getBlockMap() {
+		return blockMap;
 	}
 
 }

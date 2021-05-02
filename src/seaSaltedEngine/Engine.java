@@ -41,8 +41,8 @@ public class Engine {
 	public static void update() {
 		camera.update();
 		inputHandler.pollInput();
-		windowInstance.update(); 
 		MainRequestProcessor.dealWithTopRequests();
+		windowInstance.update(); 
 	} 
 	
 	public static void render(IBatch batch) { 

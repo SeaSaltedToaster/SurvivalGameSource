@@ -3,17 +3,18 @@ package survivalGame.world.terrain.mesh;
 import java.util.ArrayList;
 import java.util.List;
 
+import seaSaltedEngine.basic.objects.Triangle;
 import seaSaltedEngine.basic.objects.Vertex;
 
 public class TerrainMeshData {
 	
 	private List<Vertex> vertices;
-	private List<Integer> indices;
+	private List<Triangle> indices;
 	private Float[][][] chunkArray;
 
 	public TerrainMeshData() {
 		this.vertices = new ArrayList<Vertex>();
-		this.indices = new ArrayList<Integer>();
+		this.indices = new ArrayList<Triangle>();
 		this.chunkArray = new Float[64][64][64];
 	}
 	
@@ -25,7 +26,7 @@ public class TerrainMeshData {
 		return vertices;
 	}
 
-	public List<Integer> getIndices() {
+	public List<Triangle> getIndices() {
 		return indices;
 	}
 
@@ -33,7 +34,7 @@ public class TerrainMeshData {
 		this.vertices = vertices;
 	}
 
-	public void setIndices(List<Integer> indices) {
+	public void setIndices(List<Triangle> indices) {
 		this.indices = indices;
 	}
 

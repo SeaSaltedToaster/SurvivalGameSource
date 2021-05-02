@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seaSaltedEngine.Engine;
-import seaSaltedEngine.basic.camera.FirstPersonCamera;
 
 public class UiMaster {
 

@@ -3,7 +3,6 @@ package testing;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.Vector2f;
-import survivalGame.world.TerrainGenerator;
 
 public class TestButton extends UiComponent {
 

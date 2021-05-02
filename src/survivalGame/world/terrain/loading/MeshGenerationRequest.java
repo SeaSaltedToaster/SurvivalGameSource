@@ -4,7 +4,6 @@ import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.render.model.MeshData;
 import seaSaltedEngine.render.resourceManagement.main.MainRequest;
 import seaSaltedEngine.tools.MeshBuilder;
-import seaSaltedEngine.tools.Triangulator;
 import survivalGame.world.terrain.TerrainChunk;
 
 public class MeshGenerationRequest extends MainRequest {
@@ -17,7 +16,7 @@ public class MeshGenerationRequest extends MainRequest {
 	
 	@Override
 	public void execute() {
-		chunk.setTerrainMesh(new Mesh(new MeshData(MeshBuilder.createModel(chunk.getTerrainData().getVertices(), Triangulator.triangulateIndices(chunk.getTerrainData().getIndices())))));
+		chunk.setTerrainMesh(new Mesh(new MeshData(MeshBuilder.createModel(chunk.getTerrainData().getVertices(), chunk.getTerrainData().getIndices()))));
 		chunk.setMeshDataReady(false);
 	}
 

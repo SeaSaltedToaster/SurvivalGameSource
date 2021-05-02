@@ -95,6 +95,7 @@ public static int loadImage(String file) {
             buf_in.rewind();
             buf_in.asFloatBuffer().get(data);
             inChannel.close();
+            rFile.close();
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }

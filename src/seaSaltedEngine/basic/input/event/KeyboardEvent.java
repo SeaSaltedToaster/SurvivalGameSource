@@ -3,10 +3,8 @@ package seaSaltedEngine.basic.input.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 
-import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.guis.Listener;
 
 public class KeyboardEvent extends GLFWKeyCallback implements IKeyEvent {

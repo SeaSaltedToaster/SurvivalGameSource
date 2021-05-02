@@ -7,6 +7,7 @@ import seaSaltedEngine.Engine;
 import seaSaltedEngine.render.model.Vao;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
+import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.terrain.TerrainChunk;
 
 public class ChunkRenderer {
@@ -30,25 +31,25 @@ public class ChunkRenderer {
 	}
 	
 	private void beginRendering() {
+		OpenGL.enableCull();
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
-		shader.getLightPosition().loadVec3(Engine.getCamera().getPosition());
+		shader.getLightPosition().loadVec3(new Vector3f(16,100,16));
 	}
 	
 	private void finishRendering() {
 		shader.stop();
+		OpenGL.disableCull();
 	}
 	
 	private void prepareModel(Vao model) {
-		GL30.glBindVertexArray(model.id);
+		model.bind(0,1,2);
 		OpenGL.enableVertexAttribArrays(0,1,2);
-		OpenGL.enableCull();
 	}
 	
 	private void unbindModel() {
 		GL30.glBindVertexArray(0);
 		OpenGL.disableVertexAttribArrays(0,1,2);
-		OpenGL.disableCull();
 	}
 	
 	private void prepareInstance(TerrainChunk entity) {

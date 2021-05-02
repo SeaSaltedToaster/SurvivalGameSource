@@ -3,7 +3,6 @@ package seaSaltedEngine.guis.transitions;
 import java.util.ArrayList;
 import java.util.List;
 
-import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.guis.core.UiComponent;
 
 public class UiAnimator {
