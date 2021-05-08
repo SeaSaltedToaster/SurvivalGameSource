@@ -1,5 +1,7 @@
 package survivalGame.world.terrain.blocks;
 
+import java.util.Random;
+
 import survivalGame.world.dualContouring.OpenSimplexNoise;
 
 public class VoxelTerrainGenerator {
@@ -13,12 +15,12 @@ public class VoxelTerrainGenerator {
 	}
 	
 	public void generate() {
-		noise = new OpenSimplexNoise(11111);
+		noise = new OpenSimplexNoise(new Random().nextInt());
 		for (int x = 0; x < 64 + 1; x++) {
             for (int z = 0; z < 64 + 1; z++) {
                 for (int y = 0; y < 64 + 1; y++) {
 
-                	float voxel = (float) (SURFACE_LEVEL+(noise.eval(x, z)));
+                	float voxel = (float) (SURFACE_LEVEL + noise.eval(x, z));
                 	float point = 0;
                     
                     if (y <= voxel - 16)

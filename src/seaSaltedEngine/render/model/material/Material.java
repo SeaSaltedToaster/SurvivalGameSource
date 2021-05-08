@@ -4,7 +4,7 @@ import seaSaltedEngine.tools.math.Vector3f;
 
 public class Material {
 	
-private String materialName; //Name
+	private String materialName; //Name
 	
 	private Vector3f ambientColor; //KA
 	private Vector3f diffuseColor; //KD
@@ -46,7 +46,6 @@ private String materialName; //Name
 
 	public void setDiffuseColor(Vector3f diffuseColor) {
 		this.diffuseColor = diffuseColor;
-		System.out.println(diffuseColor);
 	}
 
 	public void setSpecularColor(Vector3f specularColor) {

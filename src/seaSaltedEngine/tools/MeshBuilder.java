@@ -56,11 +56,11 @@ public class MeshBuilder {
 		return positions;
 	}
 	
-	private static float[] getColors(List<Vertex> triangles) {
-		float[] indices = new float[triangles.size() * 3 + 1];
+	private static float[] getColors(List<Vertex> vertices) {
+		float[] indices = new float[vertices.size() * 3 + 1];
 		int vertexPointer = 0;
-		for(int i = 0; i < triangles.size(); i++, vertexPointer+=3) {
-			Color color = triangles.get(i).getVertexColor();
+		for(int i = 0; i < vertices.size(); i++, vertexPointer+=3) {
+			Color color = vertices.get(i).getVertexColor();
 			indices[vertexPointer] = color.getR();
 			indices[vertexPointer+1] = color.getG();
 			indices[vertexPointer+2] = color.getB();

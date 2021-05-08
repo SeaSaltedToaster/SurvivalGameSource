@@ -34,7 +34,7 @@ public class ChunkRenderer {
 		OpenGL.enableCull();
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
-		shader.getLightPosition().loadVec3(new Vector3f(16,100,16));
+		shader.getLightPosition().loadVec3(new Vector3f(16,64,16));
 	}
 	
 	private void finishRendering() {

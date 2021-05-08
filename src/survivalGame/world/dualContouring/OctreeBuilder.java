@@ -81,7 +81,7 @@ public class OctreeBuilder {
 
             Vector3f p1 = leaf.min.add(CHILD_MIN_OFFSETS[c1]);
             Vector3f p2 = leaf.min.add(CHILD_MIN_OFFSETS[c2]);
-            Vector3f p = ApproximateZeroCrossingPosition(p1, p2);
+            Vector3f p = ApproximateZeroCrossingPosition(p1, p2, chunk);
             Vector3f n = CalculateSurfaceNormal(p, p1, p2, p1);
             qef.qef_add_point(p, n);
             averageNormal = averageNormal.add(n);
@@ -103,14 +103,14 @@ public class OctreeBuilder {
 	
 	private static float getDensity(Vector3f cornerPos, TerrainChunk chunk) {
 		float density = 0;
-		int x = (int) (Math.abs(cornerPos.x));
+		int x = (int) (Math.abs(cornerPos.x) - (Math.abs(chunk.getTransform().getIndexX()-1) * 64));
 		int y = (int) (Math.abs(cornerPos.y));
-		int z = (int) (Math.abs(cornerPos.z));
-		density = generator.getBlockMap()[x][y][z] * 10 - 5;
+		int z = (int) (Math.abs(cornerPos.z) - (Math.abs(chunk.getTransform().getIndexY()-1) * 64));
+		density = generator.getBlockMap()[Math.abs(x)][Math.abs(y)][Math.abs(z)] * 2 - 1;
 		return density;
 	}
 	
-	private static Vector3f ApproximateZeroCrossingPosition(Vector3f p0, Vector3f p1) {
+	private static Vector3f ApproximateZeroCrossingPosition(Vector3f p0, Vector3f p1, TerrainChunk chunk) {
         // approximate the zero crossing by finding the min value along the edge
         float minValue = 100000.f;
         float t = 0.f;
@@ -121,7 +121,7 @@ public class OctreeBuilder {
         {
             Vector3f p = p0.add(p1.subtract(p0).mul(currentT)); // p = p0 + ((p1 - p0) * currentT);
             
-            float density = Math.abs(getDensity(p, null));
+            float density = Math.abs(getDensity(p, chunk));
             
             if (density < minValue) {
                 minValue = density;

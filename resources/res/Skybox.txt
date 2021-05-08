@@ -1,0 +1,22 @@
+	//vec2 uv = fragCoord/iResolution.xy; //Or 2D Sky position
+    
+    highp float pi = 3.141592653589793;
+    vec4 c1 = vec4(0.0,0.0,0.0, 0.75); //Top Color
+    vec4 c2 = vec4(0.0, 0.2, 0.5, 0.75); //Horizon Color
+    vec4 c3 = vec4(0.0, 0.25, 0.9, 1.0); //Bottom Color
+
+    highp float f = 1.0-acos(uv.y)/pi;
+
+    float top = 1.0f;
+    float middle = 0.5f;
+    float bottom = 0.0f;
+
+    if(f < bottom){
+        fragColor = c1;
+    }
+    else if(f >= bottom && f < middle){
+        fragColor = c2;
+    }
+    else if(f >= middle){
+        fragColor = mix(c2, c3, (f-middle)/0.49);
+    }

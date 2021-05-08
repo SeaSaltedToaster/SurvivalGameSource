@@ -9,6 +9,7 @@ uniform vec4 uiOverrideColor;
 uniform float alpha;
 uniform float uiWidth;
 uniform float uiHeight;
+uniform bool hasTexture;
 
 float radius = 0.5f;
 const float cornerSmooth = 0.55f;
@@ -39,6 +40,9 @@ float calcRoundedCorners() {
 void main(void){
 
 	out_Color = uiOverrideColor;
+
+	if(hasTexture)
+		out_Color = texture(guiTexture, textureCoords);
 
 	float alphaValue = calcRoundedCorners();
 	out_Color.a = alpha;

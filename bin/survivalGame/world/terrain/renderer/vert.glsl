@@ -21,7 +21,6 @@ void main(void) {
 	gl_Position =  projectionMatrix * positionRelativeToCamera;
 	
 	vec3 lightPos = lightPosition;
-
 	surfaceNormal = (transformationMatrix * vec4(in_normal, 0.0)).xyz;
 	toLightVector = lightPos - worldPosition.xyz;
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;

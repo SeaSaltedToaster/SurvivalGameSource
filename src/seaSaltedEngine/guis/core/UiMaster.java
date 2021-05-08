@@ -23,5 +23,9 @@ public class UiMaster {
 	public static void add(UiComponent component) {
 		components.add(component);
 	}
+
+	public static List<UiComponent> getComponents() {
+		return components;
+	}
 	
 }

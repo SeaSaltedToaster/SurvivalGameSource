@@ -213,5 +213,13 @@ public class UiComponent {
 	public void setHasTexture(boolean state) {
 		this.meta.setHasTexture(state);
 	}
+
+	public boolean isHovering() {
+		return isHovering;
+	}
+
+	public UiMeta getMeta() {
+		return meta;
+	}
 	
 }

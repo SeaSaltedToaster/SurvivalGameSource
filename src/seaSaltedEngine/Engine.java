@@ -37,6 +37,9 @@ public class Engine {
 		GlRequestProcessor.init();
 	}
 	
+	public static void prepare() {
+		renderer.clearOpenGL();
+	}
 	
 	public static void update() {
 		camera.update();

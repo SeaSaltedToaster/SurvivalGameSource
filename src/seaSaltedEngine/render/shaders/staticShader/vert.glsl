@@ -17,7 +17,6 @@ void main(void) {
 	gl_Position =  projectionMatrix * positionRelativeToCamera;
 
 	pass_color = in_vertexColor;
-	
 
 }
 

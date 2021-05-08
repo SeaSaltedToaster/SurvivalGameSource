@@ -30,6 +30,9 @@ public class TerrainChunk {
 	public TerrainChunk(Vector3f position) {
 		this.chunkSize = TerrainGenerator.TERRAIN_SIZE;
 		this.transform = new TerrainTransform(position,(int) position.x/chunkSize,(int) position.z/chunkSize);
+	}
+	
+	public void start() {
 		this.terrainMesh = Models.getModelFromID(1);
 		this.terrainData = new TerrainMeshData();
 		this.manager = new TerrainObjectManager();

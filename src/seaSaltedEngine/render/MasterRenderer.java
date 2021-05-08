@@ -24,7 +24,6 @@ public class MasterRenderer {
 	 
 	public void render(IBatch batch) {
 		if(batch == null) return;
-		clearOpenGL()
 ;		renderer.render(batch); 
 	}
 	

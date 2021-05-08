@@ -4,6 +4,7 @@ import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.guis.core.UiMaster;
 import seaSaltedEngine.guis.transitions.Transition;
 import seaSaltedEngine.guis.transitions.drivers.SlideDriver;
 import survivalGame.GameManager;
@@ -29,7 +30,6 @@ public class MainMenu extends GameState {
 		menu.addComponent(button);
 		
 		GameWorld.initialize();
-		GameManager.initGame();
 	}
 
 	@Override
@@ -44,6 +44,7 @@ public class MainMenu extends GameState {
 
 	@Override
 	public void render() {
+		Engine.prepare();
 		Engine.render(GameWorld.getMainWorldEntityBatch());
 		Engine.renderUi();
 	}

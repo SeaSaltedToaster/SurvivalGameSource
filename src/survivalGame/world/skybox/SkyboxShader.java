@@ -1,6 +1,7 @@
 package survivalGame.world.skybox;
 
 import seaSaltedEngine.render.shaders.Shader;
+import seaSaltedEngine.render.shaders.objects.UniformFloat;
 import seaSaltedEngine.render.shaders.objects.UniformMatrix4f;
 
 public class SkyboxShader extends Shader {
@@ -12,9 +13,11 @@ public class SkyboxShader extends Shader {
 	protected UniformMatrix4f transformationMatrix = new UniformMatrix4f("transformationMatrix");
 	protected UniformMatrix4f projectionMatrix = new UniformMatrix4f("projectionMatrix");
 
+	protected UniformFloat skyboxSize = new UniformFloat("skyboxSize");
+	
 	public SkyboxShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE, "in_position");
-		super.storeAllUniformLocations(transformationMatrix, projectionMatrix, viewMatrix);
+		super.storeAllUniformLocations(transformationMatrix, projectionMatrix, viewMatrix, skyboxSize);
 	}
 
 	public static String getVertexFile() {
@@ -35,6 +38,10 @@ public class SkyboxShader extends Shader {
 
 	public UniformMatrix4f getViewMatrix() {
 		return viewMatrix;
+	}
+
+	public UniformFloat getSkyboxSize() {
+		return skyboxSize;
 	}
 
 }

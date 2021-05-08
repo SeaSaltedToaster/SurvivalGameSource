@@ -56,7 +56,7 @@ public class WavefrontLoader {
 				}
 			}
 			
-			for (int i = 0; i < vertices.size()*1.45f; i++) {
+			for (int i = 0; i < vertices.size()*2f; i++) {
 				  colors.add(new Vector3f(1,1,1));
 			}
 

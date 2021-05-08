@@ -24,6 +24,16 @@ public class OpenGL {
 		GL11.glCullFace(GL11.GL_BACK);
 	}
 	
+	public static void enableFrontCull() {
+		GL11.glEnable(GL11.GL_CULL_FACE); 
+		GL11.glCullFace(GL11.GL_FRONT);
+	}
+	
+	public static void disableFrontCull() {
+		GL11.glDisable(GL11.GL_CULL_FACE); 
+		GL11.glCullFace(GL11.GL_FRONT);
+	}
+	
 	public static void setDepthTest(boolean value) {
 		if(value)
 			GL11.glEnable(GL_DEPTH_TEST); 

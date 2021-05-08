@@ -46,10 +46,9 @@ public class DualContouring {
     private static void calculateVertexNormals(List<ComplexTriangle> triangleBuffer, List<Vertex> vertexBuffer) {
     	for(int i = 0; i < triangleBuffer.size(); i++) {
     		ComplexTriangle triangle = triangleBuffer.get(i);
-    		Vector3f direction = Vector3f.cross((triangle.getB().getPosition().subtract(triangle.getA().getPosition())), (triangle.getC().getPosition().subtract(triangle.getA().getPosition())), null);
-//    		direction.normalize();
-    		System.out.println(direction);
-    		setNormal(triangle, vertexBuffer, direction);
+    		Vector3f direction = new Vector3f(0);
+    		Vector3f.cross((triangle.getB().getPosition().subtract(triangle.getA().getPosition())), (triangle.getC().getPosition().subtract(triangle.getA().getPosition())), direction);
+    		setNormal(triangle, vertexBuffer, direction.normalize());
     	}
     }
     

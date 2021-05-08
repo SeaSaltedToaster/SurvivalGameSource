@@ -14,9 +14,10 @@ public class TerrainGenerator {
 	private static final int renderDistance = 1;
 	private static final int viewDistance = renderDistance * TERRAIN_SIZE;
 	
-	public static void generateTerrain() {
-		for(int x = 0; x < viewDistance; x+=TERRAIN_SIZE/2) {
-			for(int y = 0; y < viewDistance; y+=TERRAIN_SIZE/2) {
+	public static void generateTerrain(Vector3f playerPosition) {
+		//Loop through area new player
+		for(int x = (int) playerPosition.x; x < playerPosition.x+viewDistance; x+=TERRAIN_SIZE/2) {
+			for(int y = (int) playerPosition.y; y < playerPosition.z+viewDistance; y+=TERRAIN_SIZE/2) {
 				//Add new chunk at position (x,y)
 				createNewChunk(x,y);
 			}
@@ -30,6 +31,11 @@ public class TerrainGenerator {
 		//Check if it exists
 		if(!manager.containsChunk(chunk.getTransform()))
 			manager.getWorldTerrainList().add(chunk);
+		else
+			return;
+		
+		//Load variables
+		chunk.start();
 		
 		//Background Loading
 		TerrainGenerationRequest request = new TerrainGenerationRequest(chunk);

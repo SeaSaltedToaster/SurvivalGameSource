@@ -4,6 +4,8 @@ import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.guis.transitions.Transition;
 import seaSaltedEngine.guis.transitions.drivers.SlideDriver;
+import survivalGame.MainApp;
+import survivalGame.main.states.MainGame;
 
 public class MenuButton extends UiComponent {
 	
@@ -22,6 +24,7 @@ public class MenuButton extends UiComponent {
 	@Override
 	public void onClick() {
 		this.getAnimator().doTransition(SLIDE_DISAPPEAR);
+		MainApp.loadGameState(new MainGame());
 	}
 
 }
