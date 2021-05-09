@@ -50,14 +50,13 @@ public class WavefrontLoader {
 					Material material = getMaterialFromName(materialName);
 					current = material;
 				} else if (line.startsWith("f ")) {
-					textureArray = new float[vertices.size() * 3];
-					normalsArray = new float[vertices.size() * 3];
+					for (int i = 0; i < vertices.size()*2f; i++) {
+						  colors.add(new Vector3f(1,1,1));
+					}
+					textureArray = new float[colors.size() * 3];
+					normalsArray = new float[normals.size() * 3];
 					break;
 				}
-			}
-			
-			for (int i = 0; i < vertices.size()*2f; i++) {
-				  colors.add(new Vector3f(1,1,1));
 			}
 
 			while (line != null) {

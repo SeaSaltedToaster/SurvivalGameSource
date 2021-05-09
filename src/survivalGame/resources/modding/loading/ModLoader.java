@@ -11,6 +11,7 @@ public class ModLoader {
 	
 	public static void loadMods() {
 		List<Mod> mods = ModFolderChecker.checkForMods(new File(modFolder));
+		mods.isEmpty();
 	}
 	
 }

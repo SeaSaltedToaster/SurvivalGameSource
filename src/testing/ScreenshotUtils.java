@@ -25,10 +25,10 @@ public class ScreenshotUtils {
         ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
         GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer );
          
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy-HH-mm-ss");  
         Date date = new Date();  
         
-        File file = new File("resources/res/screenshots/Screenshot"+Math.random()+".png"); 
+        File file = new File("resources/res/screenshots/Screenshot"+formatter.format(date)+".png"); 
         String format = "png";
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
            

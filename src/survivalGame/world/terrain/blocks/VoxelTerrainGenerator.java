@@ -2,6 +2,7 @@ package survivalGame.world.terrain.blocks;
 
 import java.util.Random;
 
+import survivalGame.world.TerrainGenerator;
 import survivalGame.world.dualContouring.OpenSimplexNoise;
 
 public class VoxelTerrainGenerator {
@@ -11,7 +12,8 @@ public class VoxelTerrainGenerator {
 	protected float[][][] blockMap;
 	
 	public VoxelTerrainGenerator() {
-		blockMap = new float[65][65][65];
+		int size = TerrainGenerator.TERRAIN_SIZE+1;
+		blockMap = new float[size][size][size];
 	}
 	
 	public void generate() {

@@ -24,6 +24,10 @@ public class MeshData {
 		meshVao = vao;
 	}
 
+	public void setMeshVao(Vao meshVao) {
+		this.meshVao = meshVao;
+	}
+
 	public Vao getMeshVao() {
 		return meshVao;
 	}

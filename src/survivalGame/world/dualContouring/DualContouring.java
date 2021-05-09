@@ -8,17 +8,14 @@ import seaSaltedEngine.basic.objects.Triangle;
 import seaSaltedEngine.basic.objects.Vertex;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.dualContouring.octree.OctreeNode;
-import survivalGame.world.dualContouring.qef.Dc;
+import survivalGame.world.dualContouring.tools.ComplexTriangle;
 import survivalGame.world.terrain.TerrainChunk;
-import survivalGame.world.terrain.mesh.tools.ComplexTriangle;
 
 public class DualContouring {
 	
-	public static final int MATERIAL_AIR = 0;
-    public static final int MATERIAL_SOLID = 1;
-    
-    public static void GenerateMeshFromOctree(OctreeNode node, List<Vertex> vertexBuffer, List<Triangle> triangleBuffer, TerrainChunk chunk) {
+	public static void GenerateMeshFromOctree(OctreeNode node, List<Vertex> vertexBuffer, List<Triangle> triangleBuffer, TerrainChunk chunk) {
         generateVertexIndices(node, vertexBuffer, chunk);
+        fixLayeredVertex(vertexBuffer);
         Dc.ContourCellProc(node, triangleBuffer);
         calculateVertexNormals(registerTriangles(vertexBuffer, triangleBuffer), vertexBuffer);
     }
@@ -26,21 +23,25 @@ public class DualContouring {
     private static void generateVertexIndices(OctreeNode node, List<Vertex> vertexBuffer, TerrainChunk chunk) {
     	if(node == null) return;
         
-        switch(node.Type) {
+        switch(node.getNodeType()) {
         	case Node_Leaf:
-        		node.drawInfo.index = vertexBuffer.size();
-                Vertex vertex = new Vertex(node.drawInfo.position.getVec3f(), new Vector3f(0,1,0), new Color(0,1,0));
+        		node.getNodeInfo().setIndice(vertexBuffer.size());
+                Vertex vertex = new Vertex(node.getPosition(), new Vector3f(0,1,0), new Color(0,1,0));
                 adjustEdgeVertex(vertex, node);
                 vertexBuffer.add(vertex);
                 break;
         	case Node_Internal:
                 for (int i = 0; i < 8; i++) {
-                    generateVertexIndices(node.children[i], vertexBuffer, chunk);
+                    generateVertexIndices(node.getChildren()[i], vertexBuffer, chunk);
                 }
         		break;
 		default:
 			break;
         }
+    }
+    
+    private static void fixLayeredVertex(List<Vertex> vertexBuffer) {
+    	
     }
     
     private static void calculateVertexNormals(List<ComplexTriangle> triangleBuffer, List<Vertex> vertexBuffer) {
@@ -76,11 +77,9 @@ public class DualContouring {
 
     public static void DestroyOctree(OctreeNode node) {
         for (int i = 0; i < 8; i++) {
-            DestroyOctree(node.children[i]);
+            DestroyOctree(node.getChildren()[i]);
         }
-        node.drawInfo = null;
+        node.setNodeInfo(null);
     }
-	
-	
 
 }

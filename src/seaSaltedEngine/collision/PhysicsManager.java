@@ -1,69 +1,57 @@
 package seaSaltedEngine.collision;
 
-import javax.vecmath.Vector3f;
-
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
-import com.bulletphysics.collision.broadphase.Dispatcher;
-import com.bulletphysics.collision.dispatch.CollisionConfiguration;
-import com.bulletphysics.dynamics.DynamicsWorld;
-import com.bulletphysics.dynamics.DynamicsWorldType;
+import com.bulletphysics.collision.broadphase.DbvtBroadphase;
+import com.bulletphysics.collision.dispatch.CollisionDispatcher;
+import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
+import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
 import com.bulletphysics.dynamics.RigidBody;
-import com.bulletphysics.dynamics.constraintsolver.ConstraintSolver;
+import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
+import com.bulletphysics.linearmath.Transform;
 
-public class PhysicsManager extends DynamicsWorld {
+import seaSaltedEngine.collision.objects.CollisionPlane;
+import seaSaltedEngine.collision.objects.CollisionSphere;
+import seaSaltedEngine.entity.Entity;
+import seaSaltedEngine.render.display.Window;
+import seaSaltedEngine.tools.math.Vector3f;
+import survivalGame.entity.EntityPickaxeTest;
+import survivalGame.world.GameWorld;
 
-	public PhysicsManager(Dispatcher dispatcher, BroadphaseInterface broadphasePairCache, CollisionConfiguration collisionConfiguration) {
-		super(dispatcher, broadphasePairCache, collisionConfiguration);
-	}
+public class PhysicsManager {
 
-	@Override
-	public void addRigidBody(RigidBody arg0) {
-		
-	}
+	private BroadphaseInterface broadphase = new DbvtBroadphase();
+    private DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
+    private CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
+    private SequentialImpulseConstraintSolver solver = new SequentialImpulseConstraintSolver();
 
-	@Override
-	public void clearForces() {
-		
-	}
+    public static DiscreteDynamicsWorld dynamicsWorld;
+    
+    CollisionSphere fallShape;
+    CollisionPlane plane;
+    Entity entity;
+    
+    public PhysicsManager() {
+    	dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+    	dynamicsWorld.setGravity(new javax.vecmath.Vector3f(0, -9.8f, 0));
+    	
+    	fallShape = new CollisionSphere(new seaSaltedEngine.tools.math.Vector3f(0,100,0),1,1, dynamicsWorld);
+    	plane = new CollisionPlane(new Vector3f(0,0,0), 10, dynamicsWorld);
+  
+    	entity = new EntityPickaxeTest(seaSaltedEngine.basic.objects.Transform.Default);
+    	GameWorld.getMainWorldEntityBatch().getEntities().add(entity);
+    }
+    
+    public void updateTest() {
+    	dynamicsWorld.stepSimulation((float)Window.getDelta(), 10); 
 
-	@Override
-	public void debugDrawWorld() {
-		
-	}
+    	Transform trans = new Transform();
+        fallShape.getPhysicsObject().getMotionState().getWorldTransform(trans);
+        
+        entity.getTransform().setPosition(new Vector3f(trans.origin.x,trans.origin.y,0));
+    }
 
-	@Override
-	public ConstraintSolver getConstraintSolver() {
-		return null;
-	}
-
-	@Override
-	public Vector3f getGravity(Vector3f arg0) {
-		return null;
-	}
-
-	@Override
-	public DynamicsWorldType getWorldType() {
-		return DynamicsWorldType.SIMPLE_DYNAMICS_WORLD;
-	}
-
-	@Override
-	public void removeRigidBody(RigidBody arg0) {
-		
-	}
-
-	@Override
-	public void setConstraintSolver(ConstraintSolver arg0) {
-		
-	}
-
-	@Override
-	public void setGravity(Vector3f arg0) {
-		
-	}
-
-	@Override
-	public int stepSimulation(float arg0, int arg1, float arg2) {
-		return 0;
+	public static DiscreteDynamicsWorld getDynamicsWorld() {
+		return dynamicsWorld;
 	}
 
 }

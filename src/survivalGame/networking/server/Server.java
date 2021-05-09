@@ -9,7 +9,7 @@ import java.util.List;
 import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.entity.EntityPickaxeTest;
+import survivalGame.entity.EntityMapleTree;
 import survivalGame.entity.core.EntityIdentifier;
 import survivalGame.entity.core.EntityType;
 import survivalGame.networking.commands.ServerCommands;
@@ -65,7 +65,7 @@ public class Server {
 				Logger.ServerLog(username + " has joined the game."+" [" + addClient.getAddress().getHostAddress().replace("/", "") + ":" + addClient.port + "]");
 				clients.add(addClient);
 				
-				EntityCreatedPacket entityPacket = new EntityCreatedPacket(new EntityPickaxeTest(new Transform(new Vector3f(0,0,0),0,0,0)), new EntityIdentifier(1, EntityType.PICKAXE_TEST));
+				EntityCreatedPacket entityPacket = new EntityCreatedPacket(new EntityMapleTree(new Transform(new Vector3f(0,0,0),0,0,0)), new EntityIdentifier(1, EntityType.MAPLE_SMALL));
 				entityPacket.writeData();
 				
 				return;

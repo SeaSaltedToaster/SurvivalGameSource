@@ -7,7 +7,7 @@ uniform float skyboxSize;
 
 void main(void){
 
-	vec2 uv = vec2(out_position.x,(out_position.y/(skyboxSize+(skyboxSize/90))));
+	vec2 uv = vec2(out_position.x,(out_position.y/(skyboxSize)));
 
 	highp float pi = 3.141592653589793;
 	vec4 c1 = vec4(1.0, 1.0, 1.0, 0.0); //Top Color
@@ -29,4 +29,10 @@ void main(void){
 	else if(f >= middle){
 	    out_Color = mix(c2, c3, (f-middle)/0.5f);
 	}
+
+// 	USED FOR SIDE BY SIDE COMPARISON (Old vs New Sky)
+// 	float comparisonX = 20.0f;
+//	if(uv.x > comparisonX)
+//		out_Color = vec4(0.0,0.5,1.0,1.0);
+
 }

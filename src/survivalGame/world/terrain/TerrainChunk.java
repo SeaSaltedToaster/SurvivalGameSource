@@ -3,117 +3,63 @@ package survivalGame.world.terrain;
 import java.util.ArrayList;
 import java.util.List;
 
-import seaSaltedEngine.render.model.Mesh;
-import seaSaltedEngine.render.resourceManagement.main.MainRequestProcessor;
+import seaSaltedEngine.basic.objects.Triangle;
+import seaSaltedEngine.basic.objects.Vertex;
+import seaSaltedEngine.tools.MeshBuilder;
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.resources.Models;
-import survivalGame.world.TerrainGenerator;
 import survivalGame.world.dualContouring.DualContouring;
 import survivalGame.world.dualContouring.OctreeBuilder;
 import survivalGame.world.dualContouring.octree.OctreeNode;
-import survivalGame.world.terrain.loading.MeshGenerationRequest;
-import survivalGame.world.terrain.mesh.TerrainMeshData;
-import survivalGame.world.terrain.objects.TerrainObjectManager;
+import survivalGame.world.terrain.data.TerrainMesh;
+import survivalGame.world.terrain.generator.TerrainMapGenerator;
 
 public class TerrainChunk {
 
-	private TerrainTransform transform;
-	private int chunkSize;
+	private Vector3f position;
+	private int indexX, indexZ;
 	
-	private Mesh terrainMesh;
-	private TerrainMeshData terrainData;
-	private TerrainObjectManager manager;
+	private TerrainMesh mesh;
+	private float[][][] terrainMap;
 	
-	private OctreeNode voxelOctree;
-	private boolean meshDataReady;
-	
-	public TerrainChunk(Vector3f position) {
-		this.chunkSize = TerrainGenerator.TERRAIN_SIZE;
-		this.transform = new TerrainTransform(position,(int) position.x/chunkSize,(int) position.z/chunkSize);
-	}
-	
-	public void start() {
-		this.terrainMesh = Models.getModelFromID(1);
-		this.terrainData = new TerrainMeshData();
-		this.manager = new TerrainObjectManager();
-	}
-	
-	public void generate() {
-		this.voxelOctree = OctreeBuilder.BuildOctree(transform.getPosition(), chunkSize, this);
-		DualContouring.GenerateMeshFromOctree(getVoxelOctree(), terrainData.getVertices(), terrainData.getIndices(), this);
+	public TerrainChunk(Vector3f position, int indexX, int indexZ) {
+		this.position = position;
+		this.indexX = indexX;
+		this.indexZ = indexZ;
 		
+		this.mesh = new TerrainMesh();
+	}
+
+	public void generate() {
+		terrainMap = TerrainMapGenerator.generateTerrainMap(70);
+		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), 64);
+		List<Vertex> vertexBuffer = new ArrayList<Vertex>();
+		List<Triangle> triBuffer = new ArrayList<Triangle>();
+		DualContouring.GenerateMeshFromOctree(node, vertexBuffer, triBuffer, this);
+		mesh.getTerrainMesh().getMeshData().setMeshVao(MeshBuilder.createModel(vertexBuffer, triBuffer));
 	}
 	
-	public void update() {
-		checkMesh();
+	public TerrainMesh getMesh() {
+		return mesh;
+	}
+
+	public Vector3f getPosition() {
+		return position;
 	}
 	
-	private void checkMesh() {
-		if(meshDataReady) {
-			MeshGenerationRequest request = new MeshGenerationRequest(this);
-			MainRequestProcessor.sendRequest(request);
-		}
+	public void setPosition(Vector3f position) {
+		this.position = position;
 	}
 
-	public Mesh getTerrainMesh() {
-		return terrainMesh;
+	public int getIndexX() {
+		return indexX;
 	}
 
-	public TerrainTransform getTransform() {
-		return transform;
+	public int getIndexZ() {
+		return indexZ;
 	}
 
-	public OctreeNode getVoxelOctree() {
-		return voxelOctree;
-	}
-
-	public int getChunkSize() {
-		return chunkSize;
-	}
-
-	public TerrainMeshData getTerrainData() {
-		return terrainData;
-	}
-
-	public boolean isMeshDataReady() {
-		return meshDataReady;
-	}
-
-	public void setTransform(TerrainTransform transform) {
-		this.transform = transform;
-	}
-
-	public void setChunkSize(int chunkSize) {
-		this.chunkSize = chunkSize;
-	}
-
-	public void setTerrainMesh(Mesh terrainMesh) {
-		this.terrainMesh = terrainMesh;
-	}
-
-	public void setTerrainData(TerrainMeshData terrainData) {
-		this.terrainData = terrainData;
-	}
-
-	public void setVoxelOctree(OctreeNode voxelOctree) {
-		this.voxelOctree = voxelOctree;
-	}
-
-	public void setMeshDataReady(boolean meshDataReady) {
-		this.meshDataReady = meshDataReady;
-	}
-
-	public TerrainObjectManager getManager() {
-		return manager;
-	}
-
-	public void setManager(TerrainObjectManager manager) {
-		this.manager = manager;
-	}
-	
-	private List<Vector3f> placableAreas = new ArrayList<Vector3f>();
-	public List<Vector3f> getPlacableAreas() {
-		return placableAreas;
+	public float[][][] getTerrainMap() {
+		return terrainMap;
 	}
 	
 }
