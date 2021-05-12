@@ -9,6 +9,7 @@ import seaSaltedEngine.guis.renderer.UiRenderer;
 import seaSaltedEngine.render.MasterRenderer;
 import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.render.display.Window;
+import seaSaltedEngine.render.model.texture.TextureLoader;
 import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
 import seaSaltedEngine.render.resourceManagement.main.MainRequestProcessor;
 
@@ -34,6 +35,7 @@ public class Engine {
 		Engine.camera = new FirstPersonCamera();
 		Engine.uiRenderer = new UiRenderer();
 		
+		TextureLoader.init();
 		GlRequestProcessor.init();
 	}
 	
@@ -57,6 +59,7 @@ public class Engine {
 	}
 	
 	public static void end() {
+		TextureLoader.deleteTextures();
 		GlRequestProcessor.end();
 	}
 

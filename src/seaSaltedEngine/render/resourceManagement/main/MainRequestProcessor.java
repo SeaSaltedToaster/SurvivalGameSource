@@ -1,21 +1,18 @@
 package seaSaltedEngine.render.resourceManagement.main;
 
 import seaSaltedEngine.render.resourceManagement.GlRequest;
-import seaSaltedEngine.render.resourceManagement.GlRequestQueue;
 
 public class MainRequestProcessor {
 	
-	private static GlRequestQueue requestQueue = new GlRequestQueue();
+	private static MainRequestQueue requestQueue = new MainRequestQueue();
 	
 	public static void sendRequest(GlRequest request) {
 		requestQueue.addRequest(request);
 	}
 	 
 	public static void dealWithTopRequests() {
-		while (requestQueue.hasRequests()) {
-		     requestQueue.acceptNextRequest().execute();
-		     break;
-		} 
+		if(requestQueue.hasRequests())
+			requestQueue.acceptNextRequest().execute();
 	}
 
 	public static void completeAllRequests() {

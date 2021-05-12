@@ -4,14 +4,13 @@ import org.lwjgl.glfw.GLFW;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.EngineConfigs;
-import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.basic.logger.LoggerType;
 import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.render.display.Window;
 import survivalGame.main.GameState;
 import survivalGame.main.states.MainGame;
-import testing.ScreenshotUtils;
+import testing.TestHotbar;
 
 public class MainApp {
 
@@ -26,14 +25,14 @@ public class MainApp {
 		gameState = new MainGame();
 		gameState.init();
 		
+		TestHotbar hotbar = new TestHotbar();
+		hotbar.show();
+		
 		Logger.Log("Game Load time: "+GLFW.glfwGetTime());
 		
 		while(!Window.shouldClose()) {
 			gameState.update();
 			gameState.render();
-			
-			if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_F2))
-				ScreenshotUtils.screenshot();
 			
 			Engine.update();
 		}
@@ -45,7 +44,7 @@ public class MainApp {
 		configs.windowName = "Survival Game";
 		configs.loggerType = LoggerType.BOTH;
 		configs.defaultColor = new Color(1f,1f,1f);
-		configs.fpsCap = 100;
+		configs.fpsCap = 10000;
 		return configs;
 	}
 	

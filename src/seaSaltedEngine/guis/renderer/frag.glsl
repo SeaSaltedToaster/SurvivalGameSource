@@ -44,8 +44,6 @@ void main(void){
 	if(hasTexture)
 		out_Color = texture(guiTexture, textureCoords);
 
-	float alphaValue = calcRoundedCorners();
 	out_Color.a = alpha;
-	out_Color.a *= alphaValue;
 
 }

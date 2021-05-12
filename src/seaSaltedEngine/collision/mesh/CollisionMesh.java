@@ -25,7 +25,7 @@ public class CollisionMesh {
 	}
 	
 	public RigidBody createRigidbody(float x, float y, float z) {
-		DefaultMotionState motionState = new DefaultMotionState(new Transform(new Matrix4f(new Quat4f(0, 0, 0, 1), new javax.vecmath.Vector3f(16, y, 16), 1.0f))); 
+		DefaultMotionState motionState = new DefaultMotionState(new Transform(new Matrix4f(new Quat4f(0, 0, 0, 1), new javax.vecmath.Vector3f(x, y, z), 1.0f))); 
 		
 		RigidBodyConstructionInfo rigidBodyCI = new RigidBodyConstructionInfo(0, motionState, object.getCollisionShape(), new javax.vecmath.Vector3f(0,0,0)); 
 	    RigidBody rigidBody = new RigidBody(rigidBodyCI);

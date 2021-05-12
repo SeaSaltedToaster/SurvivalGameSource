@@ -1,5 +1,8 @@
 package survivalGame.world.dualContouring;
 
+import static survivalGame.world.dualContouring.DcArrays.CHILD_MIN_OFFSETS;
+import static survivalGame.world.dualContouring.DcArrays.edgevmap;
+
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.dualContouring.octree.OctreeInfo;
 import survivalGame.world.dualContouring.octree.OctreeNode;
@@ -7,26 +10,26 @@ import survivalGame.world.dualContouring.octree.OctreeNodeType;
 import survivalGame.world.dualContouring.quadraticErrorFunction.LevenQefSolver;
 import survivalGame.world.dualContouring.quadraticErrorFunction.QefData;
 import survivalGame.world.terrain.TerrainChunk;
-import static survivalGame.world.dualContouring.DcArrays.*;
 
 public class OctreeLeafBuilder {
 	
 	public static int MATERIAL_SOLID = 1, MATERIAL_AIR = 0;
 	
-	private static float densityFunc(Vector3f position, float[][][] terrainMap) {
-		return (float) terrainMap[(int) position.x][(int) position.y][(int) position.z];
+	private static float densityFunc(TerrainChunk chunk, Vector3f position, float[][][] terrainMap) {
+		float subX = Math.abs(chunk.getIndexX() * 64);
+		float subZ = Math.abs(chunk.getIndexZ() * 64);
+		return (float) terrainMap[(int) Math.abs(position.x-subX)][(int) position.y][(int) Math.abs(position.z-subZ)];
 	}
 
 	public static OctreeNode ConstructLeaf(OctreeNode leaf, TerrainChunk chunk) {
         if (leaf == null || leaf.getSize() != 1) return null;
         
         int corners = 0;
-        Vector3f position = leaf.getPosition();
         float[] cube = new float[8];
         for (int i = 0; i < 8; i++) {
             Vector3f cornerPos = leaf.getPosition().add(CHILD_MIN_OFFSETS[i]);
 
-            float density = densityFunc(cornerPos, chunk.getTerrainMap());
+            float density = densityFunc(chunk, cornerPos, chunk.getTerrainMap());
             
 		    int material = density < 0.f ? MATERIAL_SOLID : MATERIAL_AIR;
 		    
@@ -81,7 +84,7 @@ public class OctreeLeafBuilder {
         {
             Vector3f p = p0.add(p1.subtract(p0).mul(currentT)); // p = p0 + ((p1 - p0) * currentT);
             
-            float density = Math.abs(densityFunc(p, chunk.getTerrainMap()));
+            float density = Math.abs(densityFunc(chunk, p, chunk.getTerrainMap()));
             
             if (density < minValue) {
                 minValue = density;

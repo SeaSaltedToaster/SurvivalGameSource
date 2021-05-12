@@ -21,7 +21,7 @@ public class MeshBuilder {
 	}
 	
 	public static int[] sortIndices(List<Triangle> triangles) {
-		int[] indices = new int[triangles.size() * 3 + 1];
+		int[] indices = new int[triangles.size() * 3];
 		int vertexPointer = 0;
 		for(int i = 0; i < triangles.size(); i++, vertexPointer+=3) {
 			Triangle triangle = triangles.get(i);

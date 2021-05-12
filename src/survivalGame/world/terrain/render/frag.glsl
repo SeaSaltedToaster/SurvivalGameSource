@@ -9,7 +9,7 @@ out vec4 outColor;
 
 uniform vec3 lightPosition;
 
-const float levels = 6;
+const float levels = 4;
 const vec3 lightColor = vec3(1,1,1);
 
 vec3 light() {

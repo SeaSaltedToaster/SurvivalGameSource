@@ -1,6 +1,7 @@
 package seaSaltedEngine.guis.renderer;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.guis.core.UiQuadModel;
@@ -22,7 +23,7 @@ public class UiRenderer {
 		begin();
 		loadShaderVariables(component);
 		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
-		end();
+		end(component);
 	}
 	
 	private void begin() {
@@ -33,18 +34,23 @@ public class UiRenderer {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 	}
 	
-	private void end() {
+	private void end(UiComponent component) {
 		quad.getMeshVao().unbind(0);
 		shader.stop();
-		
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);	
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
 	private void loadShaderVariables(UiComponent component) {
+		if(component.hasTexture()) {
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			component.getGuiTexture().bind();
+		}
 		shader.getTransformationMatrix().loadMatrix(getTransformation(component));
 		shader.getUiOverrideColor().loadVec4(component.getOverrideColor());
-		shader.getGuiTexture().loadTexUnit(component.getGuiTexture());
+		if(component.hasTexture())
+			shader.getGuiTexture().loadTexUnit(component.getGuiTexture().getID());
 		shader.getHasTexture().loadBoolean(component.hasTexture());
 		shader.getAlpha().loadFloat(component.getAlpha());
 		shader.getWidth().loadFloat(component.getScale().x);

@@ -26,7 +26,7 @@ public class DualContouring {
         switch(node.getNodeType()) {
         	case Node_Leaf:
         		node.getNodeInfo().setIndice(vertexBuffer.size());
-                Vertex vertex = new Vertex(node.getPosition(), new Vector3f(0,1,0), new Color(0,1,0));
+                Vertex vertex = new Vertex(node.getPosition(), new Vector3f(0,1,0), new Color(0.2f,1f,0.2f));
                 adjustEdgeVertex(vertex, node);
                 vertexBuffer.add(vertex);
                 break;

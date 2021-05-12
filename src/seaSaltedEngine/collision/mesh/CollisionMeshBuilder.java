@@ -15,22 +15,22 @@ import seaSaltedEngine.tools.math.Vector3f;
 
 public class CollisionMeshBuilder {
 
-	public static CollisionMesh buildCollisionMesh(List<Vertex> vertices, List<Triangle> indices) {
+	public static CollisionMesh buildCollisionMesh(List<Vertex> vertices, List<Triangle> indices, Vector3f pos) {
 		IndexedMesh indexedMesh = getIndexedMesh(vertices, indices);
         BvhTriangleMeshShape meshShape = getMeshShape(indexedMesh);
         
-        return new CollisionMesh(meshShape, new Vector3f(0,0,0));
+        return new CollisionMesh(meshShape, pos);
 	}
 	
 	private static IndexedMesh getIndexedMesh(List<Vertex> vertices, List<Triangle> indices) {
 		IndexedMesh indexedMesh = new IndexedMesh();
         indexedMesh.numTriangles = indices.size();
-        indexedMesh.triangleIndexBase = ByteBuffer.allocateDirect(indices.size()*3*Integer.BYTES).order(ByteOrder.nativeOrder());
+        indexedMesh.triangleIndexBase = ByteBuffer.allocateDirect((indices.size()*3)*Integer.BYTES*2).order(ByteOrder.nativeOrder());
         indexedMesh.triangleIndexBase.rewind();
         indexedMesh.triangleIndexBase.asIntBuffer().put(MeshBuilder.sortIndices(indices));
         indexedMesh.triangleIndexStride = 3 * Integer.BYTES;
         indexedMesh.numVertices = vertices.size();
-        indexedMesh.vertexBase = ByteBuffer.allocateDirect(vertices.size()*3*Float.BYTES).order(ByteOrder.nativeOrder());
+        indexedMesh.vertexBase = ByteBuffer.allocateDirect(vertices.size()*3*Float.BYTES*2).order(ByteOrder.nativeOrder());
         indexedMesh.vertexBase.rewind();
         indexedMesh.vertexBase.asFloatBuffer().put(MeshBuilder.buildVertices(vertices));
         indexedMesh.vertexStride = 3 * Float.BYTES;

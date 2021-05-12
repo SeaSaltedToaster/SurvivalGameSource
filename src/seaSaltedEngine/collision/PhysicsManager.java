@@ -5,7 +5,6 @@ import com.bulletphysics.collision.broadphase.DbvtBroadphase;
 import com.bulletphysics.collision.dispatch.CollisionDispatcher;
 import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
 import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
-import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
 import com.bulletphysics.linearmath.Transform;
 
@@ -19,35 +18,35 @@ import survivalGame.world.GameWorld;
 
 public class PhysicsManager {
 
-	private BroadphaseInterface broadphase = new DbvtBroadphase();
-    private DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
-    private CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
-    private SequentialImpulseConstraintSolver solver = new SequentialImpulseConstraintSolver();
+	private static BroadphaseInterface broadphase = new DbvtBroadphase();
+    private static DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
+    private static CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
+    private static SequentialImpulseConstraintSolver solver = new SequentialImpulseConstraintSolver();
 
     public static DiscreteDynamicsWorld dynamicsWorld;
     
-    CollisionSphere fallShape;
-    CollisionPlane plane;
-    Entity entity;
+    static CollisionSphere fallShape;
+    static CollisionPlane plane;
+    static Entity entity;
     
-    public PhysicsManager() {
+    public static void init() {
     	dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
     	dynamicsWorld.setGravity(new javax.vecmath.Vector3f(0, -9.8f, 0));
     	
-    	fallShape = new CollisionSphere(new seaSaltedEngine.tools.math.Vector3f(0,100,0),1,1, dynamicsWorld);
+    	fallShape = new CollisionSphere(new seaSaltedEngine.tools.math.Vector3f(16,100,16),1,100, dynamicsWorld);
     	plane = new CollisionPlane(new Vector3f(0,0,0), 10, dynamicsWorld);
   
     	entity = new EntityPickaxeTest(seaSaltedEngine.basic.objects.Transform.Default);
     	GameWorld.getMainWorldEntityBatch().getEntities().add(entity);
     }
     
-    public void updateTest() {
+    public static void updateTest() {
     	dynamicsWorld.stepSimulation((float)Window.getDelta(), 10); 
 
     	Transform trans = new Transform();
         fallShape.getPhysicsObject().getMotionState().getWorldTransform(trans);
         
-        entity.getTransform().setPosition(new Vector3f(trans.origin.x,trans.origin.y,0));
+        entity.getTransform().setPosition(new Vector3f(trans.origin.x,trans.origin.y,trans.origin.z));
     }
 
 	public static DiscreteDynamicsWorld getDynamicsWorld() {

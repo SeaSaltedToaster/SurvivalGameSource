@@ -6,6 +6,7 @@ import java.util.List;
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.guis.transitions.UiAnimator;
+import seaSaltedEngine.render.model.texture.Texture;
 import seaSaltedEngine.tools.math.Vector2f;
 import seaSaltedEngine.tools.math.Vector4f;
 
@@ -29,7 +30,7 @@ public class UiComponent {
 		
 		this.position = new Vector2f(0,0);
 		this.scale = new Vector2f(0.15f,0.25f);
-		this.meta = new UiMeta(level, 1, 0, new Vector4f(0,0,0,0), false);
+		this.meta = new UiMeta(level, 1, null, new Vector4f(0,0,0,0), false);
 		UiMaster.add(this);
 	}
 	
@@ -162,7 +163,7 @@ public class UiComponent {
 		this.meta.setLevel(level);
 	}
 
-	public int getGuiTexture() {
+	public Texture getGuiTexture() {
 		return meta.getGuiTexture();
 	}
 
@@ -170,8 +171,8 @@ public class UiComponent {
 		return meta.getOverrideColor();
 	}
 
-	public void setGuiTexture(int guiTexture) {
-		this.meta.getGuiTexture();
+	public void setGuiTexture(Texture textureID) {
+		this.meta.setGuiTexture(textureID);
 	}
 
 	public void setColor(Vector4f overrideColor) {

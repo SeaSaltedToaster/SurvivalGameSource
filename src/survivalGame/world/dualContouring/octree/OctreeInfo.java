@@ -1,7 +1,6 @@
 package survivalGame.world.dualContouring.octree;
 
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.world.dualContouring.quadraticErrorFunction.QefData;
 
 public class OctreeInfo {
 

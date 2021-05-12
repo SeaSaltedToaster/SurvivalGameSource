@@ -1,12 +1,10 @@
 package survivalGame.world.skybox;
 
 import seaSaltedEngine.Engine;
-import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.render.model.loaders.WavefrontLoader;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
-import seaSaltedEngine.tools.math.Vector3f;
 
 public class SkyboxRenderer {
 	
@@ -43,7 +41,7 @@ public class SkyboxRenderer {
 	}
 	
 	private static void prepareInstance() {
-		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(new Vector3f(0,0,0), 0, 0, 0, 1000));
+		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(Engine.getCamera().getPosition(), 0, 0, 0, 1000));
 	}
 
 }

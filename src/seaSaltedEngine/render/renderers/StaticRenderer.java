@@ -1,6 +1,7 @@
 package seaSaltedEngine.render.renderers;
 
 import java.util.Iterator;
+import java.util.List;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
@@ -24,7 +25,8 @@ public class StaticRenderer {
 	public void render(IBatch batch) {
 		beginRendering();
 		
-		for (Iterator<Entity> iterator = batch.getEntities().iterator(); iterator.hasNext();) {
+		List<Entity> entityList = batch.getEntities();
+		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
 		    shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
 			renderModel(entity);

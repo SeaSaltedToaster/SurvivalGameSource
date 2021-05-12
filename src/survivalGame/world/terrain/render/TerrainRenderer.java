@@ -15,23 +15,23 @@ import survivalGame.world.terrain.WorldGenerator;
 
 public class TerrainRenderer {
 
-	private TerrainShader shader;
+	private static TerrainShader shader;
 
-	public TerrainRenderer() {
+	public static void init() {
 		shader = new TerrainShader();
 		shader.start();
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
 		shader.stop();
 	}
 	
-	public void renderChunks() {
+	public static void renderChunks() {
 		for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
 			if(entry.getValue())
-				renderEntities(entry.getKey());
+				renderChunk(entry.getKey());
 		}
 	}
 	
-	public void renderEntities(TerrainChunk chunk) {
+	public static void renderChunk(TerrainChunk chunk) {
 		beginRendering();
 		prepareModel(chunk.getMesh().getTerrainMesh().getMeshVao());
 		prepareInstance(chunk);
@@ -40,29 +40,29 @@ public class TerrainRenderer {
 		finishRendering();
 	}
 	
-	private void beginRendering() {
+	private static void beginRendering() {
 		OpenGL.enableCull();
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
-		shader.getLightPosition().loadVec3(new Vector3f(100,100,-100));
+		shader.getLightPosition().loadVec3(new Vector3f(128,100,128));
 	}
 	
-	private void finishRendering() {
+	private static void finishRendering() {
 		shader.stop();
 		OpenGL.disableCull();
 	}
 	
-	private void prepareModel(Vao model) {
+	private static void prepareModel(Vao model) {
 		model.bind(0,1,2);
 		OpenGL.enableVertexAttribArrays(0,1,2);
 	}
 	
-	private void unbindModel() {
+	private static void unbindModel() {
 		GL30.glBindVertexArray(0);
 		OpenGL.disableVertexAttribArrays(0,1,2);
 	}
 	
-	private void prepareInstance(TerrainChunk entity) {
+	private static void prepareInstance(TerrainChunk entity) {
 		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(entity.getPosition(), 0, 0, 0, 1));
 	}
 
