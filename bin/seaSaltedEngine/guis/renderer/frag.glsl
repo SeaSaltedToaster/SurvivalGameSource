@@ -39,10 +39,16 @@ float calcRoundedCorners() {
 
 void main(void){
 
-	out_Color = uiOverrideColor;
+	vec4 uiColor = vec4(0);
+	uiColor = uiOverrideColor;
 
-	if(hasTexture)
-		out_Color = texture(guiTexture, textureCoords);
+	if(hasTexture) {
+		vec4 textureColor = texture(guiTexture,textureCoords);
+		if(textureColor.a < 0.25) {
+			discard;
+		}
+		out_Color = textureColor;
+	}
 
 	out_Color.a = alpha;
 

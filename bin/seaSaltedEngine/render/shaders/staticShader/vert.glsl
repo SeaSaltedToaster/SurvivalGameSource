@@ -13,6 +13,7 @@ uniform mat4 projectionMatrix;
 void main(void) {
 	
 	vec4 worldPosition = transformationMatrix * vec4(in_position.x, in_position.y, in_position.z, 1.0);
+	worldPosition.x += gl_InstanceID;
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position =  projectionMatrix * positionRelativeToCamera;
 

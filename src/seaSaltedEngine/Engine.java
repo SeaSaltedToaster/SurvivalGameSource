@@ -1,5 +1,7 @@
 package seaSaltedEngine;
 
+import org.lwjgl.glfw.GLFW;
+
 import seaSaltedEngine.basic.camera.Camera;
 import seaSaltedEngine.basic.camera.FirstPersonCamera;
 import seaSaltedEngine.basic.input.InputHandler;
@@ -28,7 +30,6 @@ public class Engine {
 	public static void init(EngineConfigs configs) {
 		Engine.configs = configs;
 		Engine.windowInstance = Window.newInstance(configs.windowName);
-		
 		Engine.inputHandler = new InputHandler(windowInstance);
 		Engine.logger = new Logger(configs.loggerType);
 		Engine.renderer = new MasterRenderer();
@@ -37,6 +38,8 @@ public class Engine {
 		
 		TextureLoader.init();
 		GlRequestProcessor.init();
+		
+		Logger.Log("Engine Load time: "+GLFW.glfwGetTime());
 	}
 	
 	public static void prepare() {

@@ -2,6 +2,7 @@ package survivalGame.guis;
 
 import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.guis.core.UiMaster;
 import seaSaltedEngine.guis.transitions.Transition;
 import seaSaltedEngine.guis.transitions.drivers.SlideDriver;
 import survivalGame.MainApp;
@@ -23,6 +24,7 @@ public class MenuButton extends UiComponent {
 	
 	@Override
 	public void onClick() {
+		UiMaster.getComponents().clear();
 		this.getAnimator().doTransition(SLIDE_DISAPPEAR);
 		MainApp.loadGameState(new MainGame());
 	}

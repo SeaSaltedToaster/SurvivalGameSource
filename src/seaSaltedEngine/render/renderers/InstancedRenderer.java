@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL31;
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
-import seaSaltedEngine.entity.component.ComponentType;
 import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.render.shaders.instancedShader.InstancedShader;
@@ -52,7 +51,7 @@ public class InstancedRenderer {
 	}
 	
 	private void renderModel(Entity entity, int count) {
-		ModelComponent component = (ModelComponent) entity.getComponent(ComponentType.MODEL);
+		ModelComponent component = (ModelComponent) entity.getComponent("Model");
 		component.getMesh().getMeshVao().bind(0,1,2);
 		GL31.glDrawElementsInstanced(GL11.GL_TRIANGLES, component.getMesh().getMeshVao().getIndexCount(), GL11.GL_UNSIGNED_INT, 0, count);
 		component.getMesh().getMeshVao().unbind(0,1,2);

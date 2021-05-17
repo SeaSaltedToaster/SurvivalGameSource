@@ -54,7 +54,7 @@ public class WavefrontLoader {
 						  colors.add(new Vector3f(1,1,1));
 					}
 					textureArray = new float[colors.size() * 3];
-					normalsArray = new float[normals.size() * 3];
+					normalsArray = new float[normals.size() * 4];
 					break;
 				}
 			}

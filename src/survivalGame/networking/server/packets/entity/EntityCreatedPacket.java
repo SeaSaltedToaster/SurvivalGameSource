@@ -30,7 +30,7 @@ public class EntityCreatedPacket extends Packet {
 		String newString = string;
 		for(Component component : entity.getComponents()) {
 			switch(component.getComponentType()) {
-				case MODEL:
+				case "Model":
 					ModelComponent modelComponent = (ModelComponent) component;
 					newString = newString + "[,Component,MODEL," + modelComponent.getModelID() + ",]-";
 					break;

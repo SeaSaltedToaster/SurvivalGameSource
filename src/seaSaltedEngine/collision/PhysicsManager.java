@@ -36,7 +36,7 @@ public class PhysicsManager {
     	fallShape = new CollisionSphere(new seaSaltedEngine.tools.math.Vector3f(16,100,16),1,100, dynamicsWorld);
     	plane = new CollisionPlane(new Vector3f(0,0,0), 10, dynamicsWorld);
   
-    	entity = new EntityPickaxeTest(seaSaltedEngine.basic.objects.Transform.Default);
+    	entity = new EntityPickaxeTest(new seaSaltedEngine.basic.objects.Transform(new Vector3f(0,0,0),0,0,0));
     	GameWorld.getMainWorldEntityBatch().getEntities().add(entity);
     }
     

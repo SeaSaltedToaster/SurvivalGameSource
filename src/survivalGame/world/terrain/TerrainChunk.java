@@ -8,13 +8,16 @@ import seaSaltedEngine.basic.objects.Vertex;
 import seaSaltedEngine.collision.PhysicsManager;
 import seaSaltedEngine.collision.mesh.CollisionMesh;
 import seaSaltedEngine.collision.mesh.CollisionMeshBuilder;
+import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
 import seaSaltedEngine.tools.MeshBuilder;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.dualContouring.DualContouring;
 import survivalGame.world.dualContouring.OctreeBuilder;
 import survivalGame.world.dualContouring.octree.OctreeNode;
+import survivalGame.world.generation.WorldGenerator;
+import survivalGame.world.generation.voxel.TerrainMapGenerator;
 import survivalGame.world.terrain.data.TerrainMesh;
-import survivalGame.world.terrain.generator.TerrainMapGenerator;
+import survivalGame.world.terrain.generator.load.TerrainLoadRequest;
 
 public class TerrainChunk {
 
@@ -31,8 +34,9 @@ public class TerrainChunk {
 		this.mesh = new TerrainMesh();
 	}
 
-	public void generate() {
-		terrainMap = TerrainMapGenerator.generateTerrainMap(64, this);
+	public void generate(boolean newChunk) {
+		if(newChunk)
+			terrainMap = TerrainMapGenerator.generateTerrainMap(64, this);
 		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), 64);
 		List<Vertex> vertexBuffer = new ArrayList<Vertex>();
 		List<Triangle> triBuffer = new ArrayList<Triangle>();
@@ -45,6 +49,11 @@ public class TerrainChunk {
 		CollisionMesh obj = CollisionMeshBuilder.buildCollisionMesh(mesh.getVertices(), mesh.getTriangles(), position);
 		PhysicsManager.getDynamicsWorld().addRigidBody(obj.getRigidBody());
 		WorldGenerator.setLoadStatus(this, true);
+	}
+	
+	public void regenerate() {
+		TerrainLoadRequest request = new TerrainLoadRequest(this);
+		GlRequestProcessor.sendRequest(request);
 	}
 	
 	public TerrainMesh getMesh() {

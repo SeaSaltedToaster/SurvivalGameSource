@@ -15,7 +15,7 @@ public class TerrainLoadRequest extends GlRequest {
 	@Override
 	public void execute() {
 		//Generate Mesh Data
-		chunk.generate();
+		chunk.generate(true);
 		
 		//Send Mesh Load Request
 		TerrainMeshLoadRequest request = new TerrainMeshLoadRequest(chunk);

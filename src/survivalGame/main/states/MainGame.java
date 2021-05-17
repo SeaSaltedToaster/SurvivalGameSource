@@ -10,11 +10,10 @@ import survivalGame.GameManager;
 import survivalGame.main.GameState;
 import survivalGame.networking.client.ClientsideManager;
 import survivalGame.networking.server.Server;
-import survivalGame.resources.modding.loading.ModLoader;
 import survivalGame.world.GameWorld;
+import survivalGame.world.generation.WorldGenerator;
 import survivalGame.world.skybox.SkyboxRenderer;
-import survivalGame.world.terrain.WorldGenerator;
-import survivalGame.world.terrain.render.TerrainRenderer;
+import survivalGame.world.terrain.renderer.TerrainRenderer;
 import testing.ScreenshotUtils;
 
 public class MainGame extends GameState {
@@ -24,7 +23,7 @@ public class MainGame extends GameState {
 		//Start Game
 		Mouse.setMouseVisible(false);
 		GameManager.initGame();
-		ModLoader.loadMods();
+//		ModLoader.loadMods();
 		SkyboxRenderer.init();
 		PhysicsManager.init();
 		WorldGenerator.generateWorld();
@@ -54,7 +53,6 @@ public class MainGame extends GameState {
 		TerrainRenderer.renderChunks();
 		SkyboxRenderer.renderSkybox();
 		Engine.renderUi();
-		PhysicsManager.updateTest();
 		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_F2))
 			ScreenshotUtils.screenshot();
 	}

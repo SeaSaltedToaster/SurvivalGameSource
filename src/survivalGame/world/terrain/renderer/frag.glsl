@@ -9,16 +9,19 @@ out vec4 outColor;
 
 uniform vec3 lightPosition;
 
-const float levels = 6;
+const float levels = 4;
 const vec3 lightColor = vec3(1,1,1);
 
 vec3 light() {
+	float distance = length(toLightVector);
+	//float attFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
+
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitLightVector = normalize(toLightVector);
 	float nDot1 = dot(unitNormal, unitLightVector);
 	float brightness = max(nDot1,0.5);
 	float level = floor(brightness*levels);
-	brightness = level / levels;
+	brightness = (level / levels);
 	vec3 diffuse = (brightness * lightColor);
 	return diffuse;
 }

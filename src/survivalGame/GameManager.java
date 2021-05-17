@@ -2,7 +2,7 @@ package survivalGame;
 
 import survivalGame.resources.Models;
 import survivalGame.world.GameWorld;
-import survivalGame.world.terrain.render.TerrainRenderer;
+import survivalGame.world.terrain.renderer.TerrainRenderer;
 
 public class GameManager {
 

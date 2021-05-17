@@ -6,7 +6,6 @@ import java.util.List;
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
-import seaSaltedEngine.entity.component.ComponentType;
 import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.render.shaders.staticShader.StaticShader;
@@ -49,7 +48,7 @@ public class StaticRenderer {
 	}
 	
 	private void renderModel(Entity entity) {
-		ModelComponent component = (ModelComponent) entity.getComponent(ComponentType.MODEL);
+		ModelComponent component = (ModelComponent) entity.getComponent("Model");
 		component.getMesh().getMeshVao().render();
 	}
  	

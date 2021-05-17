@@ -18,8 +18,8 @@ public class ModelComponent implements Component {
 	}
 	
 	@Override
-	public ComponentType getComponentType() {
-		return ComponentType.MODEL;
+	public String getComponentType() {
+		return "Model";
 	}
 
 	public Mesh getMesh() {

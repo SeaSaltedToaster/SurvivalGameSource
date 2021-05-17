@@ -1,6 +1,7 @@
 package seaSaltedEngine.guis.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import seaSaltedEngine.Engine;
@@ -11,8 +12,9 @@ public class UiMaster {
 	
 	public static void update() {
 		Engine.getCamera().setCancelUpdate(false);
-		for(UiComponent component : components) {
-			component.updateComponent();
+		List<UiComponent> updateList = components;
+		for(Iterator<UiComponent> iterator = updateList.iterator(); iterator.hasNext();) {
+			iterator.next().updateComponent();
 		}
 	}
 	

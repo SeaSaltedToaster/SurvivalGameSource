@@ -15,7 +15,8 @@ public class Models {
 	public static void loadModelCache() {
 		loadModelToCache(WavefrontLoader.loadObjModel("01_WoodenPickaxe"), 1, true);
 		loadModelToCache(WavefrontLoader.loadObjModel("WoodenWall"), 2, true);
-		loadModelToCache(WavefrontLoader.loadObjModel("assets/trees/maple_small_1"), 2, true);
+		loadModelToCache(WavefrontLoader.loadObjModel("assets/trees/maple_small_1"), 3, true);
+		loadModelToCache(WavefrontLoader.loadObjModel("assets/grass"), 4, true);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

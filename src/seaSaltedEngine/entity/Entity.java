@@ -5,7 +5,6 @@ import java.util.List;
 
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.component.Component;
-import seaSaltedEngine.entity.component.ComponentType;
 
 public class Entity {
 
@@ -36,7 +35,7 @@ public class Entity {
 		components.remove(c);
 	}
 	
-	public boolean hasComponent(ComponentType comp) {
+	public boolean hasComponent(String comp) {
 		for(Component component : components) {
 			if(component.getComponentType() == comp)  {
 				return true;
@@ -45,7 +44,7 @@ public class Entity {
 		return false;
 	}
 	
-	public Component getComponent(ComponentType comp) {
+	public Component getComponent(String comp) {
 		for(Component component : components) {
 			if(component.getComponentType() == comp)  {
 				return component;
