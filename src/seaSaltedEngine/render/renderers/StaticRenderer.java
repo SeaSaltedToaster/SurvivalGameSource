@@ -6,6 +6,7 @@ import java.util.List;
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
+import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.render.shaders.staticShader.StaticShader;
@@ -23,22 +24,32 @@ public class StaticRenderer {
 	
 	public void render(IBatch batch) {
 		beginRendering();
-		
 		List<Entity> entityList = batch.getEntities();
 		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
+			 if(altersRender(entity)) continue;
 		    shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
 			renderModel(entity);
 		}
 
 		endRendering();
 	}
+	
+	private boolean altersRender(Entity entity) {
+		for(Component component : entity.getComponents()) {
+			if(component.changesRenderer())
+		    	return true;
+		}
+		return false;
+	}
 
 	private void beginRendering() {
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
-		OpenGL.enableCull();
+		shader.getLightPosition().loadVec3(Engine.getCamera().getPosition());
+		shader.getLightAttenuation().loadVec3(1, 1, 1);
+//		OpenGL.enableCull();
 		OpenGL.setDepthTest(true);
 	}
 	

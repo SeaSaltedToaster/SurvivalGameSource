@@ -7,6 +7,7 @@ import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
 import survivalGame.entity.core.EntityBatch;
 import survivalGame.entity.core.EntityIdentifier;
+import survivalGame.world.generation.grass.GrassRenderManager;
 
 public class GameWorld {
 
@@ -14,7 +15,11 @@ public class GameWorld {
 	private static EntityBatch entities;
 	
 	public static void initialize() {
+		//Create Entity Batch
 		entities = new EntityBatch();
+		
+		//Initialize Terrains
+		GrassRenderManager.init();
 	}
 	
 	public static void addWorldEntity(Entity entity, EntityIdentifier identifier) {

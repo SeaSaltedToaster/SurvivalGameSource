@@ -6,17 +6,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import seaSaltedEngine.render.model.Mesh;
-import seaSaltedEngine.render.model.loaders.WavefrontLoader;
+import seaSaltedEngine.render.model.loaders.OldWavefrontLoader;
 
 public class Models {
 	
 	private static Map<Mesh, Entry<Integer, Boolean>> modelCache = new HashMap<Mesh, Entry<Integer, Boolean>>();
 	
 	public static void loadModelCache() {
-		loadModelToCache(WavefrontLoader.loadObjModel("01_WoodenPickaxe"), 1, true);
-		loadModelToCache(WavefrontLoader.loadObjModel("WoodenWall"), 2, true);
-		loadModelToCache(WavefrontLoader.loadObjModel("assets/trees/maple_small_1"), 3, true);
-		loadModelToCache(WavefrontLoader.loadObjModel("assets/grass"), 4, true);
+		loadModelToCache(OldWavefrontLoader.loadObjModel("assets/dragons/dragon_1"), 1, true);
+		loadModelToCache(OldWavefrontLoader.loadObjModel("01_WoodenPickaxe"), 2, true);
+		loadModelToCache(OldWavefrontLoader.loadObjModel("assets/trees/maple_small_1"), 3, true);
+		loadModelToCache(OldWavefrontLoader.loadObjModel("assets/grass"), 4, true);
+		loadModelToCache(OldWavefrontLoader.loadObjModel("assets/ores/blue_crystal"), 5, true);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

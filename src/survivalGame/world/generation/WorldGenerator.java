@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import seaSaltedEngine.basic.logger.Logger;
+import seaSaltedEngine.basic.objects.Axis;
 import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.terrain.TerrainChunk;
@@ -44,6 +45,38 @@ public class WorldGenerator {
 		//Send request
 		TerrainLoadRequest request = new TerrainLoadRequest(chunk);
 		GlRequestProcessor.sendRequest(request);
+	}
+	
+	public static TerrainChunk getNearbyChunk(TerrainChunk chunk, Axis axis) {
+		switch(axis) {
+			case x:
+				for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
+					if(entry.getKey().getIndexX() == chunk.getIndexX()+1)
+						return entry.getKey();
+				}	
+			case z:
+				for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
+					if(entry.getKey().getIndexZ() == chunk.getIndexZ()+1)
+						return entry.getKey();
+				}
+			case nx:
+				for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
+					if(entry.getKey().getIndexX() == chunk.getIndexX()-1)
+						return entry.getKey();
+				}
+			case nz:
+				for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
+					if(entry.getKey().getIndexZ() == chunk.getIndexZ()-1)
+						return entry.getKey();
+				}
+		case ny:
+			break;
+		case y:
+			break;
+		default:
+			break;
+		}
+		return null;
 	}
 	
 	public static void setLoadStatus(TerrainChunk chunk, boolean state) {

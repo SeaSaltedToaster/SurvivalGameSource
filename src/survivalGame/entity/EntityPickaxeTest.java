@@ -10,7 +10,7 @@ public class EntityPickaxeTest extends Entity {
 	public EntityPickaxeTest(Transform transform) {
 		super(transform);
 		
-		this.addComponent(new ModelComponent(Models.getModelFromID(1), 1));
+		this.addComponent(new ModelComponent(Models.getModelFromID(2), 1));
 	}
 
 }

@@ -1,9 +1,11 @@
 package survivalGame.world.skybox;
 
+import org.lwjgl.glfw.GLFW;
+
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.render.model.Mesh;
-import seaSaltedEngine.render.model.loaders.WavefrontLoader;
+import seaSaltedEngine.render.model.loaders.OldWavefrontLoader;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
 
@@ -16,7 +18,7 @@ public class SkyboxRenderer {
 	
 	public static void init() {
 		shader = new SkyboxShader();
-		cubeMesh = WavefrontLoader.loadObjModel("assets/skybox");
+		cubeMesh = OldWavefrontLoader.loadObjModel("assets/skybox");
 		shader.start();
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
 		shader.stop();
@@ -35,6 +37,7 @@ public class SkyboxRenderer {
 		shader.start();
 		shader.getSkyboxSize().loadFloat(SIZE);
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
+		shader.getTime().loadFloat((float) GLFW.glfwGetTime());
 	}
 	
 	private static void finishRendering() {

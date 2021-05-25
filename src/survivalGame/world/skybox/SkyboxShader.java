@@ -14,10 +14,11 @@ public class SkyboxShader extends Shader {
 	protected UniformMatrix4f projectionMatrix = new UniformMatrix4f("projectionMatrix");
 
 	protected UniformFloat skyboxSize = new UniformFloat("skyboxSize");
+	protected UniformFloat time = new UniformFloat("time");
 	
 	public SkyboxShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE, "in_position");
-		super.storeAllUniformLocations(transformationMatrix, projectionMatrix, viewMatrix, skyboxSize);
+		super.storeAllUniformLocations(transformationMatrix, projectionMatrix, viewMatrix, skyboxSize, time);
 	}
 
 	public static String getVertexFile() {
@@ -42,6 +43,10 @@ public class SkyboxShader extends Shader {
 
 	public UniformFloat getSkyboxSize() {
 		return skyboxSize;
+	}
+
+	public UniformFloat getTime() {
+		return time;
 	}
 
 }

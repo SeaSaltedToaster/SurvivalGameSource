@@ -43,7 +43,7 @@ public class Dc {
         int minSize = 1000000;		// arbitrary big number
         int minIndex = 0;
         int[] indices = { -1, -1, -1, -1 };
-        boolean flip = false;
+        boolean flip = true;
         boolean[] signChange = { false, false, false, false };
 
         for (int i = 0; i < 4; i++)

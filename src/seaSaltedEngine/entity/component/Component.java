@@ -4,5 +4,6 @@ public interface Component {
 	
 	void update();
 	String getComponentType();
+	boolean changesRenderer();
 	
 }

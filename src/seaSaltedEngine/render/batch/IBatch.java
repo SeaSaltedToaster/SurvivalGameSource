@@ -18,5 +18,7 @@ public interface IBatch {
 	public default List<Entity> getEntities() {
 		return entities;
 	}
+
+	Object clone() throws CloneNotSupportedException;
 	
 }

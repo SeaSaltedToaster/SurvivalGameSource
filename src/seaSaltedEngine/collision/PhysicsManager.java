@@ -33,11 +33,12 @@ public class PhysicsManager {
     	dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
     	dynamicsWorld.setGravity(new javax.vecmath.Vector3f(0, -9.8f, 0));
     	
-    	fallShape = new CollisionSphere(new seaSaltedEngine.tools.math.Vector3f(16,100,16),1,100, dynamicsWorld);
+    	fallShape = new CollisionSphere(new Vector3f(16,100,16),1,100, dynamicsWorld);
     	plane = new CollisionPlane(new Vector3f(0,0,0), 10, dynamicsWorld);
   
     	entity = new EntityPickaxeTest(new seaSaltedEngine.basic.objects.Transform(new Vector3f(0,0,0),0,0,0));
     	GameWorld.getMainWorldEntityBatch().getEntities().add(entity);
+    	dynamicsWorld.setDebugDrawer(new DebugDrawer());
     }
     
     public static void updateTest() {
@@ -47,6 +48,7 @@ public class PhysicsManager {
         fallShape.getPhysicsObject().getMotionState().getWorldTransform(trans);
         
         entity.getTransform().setPosition(new Vector3f(trans.origin.x,trans.origin.y,trans.origin.z));
+//        dynamicsWorld.debugDrawObject(trans, fallShape.getShape(), new javax.vecmath.Vector3f(1,0,0));
     }
 
 	public static DiscreteDynamicsWorld getDynamicsWorld() {

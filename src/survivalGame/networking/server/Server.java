@@ -7,14 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seaSaltedEngine.basic.logger.Logger;
-import seaSaltedEngine.basic.objects.Transform;
-import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.entity.EntityMapleTree;
-import survivalGame.entity.core.EntityIdentifier;
-import survivalGame.entity.core.EntityType;
 import survivalGame.networking.commands.ServerCommands;
 import survivalGame.networking.server.packets.ServerClosePacket;
-import survivalGame.networking.server.packets.entity.EntityCreatedPacket;
 
 public class Server {
 	
@@ -49,8 +43,6 @@ public class Server {
 		ServerClosePacket closePacket = new ServerClosePacket();
 		closePacket.writeData();
 		
-		sendDataToAllClients("03Server_Closed_By_Host");
-		
 		thread.setRunning(false);
 		commandThread.setRunning(false);
 		serverSocket.close();
@@ -62,12 +54,8 @@ public class Server {
 	public static void addPlayer(Client addClient, String username) {
 		for(Client client : clients) {
 			if(client.getAddress().equals(addClient.getAddress())) {
-				Logger.ServerLog(username + " has joined the game."+" [" + addClient.getAddress().getHostAddress().replace("/", "") + ":" + addClient.port + "]");
+//				Logger.ServerLog(username + " has joined the game."+" [" + addClient.getAddress().getHostAddress().replace("/", "") + ":" + addClient.port + "]");
 				clients.add(addClient);
-				
-				EntityCreatedPacket entityPacket = new EntityCreatedPacket(new EntityMapleTree(new Transform(new Vector3f(0,0,0),0,0,0)), new EntityIdentifier(1, EntityType.MAPLE_SMALL));
-				entityPacket.writeData();
-				
 				return;
 			}
 		}

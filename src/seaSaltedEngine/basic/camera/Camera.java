@@ -12,9 +12,9 @@ public class Camera {
 	protected boolean cancelUpdate;
 	
 	public Camera() {
-		this.position = new Vector3f(0,10,0);
+		this.position = new Vector3f(0,50,0);
 		this.pitch = 0;
-		this.yaw = 180;
+		this.yaw = 135;
 		this.roll = 0;
 	}
 	

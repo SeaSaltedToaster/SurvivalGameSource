@@ -3,7 +3,10 @@ package survivalGame.world.dualContouring;
 import static survivalGame.world.dualContouring.DcArrays.CHILD_MIN_OFFSETS;
 import static survivalGame.world.dualContouring.DcArrays.edgevmap;
 
+import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.tools.math.Vector3f;
+import survivalGame.entity.world.EntityGrass;
+import survivalGame.world.GameWorld;
 import survivalGame.world.dualContouring.octree.OctreeInfo;
 import survivalGame.world.dualContouring.octree.OctreeNode;
 import survivalGame.world.dualContouring.octree.OctreeNodeType;
@@ -18,7 +21,7 @@ public class OctreeLeafBuilder {
 	private static float densityFunc(TerrainChunk chunk, Vector3f position, float[][][] terrainMap) {
 		float subX = Math.abs(chunk.getIndexX() * 64);
 		float subZ = Math.abs(chunk.getIndexZ() * 64);
-		return (float) terrainMap[(int) Math.abs(position.x-subX)][(int) position.y][(int) Math.abs(position.z-subZ)];
+		return (float) terrainMap[(int) Math.abs(position.x-subX)][(int) position.y][(int) Math.abs(position.z-subZ)] * 10 - 5;
 	}
 
 	public static OctreeNode ConstructLeaf(OctreeNode leaf, TerrainChunk chunk) {
@@ -38,6 +41,10 @@ public class OctreeLeafBuilder {
         }
 
         if (corners == 0 || corners == 255) return null;
+        
+        if(corners > 1 && leaf.getPosition().y > 45 && Math.random() > 0.75f) { //TODO Tidy and get new model
+        	chunk.addObject(new EntityGrass(new Transform(leaf.getPosition(),0,0,0)), 1f);
+        }
 
         // otherwise the voxel contains the surface, so find the edge intersections
 	    int MAX_CROSSINGS = 12;

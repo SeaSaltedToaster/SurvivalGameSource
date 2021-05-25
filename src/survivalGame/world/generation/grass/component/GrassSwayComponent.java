@@ -14,4 +14,9 @@ public class GrassSwayComponent implements Component {
 		return "Grass_Sway";
 	}
 
+	@Override
+	public boolean changesRenderer() {
+		return false;
+	}
+
 }

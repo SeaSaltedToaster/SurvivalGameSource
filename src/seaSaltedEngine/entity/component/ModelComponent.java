@@ -43,4 +43,9 @@ public class ModelComponent implements Component {
 		//UNUSED
 	}
 
+	@Override
+	public boolean changesRenderer() {
+		return false;
+	}
+
 }

@@ -18,6 +18,7 @@ import survivalGame.resources.modding.mod.event.SaveLoadEvent;
 public class ModFolderChecker {
 
 	public static List<Mod> checkForMods(File file) {
+		if(!file.exists() || file == null) return null;
 		List<Mod> mods = new ArrayList<Mod>();
 		for(File modFile : file.listFiles()) {
 			try {

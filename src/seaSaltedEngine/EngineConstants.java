@@ -7,7 +7,7 @@ public class EngineConstants {
 	public static final float NEAR_PLANE = 1f;
 	public static final float FAR_PLANE = 1000f;
 	
-	public static final float sensitivity = 0.5f;
+	public static final float sensitivity = 0.75f;
 	
 	//Files
 	public static String resourceFolder = "/res/";

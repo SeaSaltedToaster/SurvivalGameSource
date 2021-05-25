@@ -44,4 +44,9 @@ public class GrassModelComponent implements Component {
 		//UNUSED
 	}
 
+	@Override
+	public boolean changesRenderer() {
+		return true;
+	}
+
 }

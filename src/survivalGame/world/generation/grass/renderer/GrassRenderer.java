@@ -3,6 +3,8 @@ package survivalGame.world.generation.grass.renderer;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
@@ -10,7 +12,7 @@ import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
 import seaSaltedEngine.tools.math.Matrix4f;
-import survivalGame.world.generation.grass.GrassEntity;
+import survivalGame.entity.world.EntityGrass;
 import survivalGame.world.generation.grass.component.GrassModelComponent;
 
 public class GrassRenderer {
@@ -26,6 +28,7 @@ public class GrassRenderer {
 		List<Entity> entityList = batch.getEntities();
 		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
+		    if(!entity.hasComponent("Model_Grass")) continue;
 		    loadGrassVariables(entity);
 			renderModel(entity);
 		}
@@ -33,7 +36,7 @@ public class GrassRenderer {
 	}
 	
 	private void loadGrassVariables(Entity entity) {
-		GrassEntity gEntity = (GrassEntity) entity;
+		EntityGrass gEntity = (EntityGrass) entity;
 		shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
 		shader.getGrassColor().loadVec3(gEntity.getGrassColor().toVector());
 	}
@@ -42,7 +45,7 @@ public class GrassRenderer {
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
-		OpenGL.enableCull();
+		shader.getTime().loadFloat((float)GLFW.glfwGetTime());
 		OpenGL.setDepthTest(true);
 	}
 	

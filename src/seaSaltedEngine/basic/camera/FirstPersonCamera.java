@@ -23,7 +23,7 @@ public class FirstPersonCamera extends Camera {
 		updateYaw();
 		checkInputs();
 		
-		float distance = (float) ((float) Math.sin(currentSpeed) * Window.getDelta())*multiplier;
+		float distance = (float) ((float) Math.sin(currentSpeed) * multiplier * Window.getDelta());
 		float dx = -(float)(distance * Math.sin(Math.toRadians(-yaw)));
 		float dz = -(float)(distance * Math.cos(Math.toRadians(-yaw)));
 		increasePosition(dx, (float) (upwardsSpeed*Window.getDelta())*multiplier, dz);

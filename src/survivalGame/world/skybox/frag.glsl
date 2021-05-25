@@ -4,6 +4,7 @@ in vec4 out_position;
 out vec4 out_Color;
 
 uniform float skyboxSize;
+uniform float time;
 
 void main(void){
 
@@ -29,6 +30,9 @@ void main(void){
 	else if(f >= middle){
 	    out_Color = mix(c2, c3, (f-middle)/0.5f);
 	}
+
+	vec4 skyNight = mix(vec4(1.0f,0.4f,0.1f,1), vec4(0), 0);
+	out_Color = mix(out_Color, skyNight, 0);
 
 // 	USED FOR SIDE BY SIDE COMPARISON (Old vs New Sky)
 // 	float comparisonX = 20.0f;

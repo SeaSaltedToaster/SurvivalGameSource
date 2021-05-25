@@ -13,12 +13,13 @@ public class TerrainShader extends Shader {
 	protected UniformMatrix4f transformationMatrix = new UniformMatrix4f("transformationMatrix");
 	protected UniformMatrix4f projectionMatrix = new UniformMatrix4f("projectionMatrix");
 	protected UniformVec3 lightPosition = new UniformVec3("lightPosition");
+	protected UniformVec3 lightAttenuation = new UniformVec3("lightAttenuation");
 	
 	private int location_color;
 	
 	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE, "in_position", "in_vertexColor", "in_normal");
-		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition); 
+		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition, lightAttenuation); 
 	}
 
 	public static String getVertexFile() {
@@ -47,6 +48,10 @@ public class TerrainShader extends Shader {
 
 	public UniformVec3 getLightPosition() {
 		return lightPosition;
+	}
+
+	public UniformVec3 getLightAttenuation() {
+		return lightAttenuation;
 	}
 
 }

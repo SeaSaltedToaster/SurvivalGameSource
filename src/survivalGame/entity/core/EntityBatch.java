@@ -22,4 +22,9 @@ public class EntityBatch implements IBatch {
 		this.entityList = entityList;
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+
 }
