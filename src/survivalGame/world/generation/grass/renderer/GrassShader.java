@@ -15,7 +15,7 @@ public class GrassShader extends Shader {
 	protected UniformFloat time = new UniformFloat("time");
 	
 	public GrassShader() {
-		super("/survivalGame/world/generation/grass/renderer/vert.glsl", "/survivalGame/world/generation/grass/renderer/frag.glsl", "in_position", "in_vertexColor", "in_normal");
+		super("/survivalGame/world/generation/grass/renderer/vert.glsl", "/survivalGame/world/generation/grass/renderer/frag.glsl", "in_position", "in_vertexColor", "in_normal", "transformationMatrix", "grassColor");
 		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, grassColor, time); 
 	}
 

@@ -1,6 +1,7 @@
 package survivalGame.world.terrain.renderer;
 
 import seaSaltedEngine.render.shaders.Shader;
+import seaSaltedEngine.render.shaders.objects.UniformFloat;
 import seaSaltedEngine.render.shaders.objects.UniformMatrix4f;
 import seaSaltedEngine.render.shaders.objects.UniformVec3;
 
@@ -14,12 +15,13 @@ public class TerrainShader extends Shader {
 	protected UniformMatrix4f projectionMatrix = new UniformMatrix4f("projectionMatrix");
 	protected UniformVec3 lightPosition = new UniformVec3("lightPosition");
 	protected UniformVec3 lightAttenuation = new UniformVec3("lightAttenuation");
+	protected UniformFloat lightDistance = new UniformFloat("lightDistance");
 	
 	private int location_color;
 	
 	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE, "in_position", "in_vertexColor", "in_normal");
-		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition, lightAttenuation); 
+		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition, lightAttenuation, lightDistance); 
 	}
 
 	public static String getVertexFile() {
@@ -52,6 +54,10 @@ public class TerrainShader extends Shader {
 
 	public UniformVec3 getLightAttenuation() {
 		return lightAttenuation;
+	}
+
+	public UniformFloat getLightDistance() {
+		return lightDistance;
 	}
 
 }

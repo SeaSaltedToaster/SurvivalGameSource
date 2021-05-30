@@ -4,11 +4,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
-
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.entity.Entity;
+import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.render.batch.IBatch;
+import seaSaltedEngine.render.resourceManagement.frustumCulling.FrustumCuller;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
 import seaSaltedEngine.tools.math.Matrix4f;
@@ -24,15 +25,26 @@ public class GrassRenderer {
 	}
 	
 	public void render(IBatch batch) {
-		beginRendering();
 		List<Entity> entityList = batch.getEntities();
+		if(entityList.size() < 1) return;
+		beginRendering();
 		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
-		    if(!entity.hasComponent("Model_Grass")) continue;
+		    if(entity == null || !entity.hasComponent("Model_Grass") || altersRender(entity)) continue;
 		    loadGrassVariables(entity);
 			renderModel(entity);
 		}
 		endRendering();
+	}
+	
+	private boolean altersRender(Entity entity) {
+		for(Component component : entity.getComponents()) {
+			if(component.changesRenderer())
+		    	return true;
+			if(component.getComponentType().equalsIgnoreCase("FrustumCull"))
+				return FrustumCuller.checkRender(entity);
+		}
+		return false;
 	}
 	
 	private void loadGrassVariables(Entity entity) {
@@ -55,6 +67,7 @@ public class GrassRenderer {
 	}
 	
 	private void renderModel(Entity entity) {
+		if(entity.getTransform().getPosition().subtract(Engine.getCamera().getPosition()).length() > 100) return;
 		GrassModelComponent component = (GrassModelComponent) entity.getComponent("Model_Grass");
 		component.getMesh().getMeshVao().render();
 	}

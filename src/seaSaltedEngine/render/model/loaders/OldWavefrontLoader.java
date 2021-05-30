@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seaSaltedEngine.Engine;
+import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.render.model.MeshData;
 import seaSaltedEngine.render.model.material.Material;
@@ -38,6 +39,8 @@ public class OldWavefrontLoader {
 					Vector3f vertex = new Vector3f(Float.parseFloat(currentLine[1]),
 							Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
 					vertices.add(vertex);
+				} else if(line.startsWith("vt ")) {
+					colors.add(new Vector3f(0,0,0));
 				} else if (line.startsWith("mtllib ")) {
 					String materialName = fileName;
 					currentMaterials = MaterialLoader.loadMaterial(materialName);
@@ -49,10 +52,8 @@ public class OldWavefrontLoader {
 					String materialName = line.replaceFirst("usemtl ", "");
 					Material material = getMaterialFromName(materialName);
 					current = material;
+					Logger.Log(materialName);
 				} else if (line.startsWith("f ")) {
-					for (int i = 0; i < vertices.size()*5f; i++) {
-						  colors.add(new Vector3f(1,1,1));
-					}
 					textureArray = new float[colors.size() * 3];
 					normalsArray = new float[normals.size() * 4];
 					break;
@@ -62,6 +63,7 @@ public class OldWavefrontLoader {
 			while (line != null) {
 				if(line.startsWith("usemtl ")) {
 					String materialName = line.replaceFirst("usemtl ", "");
+					
 					Material material = getMaterialFromName(materialName);
 					current = material;
 					
@@ -77,9 +79,9 @@ public class OldWavefrontLoader {
 				String[] vertex2 = currentLine[2].split("/");
 				String[] vertex3 = currentLine[3].split("/");
 				
-				colors.set(Integer.parseInt(vertex1[1]), current.getDiffuseColor());
-				colors.set(Integer.parseInt(vertex2[1]), current.getDiffuseColor());
-				colors.set(Integer.parseInt(vertex3[1]), current.getDiffuseColor());
+				colors.set(Integer.parseInt(vertex1[0]), current.getDiffuseColor());
+				colors.set(Integer.parseInt(vertex2[0]), current.getDiffuseColor());
+				colors.set(Integer.parseInt(vertex3[0]), current.getDiffuseColor());
 				
 				processVertex(vertex1,indices,colors,normals,textureArray,normalsArray);
 				processVertex(vertex2,indices,colors,normals,textureArray,normalsArray);

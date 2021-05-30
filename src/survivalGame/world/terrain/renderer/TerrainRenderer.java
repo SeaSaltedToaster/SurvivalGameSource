@@ -17,6 +17,7 @@ import survivalGame.world.terrain.TerrainChunk;
 public class TerrainRenderer {
 
 	private static TerrainShader shader;
+	private static float lightDistance = 100000;
 
 	public static void init() {
 		shader = new TerrainShader();
@@ -50,8 +51,9 @@ public class TerrainRenderer {
 		OpenGL.enableCull();
 		shader.start();
 		shader.getViewMatrix().loadMatrix(MathUtils.createViewMatrix(Engine.getCamera()));
-		shader.getLightPosition().loadVec3(new Vector3f(100, 100, 100));
+		shader.getLightPosition().loadVec3(new Vector3f(100, 1000, 100));
 		shader.getLightAttenuation().loadVec3(1, 1, 1);
+		shader.getLightDistance().loadFloat(lightDistance);
 	}
 	
 	private static void finishRendering() {

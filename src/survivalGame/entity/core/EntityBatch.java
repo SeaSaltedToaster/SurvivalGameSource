@@ -8,11 +8,6 @@ import seaSaltedEngine.render.batch.IBatch;
 public class EntityBatch implements IBatch {
 
 	private HashMap<Entity, EntityIdentifier> entityList = new HashMap<Entity, EntityIdentifier>();
-	
-	@Override
-	public void update() {
-		
-	}
 
 	public HashMap<Entity, EntityIdentifier> getEntityList() {
 		return entityList;

@@ -5,6 +5,7 @@ import seaSaltedEngine.EngineConfigs;
 import seaSaltedEngine.basic.logger.LoggerType;
 import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.render.display.Window;
+import seaSaltedEngine.render.model.loaders.WavefrontLoader;
 import survivalGame.main.GameState;
 import survivalGame.main.states.MainGame;
 
@@ -20,12 +21,15 @@ public class MainApp {
 		gameState = new MainGame();
 		gameState.init();
 		
+		WavefrontLoader.loadWavefrontModel("assets/trees/tree");
+		
 		while(!Window.shouldClose()) {
 			gameState.update();
 			gameState.render();
 			
 			Engine.update();
 		}
+		
 		gameState.deinit();
 	}
 	
@@ -35,6 +39,7 @@ public class MainApp {
 		configs.loggerType = LoggerType.BOTH;
 		configs.defaultColor = new Color(1f,1f,1f);
 		configs.fpsCap = 256;
+		configs.resourceFolder = "/res/";
 		return configs;
 	}
 	

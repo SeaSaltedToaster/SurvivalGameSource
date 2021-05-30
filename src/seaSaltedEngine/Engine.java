@@ -32,8 +32,8 @@ public class Engine {
 		Engine.windowInstance = Window.newInstance(configs.windowName);
 		Engine.inputHandler = new InputHandler(windowInstance);
 		Engine.logger = new Logger(configs.loggerType);
-		Engine.renderer = new MasterRenderer();
 		Engine.camera = new FirstPersonCamera();
+		Engine.renderer = new MasterRenderer();
 		Engine.uiRenderer = new UiRenderer();
 		
 		TextureLoader.init();

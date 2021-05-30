@@ -17,7 +17,11 @@ public class FirstPersonCamera extends Camera {
 	
 	@Override
 	public void update() {
-		if(this.cancelUpdate) return;
+		if(this.cancelUpdate) {
+			lastY = (float) Mouse.getDy();
+			lastX = (float) Mouse.getDx();
+			return;
+		}
 		
 		updatePitch();
 		updateYaw();

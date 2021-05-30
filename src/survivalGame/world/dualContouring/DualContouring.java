@@ -46,7 +46,7 @@ public class DualContouring {
         }
     }
    
-    private static void adjustEdgeVertex(Vertex vertex, TerrainChunk chunk) {
+    public static void adjustEdgeVertex(Vertex vertex, TerrainChunk chunk) {
     	for(Axis axis : Axis.values()) {
     		if(WorldGenerator.getNearbyChunk(chunk, axis) != null) {
     			for(Vertex vertexConnect : WorldGenerator.getNearbyChunk(chunk, axis).getMesh().getVertices()) {

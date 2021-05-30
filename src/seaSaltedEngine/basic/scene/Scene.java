@@ -11,8 +11,7 @@ public class Scene {
 	private EnvironmentVariables environment;
 	private EntityBatch sceneBatch;
 	
-	//TODO Reorder Scene Constructor
-	public Scene(List<UiComponent> uis, EnvironmentVariables environment, EntityBatch sceneBatch) {
+	public Scene(EntityBatch sceneBatch, EnvironmentVariables environment, List<UiComponent> uis) {
 		this.uis = uis;
 		this.environment = environment;
 		this.sceneBatch = sceneBatch;

@@ -15,15 +15,15 @@ uniform mat4 projectionMatrix;
 uniform vec3 grassColor;
 uniform float time;
 
-const vec3 lightPosition = vec3(0);
+const vec3 lightPosition = vec3(100, 100, 100);
 
 void main(void) {
 
 	vec4 worldPosition = transformationMatrix * vec4(in_position.x, in_position.y, in_position.z, 1.0);
 
-//	float windFactor = 0.5f;
-//	float windChange = sin(time) * windFactor * (worldPosition.y / 100);
-//	worldPosition.xz += windChange;
+	float windFactor = 0.5f;
+	float windChange = sin(time) * windFactor * (in_position.y);
+	worldPosition.xz += windChange;
 
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position =  projectionMatrix * positionRelativeToCamera;

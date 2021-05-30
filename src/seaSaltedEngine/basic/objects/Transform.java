@@ -3,15 +3,19 @@ package seaSaltedEngine.basic.objects;
 import seaSaltedEngine.tools.math.Vector3f;
 
 public class Transform {
+	
+	public static Transform Default = new Transform(new Vector3f(0,0,0),0,0,0); 
 
 	private Vector3f position;
 	private float rx,ry,rz;
+	private float scale;
 	
 	public Transform(Vector3f position, float rx, float ry, float rz) {
 		this.position = position;
 		this.rx = rx;
 		this.ry = ry;
 		this.rz = rz;
+		this.scale = 1;
 	}
 
 	public Vector3f getPosition() {
@@ -45,11 +49,17 @@ public class Transform {
 	public void setRz(float rz) {
 		this.rz = rz;
 	}
-	
-	public String toString() {
-		return position.toString()+","+rx+","+ry+","+rz;
+
+	public float getScale() {
+		return scale;
 	}
-	
-	public static Transform Default = new Transform(new Vector3f(0,0,0),0,0,0); 
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+
+	public String toString() {
+		return position.toString()+","+rx+","+ry+","+rz+","+scale+";";
+	}
 	
 }

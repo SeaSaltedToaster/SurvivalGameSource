@@ -12,6 +12,7 @@ public class GlRequestQueue {
 	}
 	
 	public synchronized GlRequest acceptNextRequest() {
+		if(!GlRequestThread.isRunning()) return null;
 		return this.requestQueue.remove(0);
 	}
 

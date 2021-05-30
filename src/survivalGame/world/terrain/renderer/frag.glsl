@@ -9,9 +9,9 @@ out vec4 outColor;
 
 uniform vec3 lightPosition;
 uniform vec3 lightAttenuation;
+uniform float lightDistance;
 
 const float levels = 8;
-const float lightDistance = 1000;
 const vec3 lightColor = vec3(0.9f,0.8f,0.2f);
 
 vec3 light() {

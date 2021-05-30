@@ -16,19 +16,24 @@ public class WorldGenerator {
 	
 	//TODO Eventually take in a seed or world name for saving
 	public static void generateWorld() {
-		init();
-		generateTerrain();
+		worldChunks = new HashMap<TerrainChunk, Boolean>();
+		generateTerrain(0,0);
 	}
 	
-	private static void generateTerrain() {
+	public static void updateWorld() {
+		
+	}
+	
+	private static void generateTerrain(int dx, int dz) {
 		//Basic Temporary Settings
 		float distance = 5;
 		float terrainSize = 64;
 		//Loop and create chunks every 64 tiles
 		int index = 1;
-		for(int x = 0; x < distance; x++) {
-			for(int z = 0; z < distance; z++) {
+		for(int x = dx; x < distance; x++) {
+			for(int z = dz; z < distance; z++) {
 				//Create
+				if(exists(x,z)) continue;
 				TerrainChunk chunk = new TerrainChunk(new Vector3f(x*terrainSize,0,z*terrainSize),x,z);
 				dispatchRequest(chunk);
 				
@@ -38,13 +43,26 @@ public class WorldGenerator {
 		}
 	}
 	
+	private static boolean exists(int x, int z) {
+		for(Entry<TerrainChunk, Boolean> entry : getWorldChunks().entrySet()) {
+			TerrainChunk chunk = entry.getKey();
+			if(chunk.getIndexX() == x && chunk.getIndexZ() == z) 
+				return true;
+		}
+		return false;
+	}
+	
 	private static void dispatchRequest(TerrainChunk chunk) {
 		//Add to list (false = no render)
 		worldChunks.put(chunk, false);
 		
 		//Send request
-		TerrainLoadRequest request = new TerrainLoadRequest(chunk);
+		TerrainLoadRequest request = new TerrainLoadRequest(chunk, true);
 		GlRequestProcessor.sendRequest(request);
+	}
+	
+	public static void shutdown() {
+		
 	}
 	
 	public static TerrainChunk getNearbyChunk(TerrainChunk chunk, Axis axis) {
@@ -69,12 +87,8 @@ public class WorldGenerator {
 					if(entry.getKey().getIndexZ() == chunk.getIndexZ()-1)
 						return entry.getKey();
 				}
-		case ny:
-			break;
-		case y:
-			break;
-		default:
-			break;
+			default:
+				break;
 		}
 		return null;
 	}
@@ -84,10 +98,6 @@ public class WorldGenerator {
 			if(entry.getKey().equals(chunk))
 				entry.setValue(state);
 		}
-	}
-	
-	private static void init() {
-		worldChunks = new HashMap<TerrainChunk, Boolean>();
 	}
 
 	public static HashMap<TerrainChunk, Boolean> getWorldChunks() {

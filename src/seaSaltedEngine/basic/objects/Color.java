@@ -4,7 +4,7 @@ import seaSaltedEngine.tools.math.Vector3f;
 
 public class Color {
 	
-	float r,g,b;
+	protected float r,g,b;
 
 	public Color(float r, float g, float b) {
 		this.r = r;

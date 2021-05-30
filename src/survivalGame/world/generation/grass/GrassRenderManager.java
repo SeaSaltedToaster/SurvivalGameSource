@@ -1,40 +1,37 @@
 package survivalGame.world.generation.grass;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import seaSaltedEngine.entity.Entity;
+import seaSaltedEngine.render.batch.IBatch;
 import survivalGame.entity.core.EntityBatch;
 import survivalGame.world.generation.grass.renderer.GrassRenderer;
 
 public class GrassRenderManager {
 
 	private static GrassRenderer renderer;
-	private static List<Entity> grass;
+	private static IBatch grassBatch;
 	
 	public static void init() {
 		renderer = new GrassRenderer();
-		grass = new ArrayList<Entity>();
+		grassBatch = getGrassBatch();
 	}
 	
 	public static void renderGrass() {
-		EntityBatch batch = getGrassBatch();
-		renderer.render(batch);
+		renderer.render(grassBatch);
 	}
 	
 	private static EntityBatch getGrassBatch() {
 		EntityBatch batch = new EntityBatch();
 		batch.getEntities().clear();
 		
-		List<Entity> entityList = grass;
-		batch.getEntities().addAll(entityList);
-		
 		return batch;
 	}
+	
+	public static void addEntity(Entity entity) {
+		grassBatch.add(entity);
+	}
 
-	public static List<Entity> getGrass() {
-		return grass;
+	public static IBatch getGrass() {
+		return grassBatch;
 	}
 	
 }

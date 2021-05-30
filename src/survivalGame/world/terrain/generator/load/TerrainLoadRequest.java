@@ -10,9 +10,11 @@ import survivalGame.world.terrain.TerrainChunk;
 public class TerrainLoadRequest extends GlRequest {
 
 	protected TerrainChunk chunk;
+	protected boolean newChunk;
 	
-	public TerrainLoadRequest(TerrainChunk chunk) {
+	public TerrainLoadRequest(TerrainChunk chunk, boolean newChunk) {
 		this.chunk = chunk;
+		this.newChunk = newChunk;
 	}
 	
 	@Override
@@ -21,7 +23,7 @@ public class TerrainLoadRequest extends GlRequest {
 		double startTime = GLFW.glfwGetTime();
 		
 		//Generate Mesh Data
-		chunk.generate(true);
+		chunk.generate(newChunk);
 		
 		//Log time to generate
 		Logger.Log("Chunk load time: "+ (GLFW.glfwGetTime() - startTime) ); 

@@ -4,6 +4,7 @@ import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.guis.text.TextMaster;
 import seaSaltedEngine.guis.transitions.Transition;
 import seaSaltedEngine.guis.transitions.drivers.SlideDriver;
 import survivalGame.guis.MenuButton;
@@ -17,6 +18,8 @@ public class MainMenu extends GameState {
 	@Override
 	public void init() {
 		Mouse.setMouseVisible(true);
+		
+		TextMaster.init();
 		
 		UiComponent menu = new UiComponent(1);
 		menu.setScale(1, 1);

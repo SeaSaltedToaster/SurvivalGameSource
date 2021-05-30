@@ -1,5 +1,9 @@
 package seaSaltedEngine.guis.constraint;
 
-public class UiConstraint {
+import seaSaltedEngine.tools.math.Vector2f;
+
+public abstract class UiConstraint {
+	
+	public abstract void update(Vector2f position, Vector2f scale);
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.input.Mouse;
+import seaSaltedEngine.guis.constraint.UiConstraint;
 import seaSaltedEngine.guis.transitions.UiAnimator;
 import seaSaltedEngine.render.model.texture.Texture;
 import seaSaltedEngine.tools.math.Vector2f;
@@ -19,6 +20,7 @@ public class UiComponent {
 	private boolean isHovering;
 	private UiAnimator animator;
 	
+	private List<UiConstraint> constraints;
 	private Vector2f position;
 	private Vector2f scale;
 	private UiMeta meta;
@@ -28,6 +30,7 @@ public class UiComponent {
 		this.isActive = true;
 		this.animator = new UiAnimator(this);
 		
+		this.constraints = new ArrayList<UiConstraint>();
 		this.position = new Vector2f(0,0);
 		this.scale = new Vector2f(0.15f,0.25f);
 		this.meta = new UiMeta(level, 1, null, new Vector4f(0,0,0,0), false);
@@ -47,6 +50,7 @@ public class UiComponent {
 	
 	public void updateComponent() {
 		animator.update(this);
+		updateConstraints();
 		updateClick();
 		updateSelf();
 		renderUi();
@@ -57,24 +61,32 @@ public class UiComponent {
 		//Update method that will be overridden
 	}
 	
-	private void updateChildren() {
+	protected void updateChildren() {
 		for(UiComponent component : children) {
 			component.updateComponent();
 		}
 	}
 	
-	private void renderUi() {
-		UiMaster.renderUi(this);
+	protected void updateConstraints() {
+		for(UiConstraint constraint : constraints) {
+			constraint.update(getPosition(), getScale());
+		}
 	}
 	
-	private void updateClick() {
+	private void renderUi() {
+		if(isActive)
+			UiMaster.renderUi(this);
+	}
+	
+	protected void updateClick() {
 		Vector2f location = getPosition();
         Vector2f scale = getScale();
         double mouseCoordinatesX = Mouse.getMouseCoordsX();
         double mouseCoordinatesY = Mouse.getMouseCoordsY();
         if (location.y + scale.y > -mouseCoordinatesY && location.y - scale.y < -mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX) {
         	whileHover();
-        	Engine.getCamera().setCancelUpdate(true);
+        	if(isActive)
+        		Engine.getCamera().setCancelUpdate(true);
         	if(!isHovering)
         		onHover();
         	isHovering = true;
@@ -134,6 +146,10 @@ public class UiComponent {
 	public void increaseAlpha(float dx) {
 		this.meta.setAlpha(meta.getAlpha()+dx);
 	}
+	
+	public void addConstraint(UiConstraint constraint) {
+		this.constraints.add(constraint);
+	}
 
 	public List<UiComponent> getChildren() {
 		return children;
@@ -153,6 +169,9 @@ public class UiComponent {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+		for(UiComponent component : children) {
+			component.setActive(isActive);
+		}
 	}
 
 	public int getLevel() {
@@ -221,6 +240,30 @@ public class UiComponent {
 
 	public UiMeta getMeta() {
 		return meta;
+	}
+
+	public List<UiConstraint> getConstraints() {
+		return constraints;
+	}
+
+	public void setChildren(List<UiComponent> children) {
+		this.children = children;
+	}
+
+	public void setHovering(boolean isHovering) {
+		this.isHovering = isHovering;
+	}
+
+	public void setAnimator(UiAnimator animator) {
+		this.animator = animator;
+	}
+
+	public void setContraints(List<UiConstraint> constraints) {
+		this.constraints = constraints;
+	}
+
+	public void setMeta(UiMeta meta) {
+		this.meta = meta;
 	}
 	
 }

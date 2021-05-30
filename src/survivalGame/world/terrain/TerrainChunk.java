@@ -3,12 +3,11 @@ package survivalGame.world.terrain;
 import java.util.ArrayList;
 import java.util.List;
 
+import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
-import seaSaltedEngine.tools.MeshBuilder;
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.entity.world.EntityGrass;
 import survivalGame.world.GameWorld;
 import survivalGame.world.dualContouring.DualContouring;
 import survivalGame.world.dualContouring.OctreeBuilder;
@@ -25,45 +24,62 @@ public class TerrainChunk {
 	private int indexX, indexZ;
 	
 	private TerrainMesh mesh;
-	private float[][][] terrainMap;
-	private Color[][][] colorMap;
+	private int size= 64;
 	
 	public List<Entity> terrainEntities;
+	private Color[][][] colorMap;
+	private float[][][] terrainMap;
 	
 	public TerrainChunk(Vector3f position, int indexX, int indexZ) {
 		this.position = position;
 		this.indexX = indexX;
 		this.indexZ = indexZ;
 		this.mesh = new TerrainMesh();
-		this.colorMap = new Color[65][65][65];
+		this.colorMap = new Color[size+2][size*2+1][size+2];
 		this.terrainEntities = new ArrayList<Entity>();
 	}
 
 	public void generate(boolean newChunk) {
 		if(newChunk)
-			terrainMap = TerrainMapGenerator.generateTerrainMap(64, this);
-		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), 64);
+			terrainMap = TerrainMapGenerator.generateTerrainMap(size, this);
+		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), size);
 		DualContouring.GenerateMeshFromOctree(node, mesh.getVertices(), mesh.getTriangles(), this);
+		mesh.convertMeshData(); 
+		addWorldEntities();
 	}
 	
 	public void generateMesh() {
-		mesh.getTerrainMesh().getMeshData().setMeshVao(MeshBuilder.createModel(mesh.getVertices(), mesh.getTriangles()));
+		mesh.getTerrainMesh().getMeshData().setMeshVao(mesh.generate().getMeshVao());
 		WorldGenerator.setLoadStatus(this, true);
-		GrassRenderManager.getGrass().addAll(terrainEntities);
 	}
 	
 	public void regenerate() {
-		TerrainLoadRequest request = new TerrainLoadRequest(this);
+		TerrainLoadRequest request = new TerrainLoadRequest(this, false);
 		GlRequestProcessor.sendRequest(request);
 	}
 	
-	public void addObject(Entity object, float minDistance) {
+	private void addWorldEntities() {
 		for(Entity entity : terrainEntities) {
-			if(Math.abs(object.getTransform().getPosition().subtract(entity.getTransform().getPosition()).length()) < minDistance) 
-				return;
+			if(entity.hasComponent("Model_Grass")) {
+				GrassRenderManager.addEntity(entity);
+				continue;
+			}
+			GameWorld.getMainWorldEntityBatch().add(entity);
 		}
-		if(this.terrainEntities.size() > 250)
-			return;
+		terrainEntities.clear();
+		Logger.Log("Entity Count: "+ terrainEntities.size());
+	}
+	
+	public void setVoxelAt() {
+		for(int x = 32; x < 42; x++) {
+			for(int y = 50; y < 60; y++) {
+				terrainMap[x][y][1] = 5;
+			}
+		}
+		regenerate();
+	}
+	
+	public void addObject(Entity object, float minDistance) {
 		this.terrainEntities.add(object);
 	}
 	

@@ -6,6 +6,8 @@ out vec4 out_Color;
 uniform float skyboxSize;
 uniform float time;
 
+const float levels = 8;
+
 void main(void){
 
 	vec2 uv = vec2(out_position.x,(out_position.y/(skyboxSize)));

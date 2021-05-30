@@ -24,7 +24,8 @@ public class MenuButton extends UiComponent {
 	
 	@Override
 	public void onClick() {
-		UiMaster.getComponents().clear();
+		UiMaster.remove(this);
+		UiMaster.remove(this.getParentComponent());
 		this.getAnimator().doTransition(SLIDE_DISAPPEAR);
 		MainApp.loadGameState(new MainGame());
 	}

@@ -18,9 +18,9 @@ public class GlRequestProcessor {
 	}
 	 
 	public static void dealWithTopRequests() {
-		float remainingTime = 8000.0F;
+		float remainingTime = 800.0F;
 		long start = System.nanoTime();
-		while (requestQueue.hasRequests()) {
+		while (requestQueue.hasRequests() && thread.isRunning()) {
 		     requestQueue.acceptNextRequest().execute();
 		     long end = System.nanoTime();
 		     long timeTaken = end - start;

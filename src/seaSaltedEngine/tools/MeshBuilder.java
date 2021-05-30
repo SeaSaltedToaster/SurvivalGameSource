@@ -11,6 +11,7 @@ import seaSaltedEngine.render.model.Vao;
 public class MeshBuilder {
 
 	public static Vao createModel(List<Vertex> vertices, List<Triangle> triangles) {
+		
 		float[] position = buildVertices(vertices);
 		float[] normals = extractNormals(vertices);
 		
@@ -32,7 +33,7 @@ public class MeshBuilder {
 		return indices;
 	}
 
-	private static float[] extractNormals(List<Vertex> vertices) {
+	public static float[] extractNormals(List<Vertex> vertices) {
 		float[] normals = new float[vertices.size() * 3 + 1];
 		int vertexPointer = 0;
 		for(int i = 0; i < vertices.size(); i++, vertexPointer+=3) {
@@ -56,7 +57,7 @@ public class MeshBuilder {
 		return positions;
 	}
 	
-	private static float[] getColors(List<Vertex> vertices) {
+	public static float[] getColors(List<Vertex> vertices) {
 		float[] indices = new float[vertices.size() * 3 + 1];
 		int vertexPointer = 0;
 		for(int i = 0; i < vertices.size(); i++, vertexPointer+=3) {

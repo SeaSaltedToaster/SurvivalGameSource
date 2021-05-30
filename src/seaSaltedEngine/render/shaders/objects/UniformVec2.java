@@ -2,7 +2,7 @@ package seaSaltedEngine.render.shaders.objects;
 
 import org.lwjgl.opengl.GL20;
 
-import seaSaltedEngine.tools.math.Vector2;
+import seaSaltedEngine.tools.math.Vector2f;
 
 public class UniformVec2 extends Uniform {
 
@@ -14,7 +14,7 @@ public class UniformVec2 extends Uniform {
 		super(name);
 	}
 
-	public void loadVec2(Vector2 vector) {
+	public void loadVec2(Vector2f vector) {
 		loadVec2(vector.x, vector.y);
 	}
 

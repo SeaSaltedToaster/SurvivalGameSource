@@ -8,7 +8,7 @@ public class MouseButtonListener implements Listener {
 	
 	@Override
 	public void notify(String update) {
-		// TODO Parse Input to Key Object
+		// TODO Parse Input to Mouse Button Object
 	}
 
 	@Override

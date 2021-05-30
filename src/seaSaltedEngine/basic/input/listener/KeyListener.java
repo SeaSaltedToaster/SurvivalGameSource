@@ -6,12 +6,12 @@ public class KeyListener implements Listener {
 
 	@Override
 	public void notify(String update) {
-		// TODO Auto-generated method stub
+		// TODO parse to key
 	}
 
 	@Override
 	public void cancel() {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,6 +3,7 @@ package seaSaltedEngine.basic.input;
 import org.lwjgl.glfw.GLFW;
 
 import seaSaltedEngine.Engine;
+import seaSaltedEngine.basic.input.callbacks.WindowSizeCallback;
 import seaSaltedEngine.render.display.Window;
 
 public class InputHandler {
@@ -10,9 +11,12 @@ public class InputHandler {
 	private Mouse mouseInstance;
 	private Keyboard keyboardInstance;
 	
+	private WindowSizeCallback size;
+	
 	public InputHandler(Window windowInstance) {
 		mouseInstance = new Mouse();
 		keyboardInstance = new Keyboard();
+		size = new WindowSizeCallback();
 		
 		init(windowInstance);
 	}
@@ -20,7 +24,8 @@ public class InputHandler {
 	public void init(Window windowInstance) {
 		GLFW.glfwSetMouseButtonCallback(windowInstance.getWindowID(), mouseInstance.getButtonEvent());
 		GLFW.glfwSetKeyCallback(windowInstance.getWindowID(), keyboardInstance.getEvent());
-		GLFW.glfwSetCursorPosCallback(Engine.getWindowInstance().getWindowID(), mouseInstance.getPositionCallback());
+		GLFW.glfwSetCursorPosCallback(windowInstance.getWindowID(), mouseInstance.getPositionCallback());
+		GLFW.glfwSetFramebufferSizeCallback(windowInstance.getWindowID(), size);
 	}
 	
 	public static boolean isKeyPressed(int key)

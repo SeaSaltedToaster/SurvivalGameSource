@@ -35,12 +35,13 @@ public class ModelLoader {
 		return new Vao(vaoID);
 	}
 	
-	public int loadToVAO(float[] positions, float[] textureCoords) {
+	public Vao loadToVAO(float[] positions, float[] textureCoords) {
         int vaoID = createVAO();
-        storeDataInAttributeList(0, 2, positions);
-        storeDataInAttributeList(1, 2, textureCoords);
-        unbindVAO();
-        return vaoID;
+        Vao vao = new Vao(vaoID);
+        vao.createAttribute(0, positions, 2);
+        vao.createAttribute(1, textureCoords, 2);
+        vao.unbind(0,1);
+        return vao;
     }
 	
 	public void cleanUp() {

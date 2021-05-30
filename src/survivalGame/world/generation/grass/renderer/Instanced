@@ -1,0 +1,9 @@
+in variables
+-vec3 position
+-vec4 rotationScale
+-vec3 grassColor
+
+uniforms
+-view matrix
+-proj matrix
+-time

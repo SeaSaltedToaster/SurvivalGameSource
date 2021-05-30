@@ -18,7 +18,7 @@ public class TerrainCaveGenerator {
 	public static int[][][] GenerateMap(int mapSize)
     {
 		size = mapSize;
-        map = new int[size][size][size];
+        map = new int[size][size*2][size];
 
         // initialize map
         for (int x = 0; x < size; x++)

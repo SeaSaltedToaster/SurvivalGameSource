@@ -11,11 +11,14 @@ public class EngineConfigs {
 	public Color defaultColor;
 	public LoggerType loggerType;
 	
+	public String resourceFolder;
+	
 	public EngineConfigs() {
 		windowName = "SeaSaltedEngine Default Name";
 		fpsCap = 60;
 		loggerType = LoggerType.BOTH;
 		defaultColor = new Color(0,0,0);
+		resourceFolder = "/res/";
 	}
 
 	public String getWindowName() {
@@ -40,6 +43,10 @@ public class EngineConfigs {
 
 	public LoggerType getLoggerType() {
 		return loggerType;
+	}
+
+	public String getResourceFolder() {
+		return resourceFolder;
 	}
 	
 }

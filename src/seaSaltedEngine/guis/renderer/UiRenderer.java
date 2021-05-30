@@ -47,7 +47,7 @@ public class UiRenderer {
 		if(component.hasTexture()) {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			component.getGuiTexture().bind();
-//			shader.getGuiTexture().loadTexUnit(component.getGuiTexture().getID());
+			shader.getGuiTexture().loadTexUnit(component.getGuiTexture().getID());
 		}
 		shader.getTransformationMatrix().loadMatrix(getTransformation(component));
 		shader.getUiOverrideColor().loadVec4(component.getOverrideColor());

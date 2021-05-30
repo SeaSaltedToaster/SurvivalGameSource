@@ -14,14 +14,12 @@ public class SplashScreen extends GameState {
 
 	@Override
 	public void deinit() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

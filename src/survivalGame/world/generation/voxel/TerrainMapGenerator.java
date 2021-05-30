@@ -18,11 +18,11 @@ public class TerrainMapGenerator {
 	public static float[][][] generateTerrainMap(int size, TerrainChunk chunk) {
 		
 		float[][][] terrainMap = initializeGenerator(size);
-		int[][][] caveMap = TerrainCaveGenerator.GenerateMap(65);
+		int[][][] caveMap = TerrainCaveGenerator.GenerateMap(size+1);
 		
 		for (int x = 0; x < size+1; x++) {
             for (int z = 0; z < size+1; z++) {
-                for (int y = 0; y < size+1; y++) {
+                for (int y = 0; y < size*2+1; y++) {
 
                 	float voxel = (float) ((float) SURFACE_VALUE + (noise.eval( ((x)+chunk.getIndexX()*64) / 4, ((z)+chunk.getIndexZ()*64) / 4) ) * getRandomNoiseMultiplier(x,z));
                 	float point = 0;
@@ -42,18 +42,18 @@ public class TerrainMapGenerator {
                 	if(y > SURFACE_VALUE + 20) {
                 		chunk.getColorMap()[x][y][z] = new Color(0.4f, 0.4f, 0.4f);
                 	}
-                	if(y > SURFACE_VALUE + 27) {
+                	if(y > SURFACE_VALUE + 25) {
                 		chunk.getColorMap()[x][y][z] = new Color(1f, 1f, 1f);
                 	}
                 	
-                    if (y <= voxel - 16)
-                        point = 0f;
-                    else if (y > voxel + 16)
+                    if (y <= voxel - SURFACE_VALUE)
+                        point = -1f;
+                    else if (y >= voxel + SURFACE_VALUE)
                         point = 1f;
                     else if (y > voxel)
-                        point = (float)y - voxel;
+                        point = y - voxel;
                 	
-                    terrainMap[x][y][z] = point * 2 - 1;
+                    terrainMap[x][y][z] = point * 2 -1;
                     
                 }
             }
@@ -62,11 +62,11 @@ public class TerrainMapGenerator {
 	}
 	
 	private static float getRandomNoiseMultiplier(float x, float z) {
-		return (float) Math.max(Math.min(noise.eval(x, z), 1), 2);
+		return (float) Math.max(Math.min(noise.eval(x, z), 1), 3);
 	}
 	
 	private static float[][][] initializeGenerator(int size) {
-		float[][][] terrainMap = new float[size+1][size+1][size+1];
+		float[][][] terrainMap = new float[size+1][size*2+1][size+1];
 		return terrainMap;
 	}
 	

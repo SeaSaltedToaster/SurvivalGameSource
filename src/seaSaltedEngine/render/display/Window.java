@@ -60,17 +60,25 @@ public class Window {
 			return false;
 		return true;
 	}
+	
+	public static void setShouldClose(boolean value) {
+		glfwSetWindowShouldClose(windowID, value);
+	}
 
 	public long getWindowID() {
 		return windowID;
 	}
 
-	public static int getCurrentWidth() {
-		return currentWidth;
+	public static double getCurrentWidth() {
+		return WindowManager.getWindowSizeX(windowID);
 	}
 
-	public static int getCurrentHeight() {
-		return currentHeight;
+	public static double getCurrentHeight() {
+		return WindowManager.getWindowSizeY(windowID);
+	}
+	
+	public static float getAspectRatio() {
+		return (float) (getCurrentHeight() / getCurrentWidth());
 	}
 
 	public static double getDelta() {

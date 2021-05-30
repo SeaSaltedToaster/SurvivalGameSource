@@ -9,6 +9,7 @@ import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.render.batch.IBatch;
+import seaSaltedEngine.render.resourceManagement.frustumCulling.FrustumCuller;
 import seaSaltedEngine.render.shaders.staticShader.StaticShader;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
@@ -27,18 +28,20 @@ public class StaticRenderer {
 		List<Entity> entityList = batch.getEntities();
 		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
-			 if(altersRender(entity)) continue;
+			if(entity == null || altersRender(entity)) continue;
 		    shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
 			renderModel(entity);
 		}
-
 		endRendering();
 	}
 	
 	private boolean altersRender(Entity entity) {
+		if(entity == null || entity.getComponents().size() < 1) return false;
 		for(Component component : entity.getComponents()) {
 			if(component.changesRenderer())
 		    	return true;
+			if(component.getComponentType().equalsIgnoreCase("FrustumCull"))
+				return FrustumCuller.checkRender(entity);
 		}
 		return false;
 	}
@@ -49,7 +52,7 @@ public class StaticRenderer {
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
 		shader.getLightPosition().loadVec3(Engine.getCamera().getPosition());
 		shader.getLightAttenuation().loadVec3(1, 1, 1);
-//		OpenGL.enableCull();
+		OpenGL.enableCull();
 		OpenGL.setDepthTest(true);
 	}
 	
@@ -64,7 +67,7 @@ public class StaticRenderer {
 	}
  	
 	private Matrix4f getTransformation(Transform transform) {
-		Matrix4f transformation = MathUtils.createTransformationMatrix(transform.getPosition(), transform.getRx(), transform.getRy(), transform.getRz(), 1);
+		Matrix4f transformation = MathUtils.createTransformationMatrix(transform.getPosition(), transform.getRx(), transform.getRy(), transform.getRz(), transform.getScale());
 		return transformation;
 	}
 

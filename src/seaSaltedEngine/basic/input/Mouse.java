@@ -18,6 +18,7 @@ public class Mouse {
 	
 	public MouseButtonEvent buttonEvent;
 	public MousePositionCallback positionCallback;
+	
 	public static double dx, dy;
 	
 	public Mouse() {

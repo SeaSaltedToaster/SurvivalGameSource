@@ -12,10 +12,12 @@ public class Vao {
 
 	private static final int BYTES_PER_FLOAT = 4;
 	private static final int BYTES_PER_INT = 4;
+	
 	public final int id;
-	private List<Vbo> dataVbos = new ArrayList<Vbo>();
-	private Vbo indexVbo;
 	private int indexCount;
+	
+	private Vbo indexVbo;
+	private List<Vbo> dataVbos = new ArrayList<Vbo>();
  
 	public static Vao create() {
 		int id = GL30.glGenVertexArrays();

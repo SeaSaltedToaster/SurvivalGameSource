@@ -18,14 +18,17 @@ public class Transition {
 	
 	public Transition() {
 		this.drivers = new HashMap<TransitionDriver, UiAspect>();
+		this.backup = new HashMap<TransitionDriver, UiAspect>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void start() {
-		backup = drivers;
+		backup = (HashMap<TransitionDriver, UiAspect>) drivers.clone();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void reset() {
-		drivers = backup;
+		drivers = (HashMap<TransitionDriver, UiAspect>) backup.clone();
 	}
 	
 	public void update(UiComponent component) {
