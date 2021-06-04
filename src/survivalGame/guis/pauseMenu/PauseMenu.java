@@ -6,6 +6,8 @@ import seaSaltedEngine.audio.AudioSource;
 import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.tools.math.Vector3f;
+import survivalGame.guis.GameMenus;
 import survivalGame.resources.Sounds;
 
 public class PauseMenu extends UiComponent{
@@ -28,14 +30,16 @@ public class PauseMenu extends UiComponent{
 	
 	@Override
 	public void updateSelf()  {
-		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_ESCAPE)) {
+		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_ESCAPE) && !GameMenus.isInMenu()) {
 			this.setActive(true);
 			Mouse.setMouseVisible(true);
+			GameMenus.setInMenu(true);
 		}
 	}
 	
 	private void initAudio() {
 		source = new AudioSource();
+		source.setPosition(new Vector3f(10,20,10));
 		source.Play(Sounds.BOUNCE);
 	}
 	

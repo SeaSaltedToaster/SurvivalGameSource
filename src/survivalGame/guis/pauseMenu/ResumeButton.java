@@ -5,6 +5,7 @@ import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.guis.text.Fonts;
 import seaSaltedEngine.guis.text.Text;
+import survivalGame.guis.GameMenus;
 import survivalGame.resources.Sounds;
 
 public class ResumeButton extends UiComponent {
@@ -14,7 +15,7 @@ public class ResumeButton extends UiComponent {
 	public ResumeButton() {
 		super(1);
 		this.setScale(0.25f, 0.1f);
-		this.setPosition(0f, -0.3f);
+		this.setPosition(0f, 0.3f);
 		this.setAlpha(0);
 		createText();
 	}
@@ -31,6 +32,7 @@ public class ResumeButton extends UiComponent {
 		this.setActive(false);
 		this.getParentComponent().setActive(false);
 		Mouse.setMouseVisible(false);
+		GameMenus.setInMenu(false);
 		PauseMenu.getSource().Play(Sounds.BOUNCE);
 	}
 	

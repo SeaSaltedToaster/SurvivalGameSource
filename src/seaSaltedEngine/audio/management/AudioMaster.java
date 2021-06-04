@@ -14,6 +14,9 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.ALCCapabilities;
 
+import seaSaltedEngine.Engine;
+import seaSaltedEngine.tools.math.Vector3f;
+
 public class AudioMaster {
 
 	private static List<Integer> buffers = new ArrayList<>();
@@ -33,12 +36,12 @@ public class AudioMaster {
 	        ALC10.alcMakeContextCurrent(context);
 	        AL.createCapabilities(deviceCaps);
 	    
-	    getListenerData();
+	    getListenerData(Engine.getCamera().getPosition());
 	  }
 	  
-	  public static void getListenerData() {
-		  AL10.alListener3f(4100, 0.0F, 0.0F, 0.0F);
-		  AL10.alListener3f(4102, 0.0F, 0.0F, 0.0F);
+	  public static void getListenerData(Vector3f pos) {
+		  AL10.alListener3f(AL10.AL_POSITION, pos.x, pos.y, pos.z);
+		  AL10.alListener3f(AL10.AL_VELOCITY, 0.0F, 0.0F, 0.0F);
 	  }
 	  
 	  public static int loadSound(String file) {

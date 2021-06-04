@@ -6,6 +6,8 @@ import seaSaltedEngine.EngineConstants;
 import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.render.display.Window;
+import seaSaltedEngine.tools.OpenGL;
+import survivalGame.resources.keybinding.Controls;
 
 public class FirstPersonCamera extends Camera {
 
@@ -22,6 +24,9 @@ public class FirstPersonCamera extends Camera {
 			lastX = (float) Mouse.getDx();
 			return;
 		}
+		
+		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_P)) OpenGL.setPolygonWire();
+		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_O)) OpenGL.setPolygonFill();
 		
 		updatePitch();
 		updateYaw();
@@ -44,9 +49,9 @@ public class FirstPersonCamera extends Camera {
 	}
 	
 	private void checkInputs() {
-		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_W)) {
+		if(InputHandler.isKeyPressed(Controls.getControl("Move Forward").getKey())) {
 			this.currentSpeed = 1;
-		} else if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_S)) {
+		} else if(InputHandler.isKeyPressed(Controls.getControl("Move Backward").getKey())) {
 			this.currentSpeed = -1;
 		} else {
 			this.currentSpeed = 0;

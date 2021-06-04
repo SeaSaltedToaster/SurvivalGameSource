@@ -10,6 +10,7 @@ import seaSaltedEngine.guis.transitions.UiAnimator;
 import seaSaltedEngine.render.model.texture.Texture;
 import seaSaltedEngine.tools.math.Vector2f;
 import seaSaltedEngine.tools.math.Vector4f;
+import survivalGame.resources.TextureRepository;
 
 public class UiComponent {
 
@@ -18,12 +19,15 @@ public class UiComponent {
 	
 	private boolean isActive;
 	private boolean isHovering;
+	private boolean scissor;
 	private UiAnimator animator;
 	
 	private List<UiConstraint> constraints;
 	private Vector2f position;
 	private Vector2f scale;
 	private UiMeta meta;
+	
+	private Vector4f overrideColor;
 	
 	public UiComponent(int level) {
 		this.children = new ArrayList<UiComponent>();
@@ -33,13 +37,16 @@ public class UiComponent {
 		this.constraints = new ArrayList<UiConstraint>();
 		this.position = new Vector2f(0,0);
 		this.scale = new Vector2f(0.15f,0.25f);
-		this.meta = new UiMeta(level, 1, null, new Vector4f(0,0,0,0), false);
+		this.meta = new UiMeta(level, 1, new Texture(TextureRepository.SLOT), false);
+		this.overrideColor = UiColors.BLACK;
+		
 		UiMaster.add(this);
 	}
 	
 	public void addComponent(UiComponent component) {
 		component.setParentComponent(this);
 		component.setActive(isActive());
+		component.setScissor(scissor);
 		children.add(component);
 	}
 	
@@ -69,7 +76,7 @@ public class UiComponent {
 	
 	protected void updateConstraints() {
 		for(UiConstraint constraint : constraints) {
-			constraint.update(getPosition(), getScale());
+			constraint.update(this, getPosition(), getScale());
 		}
 	}
 	
@@ -83,7 +90,7 @@ public class UiComponent {
         Vector2f scale = getScale();
         double mouseCoordinatesX = Mouse.getMouseCoordsX();
         double mouseCoordinatesY = Mouse.getMouseCoordsY();
-        if (location.y + scale.y > -mouseCoordinatesY && location.y - scale.y < -mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX) {
+        if (location.y + scale.y > mouseCoordinatesY && location.y - scale.y < mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX) {
         	whileHover();
         	if(isActive)
         		Engine.getCamera().setCancelUpdate(true);
@@ -187,7 +194,7 @@ public class UiComponent {
 	}
 
 	public Vector4f getOverrideColor() {
-		return meta.getOverrideColor();
+		return overrideColor;
 	}
 
 	public void setGuiTexture(Texture textureID) {
@@ -195,7 +202,7 @@ public class UiComponent {
 	}
 
 	public void setColor(Vector4f overrideColor) {
-		this.meta.setOverrideColor(overrideColor);
+		this.overrideColor = (overrideColor);
 	}
 
 	public Vector2f getPosition() {
@@ -264,6 +271,22 @@ public class UiComponent {
 
 	public void setMeta(UiMeta meta) {
 		this.meta = meta;
+	}
+
+	public boolean isScissor() {
+		return scissor;
+	}
+
+	public void setScissor(boolean scissor) {
+		this.scissor = scissor;
+	}
+
+	public void setConstraints(List<UiConstraint> constraints) {
+		this.constraints = constraints;
+	}
+
+	public void setOverrideColor(Vector4f overrideColor) {
+		this.overrideColor = overrideColor;
 	}
 	
 }

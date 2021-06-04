@@ -1,7 +1,6 @@
 package seaSaltedEngine.guis.core;
 
 import seaSaltedEngine.render.model.texture.Texture;
-import seaSaltedEngine.tools.math.Vector4f;
 
 public class UiMeta {
 	
@@ -9,13 +8,11 @@ public class UiMeta {
 	private Texture guiTexture;
 	private boolean hasTexture;
 	private float alpha;
-	private Vector4f overrideColor;
 	
-	public UiMeta(int level, float alpha, Texture guiTexture, Vector4f overrideColor, boolean hasTexture) {
+	public UiMeta(int level, float alpha, Texture guiTexture, boolean hasTexture) {
 		this.level = level;
 		this.alpha = alpha;
 		this.guiTexture = guiTexture;
-		this.overrideColor = overrideColor;
 		this.hasTexture = hasTexture;
 	}
 	
@@ -31,10 +28,6 @@ public class UiMeta {
 		return guiTexture;
 	}
 	
-	public Vector4f getOverrideColor() {
-		return overrideColor;
-	}
-	
 	public void setLevel(int level) {
 		this.level = level;
 	}
@@ -45,10 +38,6 @@ public class UiMeta {
 	
 	public void setGuiTexture(Texture guiTexture) {
 		this.guiTexture = guiTexture;
-	}
-	
-	public void setOverrideColor(Vector4f overrideColor) {
-		this.overrideColor = overrideColor;
 	}
 
 	public boolean isHasTexture() {

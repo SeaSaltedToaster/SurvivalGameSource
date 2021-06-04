@@ -1,13 +1,19 @@
 package seaSaltedEngine.render.renderers;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL31;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.entity.Entity;
+import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.entity.component.ModelComponent;
 import seaSaltedEngine.render.batch.IBatch;
+import seaSaltedEngine.render.resourceManagement.frustumCulling.FrustumCuller;
 import seaSaltedEngine.render.shaders.instancedShader.InstancedShader;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
@@ -22,17 +28,37 @@ public class InstancedRenderer {
 	}
 	
 	public void render(IBatch batch) {
+		//Start and load const
+		if(batch == null || batch.getEntities().size() < 1) return;
 		beginRendering();
 		
+		//Create transformation array
 		Matrix4f[] transformations = new Matrix4f[batch.getEntities().size()];
-		for(Entity entity : batch.getEntities()) {
+		List<Entity> entityList = batch.getEntities();
+		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
+			Entity entity = iterator.next();
+		    if(entity == null || altersRender(entity)) continue;
 			int i = batch.getEntities().indexOf(entity);
 			transformations[i] = getTransformation(entity.getTransform());
 		}
 		shader.getTransformationMatrix().loadMatrixArray(transformations);
+		
+		//Render and report to debugger TODO render all if model is same
 		renderModel(batch.getEntities().get(0), batch.getEntities().size());
-
+		Debugger.report("Draw_Call");
+		
 		endRendering();
+	}
+	
+	private boolean altersRender(Entity entity) {
+		if(entity == null || entity.getComponents().size() < 1) return false;
+		for(Component component : entity.getComponents()) {
+			if(component.changesRenderer())
+		    	return true;
+			if(component.getComponentType().equalsIgnoreCase("FrustumCull"))
+				return FrustumCuller.checkRender(entity);
+		}
+		return false;
 	}
 
 	private void beginRendering() {

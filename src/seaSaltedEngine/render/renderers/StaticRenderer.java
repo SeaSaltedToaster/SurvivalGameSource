@@ -3,8 +3,11 @@ package seaSaltedEngine.render.renderers;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
+
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.entity.component.ModelComponent;
@@ -29,8 +32,9 @@ public class StaticRenderer {
 		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
 			if(entity == null || altersRender(entity)) continue;
-		    shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
+		    loadComponents(entity);
 			renderModel(entity);
+			Debugger.report("Draw_Call");
 		}
 		endRendering();
 	}
@@ -44,6 +48,12 @@ public class StaticRenderer {
 				return FrustumCuller.checkRender(entity);
 		}
 		return false;
+	}
+	
+	private void loadComponents(Entity entity) {
+		shader.getTransformationMatrix().loadMatrix(getTransformation(entity.getTransform()));
+		if(entity.hasComponent("Sway")) shader.getSway().loadBoolean(true);
+		shader.getTime().loadFloat((float)GLFW.glfwGetTime());
 	}
 
 	private void beginRendering() {

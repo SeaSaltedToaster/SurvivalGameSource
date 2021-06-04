@@ -8,7 +8,7 @@ public class InstancedShader extends Shader {
 
 	protected UniformMatrix4f viewMatrix = new UniformMatrix4f("viewMatrix");
 	protected UniformMatrix4f projectionMatrix = new UniformMatrix4f("projectionMatrix");
-	protected UniformMat4Array transformations = new UniformMat4Array("transformationMatrix", 10000);
+	protected UniformMat4Array transformations = new UniformMat4Array("transformationMatrix", 1000);
 	
 	public InstancedShader() {
 		super("/seaSaltedEngine/render/shaders/instancedShader/vert.glsl", "/seaSaltedEngine/render/shaders/instancedShader/frag.glsl", "in_position", "in_vertexColor", "in_normal");

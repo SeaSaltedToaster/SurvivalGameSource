@@ -1,6 +1,8 @@
 package seaSaltedEngine.render.shaders.staticShader;
 
 import seaSaltedEngine.render.shaders.Shader;
+import seaSaltedEngine.render.shaders.objects.UniformBoolean;
+import seaSaltedEngine.render.shaders.objects.UniformFloat;
 import seaSaltedEngine.render.shaders.objects.UniformMatrix4f;
 import seaSaltedEngine.render.shaders.objects.UniformVec3;
 
@@ -13,9 +15,12 @@ public class StaticShader extends Shader {
 	protected UniformVec3 lightPosition = new UniformVec3("lightPosition");
 	protected UniformVec3 lightAttenuation = new UniformVec3("lightAttenuation");
 	
+	protected UniformBoolean sway = new UniformBoolean("sway");
+	protected UniformFloat time = new UniformFloat("time");
+	
 	public StaticShader() {
 		super("/seaSaltedEngine/render/shaders/staticShader/vert.glsl", "/seaSaltedEngine/render/shaders/staticShader/frag.glsl", "in_position", "in_vertexColor", "in_normal");
-		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition, lightAttenuation); 
+		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition, lightAttenuation, sway, time); 
 	}
 
 	public UniformMatrix4f getViewMatrix() {
@@ -36,6 +41,14 @@ public class StaticShader extends Shader {
 
 	public UniformVec3 getLightAttenuation() {
 		return lightAttenuation;
+	}
+
+	public UniformBoolean getSway() {
+		return sway;
+	}
+	
+	public UniformFloat getTime() {
+		return time;
 	}
 	
 }

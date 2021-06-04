@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.glfw.GLFW;
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.entity.component.Component;
 import seaSaltedEngine.render.batch.IBatch;
@@ -70,6 +71,7 @@ public class GrassRenderer {
 		if(entity.getTransform().getPosition().subtract(Engine.getCamera().getPosition()).length() > 100) return;
 		GrassModelComponent component = (GrassModelComponent) entity.getComponent("Model_Grass");
 		component.getMesh().getMeshVao().render();
+		Debugger.report("Draw_Call");
 	}
  	
 	private Matrix4f getTransformation(Transform transform) {

@@ -13,10 +13,18 @@ uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec3 lightPosition;
+uniform bool sway;
+uniform float time;
 
 void main(void) {
 	
 	vec4 worldPosition = transformationMatrix * vec4(in_position.x, in_position.y, in_position.z, 1.0);
+
+	float windFactor = 0.05f;
+	float windChange = sin(time) * windFactor * (in_position.y);
+	if(sway)
+		worldPosition.xz += windChange;
+
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position =  projectionMatrix * positionRelativeToCamera;
 

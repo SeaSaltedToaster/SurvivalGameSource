@@ -10,7 +10,7 @@ public class GlRequestProcessor {
 	}
 	
 	public static void end() {
-		thread.stopThread();
+		GlRequestThread.stopThread();
 	}
 	
 	public static void sendRequest(GlRequest request) {
@@ -20,7 +20,7 @@ public class GlRequestProcessor {
 	public static void dealWithTopRequests() {
 		float remainingTime = 800.0F;
 		long start = System.nanoTime();
-		while (requestQueue.hasRequests() && thread.isRunning()) {
+		while (requestQueue.hasRequests() && GlRequestThread.isRunning()) {
 		     requestQueue.acceptNextRequest().execute();
 		     long end = System.nanoTime();
 		     long timeTaken = end - start;

@@ -6,6 +6,7 @@ import seaSaltedEngine.basic.camera.Camera;
 import seaSaltedEngine.basic.camera.FirstPersonCamera;
 import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.logger.Logger;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.guis.core.UiMaster;
 import seaSaltedEngine.guis.renderer.UiRenderer;
 import seaSaltedEngine.render.MasterRenderer;
@@ -38,6 +39,7 @@ public class Engine {
 		
 		TextureLoader.init();
 		GlRequestProcessor.init();
+		Debugger.init();
 		
 		Logger.Log("Engine Load time: "+GLFW.glfwGetTime());
 	}
@@ -50,6 +52,7 @@ public class Engine {
 		camera.update();
 		inputHandler.pollInput();
 		MainRequestProcessor.dealWithTopRequests();
+		Debugger.clear();
 		windowInstance.update(); 
 	} 
 	

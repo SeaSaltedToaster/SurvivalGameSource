@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 import seaSaltedEngine.Engine;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.render.model.Vao;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
@@ -29,8 +30,9 @@ public class TerrainRenderer {
 	public static void renderChunks() {
 		beginRendering();
 		for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
-			if(entry.getValue())
+			if(entry.getValue() && Engine.getRenderer().getCuller().isInFrustum(entry.getKey().getPosition(), entry.getKey().getPosition().add(new Vector3f(6400,6400,6400)))) {
 				renderChunk(entry.getKey());
+			}
 		}
 		finishRendering();
 		renderOther();
@@ -44,6 +46,7 @@ public class TerrainRenderer {
 		prepareModel(chunk.getMesh().getTerrainMesh().getMeshVao());
 		prepareInstance(chunk);
 		GL11.glDrawElements(GL11.GL_TRIANGLES, chunk.getMesh().getTerrainMesh().getMeshVao().getIndexCount(), GL11.GL_UNSIGNED_INT, 0);
+		Debugger.report("Draw_Call");
 		unbindModel();	
 	}
 	

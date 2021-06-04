@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Transform;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.render.model.loaders.OldWavefrontLoader;
 import seaSaltedEngine.tools.OpenGL;
@@ -29,6 +30,7 @@ public class SkyboxRenderer {
 		beginRendering();
 		prepareInstance();
 		cubeMesh.getMeshVao().render();
+		Debugger.report("Draw_Call");
 		finishRendering();
 		OpenGL.disableFrontCull();
 	}

@@ -13,7 +13,7 @@ public class QuitButton extends UiComponent {
 	public QuitButton() {
 		super(1);
 		this.setScale(0.25f, 0.1f);
-		this.setPosition(0f, 0.3f);
+		this.setPosition(0f, -0.3f);
 		this.setAlpha(0);
 		createText();
 	}

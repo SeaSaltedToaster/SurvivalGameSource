@@ -45,12 +45,12 @@ public class TerrainChunk {
 		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), size);
 		DualContouring.GenerateMeshFromOctree(node, mesh.getVertices(), mesh.getTriangles(), this);
 		mesh.convertMeshData(); 
-		addWorldEntities();
 	}
 	
 	public void generateMesh() {
 		mesh.getTerrainMesh().getMeshData().setMeshVao(mesh.generate().getMeshVao());
 		WorldGenerator.setLoadStatus(this, true);
+		addWorldEntities();
 	}
 	
 	public void regenerate() {

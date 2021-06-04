@@ -4,6 +4,7 @@ import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.guis.text.Fonts;
 import seaSaltedEngine.guis.text.Text;
+import survivalGame.guis.GameMenus;
 
 public class SettingsButton extends UiComponent {
 
@@ -12,7 +13,7 @@ public class SettingsButton extends UiComponent {
 	public SettingsButton() {
 		super(1);
 		this.setScale(0.25f, 0.1f);
-		this.setPosition(0f, 0.1f);
+		this.setPosition(0f, -0.1f);
 		this.setAlpha(0);
 		createText();
 	}
@@ -26,7 +27,8 @@ public class SettingsButton extends UiComponent {
 	
 	@Override
 	public void onClick() {
-		//TODO Open Settings Menu
+		this.getParentComponent().setActive(false);
+		GameMenus.getSettingsMenu().open("PauseMenu");
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import seaSaltedEngine.Engine;
 import seaSaltedEngine.EngineConstants;
 import seaSaltedEngine.render.batch.IBatch;
 import seaSaltedEngine.render.model.loaders.ModelLoader;
+import seaSaltedEngine.render.renderers.InstancedRenderer;
 import seaSaltedEngine.render.renderers.StaticRenderer;
 import seaSaltedEngine.render.resourceManagement.frustumCulling.FrustumCuller;
 import seaSaltedEngine.tools.OpenGL;
@@ -13,6 +14,7 @@ import seaSaltedEngine.tools.math.Matrix4f;
 public class MasterRenderer {
 
 	private StaticRenderer renderer;
+	private InstancedRenderer instancedRenderer;
 	private ModelLoader loader;
 	
 	private Matrix4f projectionMatrix;
@@ -20,6 +22,7 @@ public class MasterRenderer {
 	
 	public MasterRenderer() {
 		this.renderer = new StaticRenderer();
+		this.instancedRenderer = new InstancedRenderer();
 		this.loader = new ModelLoader();
 		this.projectionMatrix = MathUtils.createProjectionMatrix(EngineConstants.FOV, EngineConstants.NEAR_PLANE, EngineConstants.FAR_PLANE);
 		this.culler = new FrustumCuller();
@@ -28,7 +31,14 @@ public class MasterRenderer {
 	public void render(IBatch batch) {
 		if(batch == null) return;
 		culler.update();
-;		renderer.render(batch); 
+		switch(batch.getBatchType()) {
+		case STATIC:
+			renderer.render(batch); break;
+		case INSTANCED:
+			instancedRenderer.render(batch); break;
+		default:
+			break;
+		}; 
 	}
 	
 	public void clearOpenGL() { 

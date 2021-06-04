@@ -13,6 +13,7 @@ public class SliderUi extends UiComponent {
 	private UiComponent sliderTab;
 	
 	private Vector2f sliderPosition;
+	private float sliderValue;
 	
 	public SliderUi(Vector2f position) {
 		super(1);
@@ -27,23 +28,56 @@ public class SliderUi extends UiComponent {
 	public void updateSelf() {
 		if(Engine.getInputHandler().getMouseInstance().getButtonEvent().isLeftDown() && sliderTab.isHovering()) {
 			sliderTab.setPosition(Mouse.getMousePosition().x, sliderPosition.y);
-			sliderBar.setPosition(sliderPosition);
+			sliderValue =  (sliderTab.getPosition().x + sliderBar.getScale().x);
 		}
+		checkBounds();
+	}
+	
+	private void checkBounds() {
+		
 	}
 	
 	private void initLine() {
 		sliderBar = new UiComponent(2);
 		sliderBar.setPosition(sliderPosition);
-		sliderBar.setScale(0.25f, 0.025f);
+		sliderBar.setScale(0.3f, 0.025f);
 		addComponent(sliderBar);
 	}
 	
 	private void initSlider() {
 		sliderTab = new UiComponent(3);
 		sliderTab.setColor(UiColors.WHITE);
-		sliderTab.setPosition(sliderPosition);
-		sliderTab.setScale(0.01f, 0.075f);
-		addComponent(sliderTab);
+		sliderTab.setPosition(new Vector2f(sliderPosition.x, sliderPosition.y));
+		sliderTab.setScale(0.025f, 0.07f);
+		sliderBar.addComponent(sliderTab);
+	}
+
+	public UiComponent getSliderBar() {
+		return sliderBar;
+	}
+
+	public UiComponent getSliderTab() {
+		return sliderTab;
+	}
+
+	public Vector2f getSliderPosition() {
+		return sliderPosition;
+	}
+
+	public void setSliderBar(UiComponent sliderBar) {
+		this.sliderBar = sliderBar;
+	}
+
+	public void setSliderTab(UiComponent sliderTab) {
+		this.sliderTab = sliderTab;
+	}
+
+	public void setSliderPosition(Vector2f sliderPosition) {
+		this.sliderPosition = sliderPosition;
+	}
+
+	public float getSliderValue() {
+		return sliderValue;
 	}
 
 }

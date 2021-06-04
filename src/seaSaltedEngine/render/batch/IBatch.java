@@ -10,6 +10,8 @@ public interface IBatch {
 	List<Entity> entities = new ArrayList<Entity>();
 	List<Entity> toAdd = new ArrayList<Entity>();
 	
+	BatchType batchType = BatchType.STATIC;
+	
 	public default void add(Entity mesh) {
 		toAdd.add(mesh);
 	}
@@ -20,6 +22,10 @@ public interface IBatch {
 		return entities;
 	}
 
+	public default BatchType getBatchType() {
+		return batchType;
+	}
+	
 	Object clone() throws CloneNotSupportedException;
 	
 }

@@ -12,7 +12,7 @@ public class OpenServerButton extends UiComponent {
 	public OpenServerButton() {
 		super(1);
 		this.setScale(0.2f, 0.075f);
-		this.setPosition(0f, -0.1f);
+		this.setPosition(0f, 0.1f);
 		this.setAlpha(0);
 		createText();
 	}

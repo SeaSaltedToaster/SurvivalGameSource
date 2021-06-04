@@ -3,11 +3,15 @@ package seaSaltedEngine.guis.renderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
+import seaSaltedEngine.Engine;
+import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.guis.core.UiQuadModel;
+import seaSaltedEngine.render.display.WindowManager;
 import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.tools.math.MathUtils;
 import seaSaltedEngine.tools.math.Matrix4f;
+import seaSaltedEngine.tools.math.Vector2f;
 
 public class UiRenderer {
 
@@ -23,6 +27,7 @@ public class UiRenderer {
 		begin();
 		loadShaderVariables(component);
 		GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
+		Debugger.report("Draw_Call");
 		end(component);
 	}
 	
@@ -44,17 +49,35 @@ public class UiRenderer {
 	}
 	
 	private void loadShaderVariables(UiComponent component) {
-		if(component.hasTexture()) {
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
-			component.getGuiTexture().bind();
-			shader.getGuiTexture().loadTexUnit(component.getGuiTexture().getID());
-		}
+		loadTexture(component);
+		testScissor(component);
 		shader.getTransformationMatrix().loadMatrix(getTransformation(component));
 		shader.getUiOverrideColor().loadVec4(component.getOverrideColor());
 		shader.getHasTexture().loadBoolean(component.hasTexture());
 		shader.getAlpha().loadFloat(component.getAlpha());
 		shader.getWidth().loadFloat(component.getScale().x);
 		shader.getHeight().loadFloat(component.getScale().y);
+	}
+	
+	private void loadTexture(UiComponent component) {
+		if(component.hasTexture()) {
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			component.getGuiTexture().bind();
+			shader.getGuiTexture().loadTexUnit(component.getGuiTexture().getID());
+			component.getGuiTexture().unbind();
+		}
+	}
+	
+	private void testScissor(UiComponent component) {
+		if(component.isScissor()) {
+			long windowID = Engine.getWindowInstance().getWindowID();
+			Vector2f displaySize = new Vector2f((float)WindowManager.getWindowSizeX(windowID), (float)WindowManager.getWindowSizeY(windowID));
+			if(component.getParentComponent().isScissor()) {
+				UiComponent parent = component.getParentComponent();
+				GL11.glScissor((int) (parent.getPosition().x*displaySize.x) ,(int) (parent.getPosition().y*displaySize.y) ,
+						(int) (parent.getScale().x*displaySize.x) ,(int) (parent.getScale().y*displaySize.y) );
+			}
+		}
 	}
 	
 	private Matrix4f getTransformation(UiComponent component) {
