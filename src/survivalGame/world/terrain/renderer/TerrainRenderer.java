@@ -30,7 +30,7 @@ public class TerrainRenderer {
 	public static void renderChunks() {
 		beginRendering();
 		for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
-			if(entry.getValue() && Engine.getRenderer().getCuller().isInFrustum(entry.getKey().getPosition(), entry.getKey().getPosition().add(new Vector3f(6400,6400,6400)))) {
+			if(entry.getValue()) {
 				renderChunk(entry.getKey());
 			}
 		}

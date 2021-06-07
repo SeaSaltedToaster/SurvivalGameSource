@@ -5,9 +5,9 @@ import org.lwjgl.glfw.GLFW;
 import seaSaltedEngine.EngineConstants;
 import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.input.Mouse;
+import seaSaltedEngine.basic.input.keybinding.Controls;
 import seaSaltedEngine.render.display.Window;
 import seaSaltedEngine.tools.OpenGL;
-import survivalGame.resources.keybinding.Controls;
 
 public class FirstPersonCamera extends Camera {
 

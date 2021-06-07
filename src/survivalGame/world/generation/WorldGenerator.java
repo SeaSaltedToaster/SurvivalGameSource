@@ -26,12 +26,12 @@ public class WorldGenerator {
 	
 	private static void generateTerrain(int dx, int dz) {
 		//Basic Temporary Settings
-		float distance = 5;
+		float distance = 8;
 		float terrainSize = 64;
 		//Loop and create chunks every 64 tiles
 		int index = 1;
-		for(int x = dx; x < distance; x++) {
-			for(int z = dz; z < distance; z++) {
+		for(int x = dx; x < distance+dx; x++) {
+			for(int z = dz; z < distance+dx; z++) {
 				//Create
 				if(exists(x,z)) continue;
 				TerrainChunk chunk = new TerrainChunk(new Vector3f(x*terrainSize,0,z*terrainSize),x,z);

@@ -30,7 +30,9 @@ public class PauseMenu extends UiComponent{
 	
 	@Override
 	public void updateSelf()  {
-		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_ESCAPE) && !GameMenus.isInMenu()) {
+		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_ESCAPE) 
+				&& !GameMenus.isInMenu() 
+				&& !GameMenus.getMainMenu().isOpen()) {
 			this.setActive(true);
 			Mouse.setMouseVisible(true);
 			GameMenus.setInMenu(true);

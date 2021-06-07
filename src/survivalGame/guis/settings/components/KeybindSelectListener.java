@@ -15,7 +15,7 @@ public class KeybindSelectListener implements Listener {
 	@Override
 	public void notify(String update) {
 		if(update.substring(5, update.length()).equalsIgnoreCase("0")) return;
-		String reduced = update.substring(0, 3).replace(";", "").replace(":", "");
+		String reduced = update.split(":;:")[0].replace(";", "").replace(":", "");
 		int key = Integer.parseInt(reduced);
 		selector.setKeybind(selector.getControl(), key);
 		selector.getButton().getHud().setActive(false);

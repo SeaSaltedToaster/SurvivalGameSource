@@ -9,7 +9,6 @@ import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.collision.PhysicsManager;
 import survivalGame.GameManager;
 import survivalGame.main.GameState;
-import survivalGame.resources.Sounds;
 import survivalGame.resources.modding.loading.ModLoader;
 import survivalGame.world.GameWorld;
 import survivalGame.world.generation.WorldGenerator;
@@ -22,8 +21,6 @@ public class MainGame extends GameState {
 	@Override
 	public void init() {
 		//Start Game
-		AudioMaster.init();
-		Sounds.init();
 		Mouse.setMouseVisible(false);
 		GameManager.initGame();
 		ModLoader.loadMods();
@@ -50,7 +47,6 @@ public class MainGame extends GameState {
 		TerrainRenderer.renderChunks();
 		SkyboxRenderer.renderSkybox();
 		Engine.renderUi();
-		PhysicsManager.updateTest();
 		AudioMaster.getListenerData(Engine.getCamera().getPosition());
 		if(InputHandler.isKeyPressed(GLFW.GLFW_KEY_F2))
 			ScreenshotUtils.screenshot();

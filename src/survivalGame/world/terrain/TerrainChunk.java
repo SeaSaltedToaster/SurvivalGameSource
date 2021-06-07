@@ -35,14 +35,14 @@ public class TerrainChunk {
 		this.indexX = indexX;
 		this.indexZ = indexZ;
 		this.mesh = new TerrainMesh();
-		this.colorMap = new Color[size+2][size*2+1][size+2];
+		this.colorMap = new Color[size+3][size*2+1][size+3];
 		this.terrainEntities = new ArrayList<Entity>();
 	}
 
 	public void generate(boolean newChunk) {
 		if(newChunk)
 			terrainMap = TerrainMapGenerator.generateTerrainMap(size, this);
-		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), size);
+		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), size+2);
 		DualContouring.GenerateMeshFromOctree(node, mesh.getVertices(), mesh.getTriangles(), this);
 		mesh.convertMeshData(); 
 	}

@@ -1,13 +1,13 @@
 package survivalGame.guis.settings.tabs;
 
+import seaSaltedEngine.basic.input.keybinding.Control;
+import seaSaltedEngine.basic.input.keybinding.Controls;
 import seaSaltedEngine.guis.core.UiColors;
 import seaSaltedEngine.guis.core.UiComponent;
 import seaSaltedEngine.guis.text.Fonts;
 import seaSaltedEngine.guis.text.Text;
 import survivalGame.guis.components.ScrollPane;
 import survivalGame.guis.settings.components.KeybindSelector;
-import survivalGame.resources.keybinding.Control;
-import survivalGame.resources.keybinding.Controls;
 
 public class ControlsTab extends UiComponent {
 
@@ -41,7 +41,7 @@ public class ControlsTab extends UiComponent {
 		int index = 0;
 		selectors = new KeybindSelector[Controls.getKeybindings().size()];
 		for(Control control : Controls.getKeybindings()) {
-			KeybindSelector selector = new KeybindSelector(control, index);
+			KeybindSelector selector = new KeybindSelector(control, index, scrollPane);
 			selectors[index] = selector;
 			scrollPane.addComponent(selector);
 			index++;
@@ -51,6 +51,7 @@ public class ControlsTab extends UiComponent {
 	private void initPane() {
 		this.scrollPane = new ScrollPane(0f,0.025f,0.575f,0.55f);
 		this.scrollPane.setScissor(true);
+		this.scrollPane.setAlpha(0f);
 		this.addComponent(scrollPane);
 	}
 

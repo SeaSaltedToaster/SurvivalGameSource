@@ -36,6 +36,7 @@ public class UiRenderer {
 		quad.getMeshVao().bind(0);
 		
 		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
@@ -45,6 +46,7 @@ public class UiRenderer {
 		shader.stop();
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);	
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
@@ -53,7 +55,6 @@ public class UiRenderer {
 		testScissor(component);
 		shader.getTransformationMatrix().loadMatrix(getTransformation(component));
 		shader.getUiOverrideColor().loadVec4(component.getOverrideColor());
-		shader.getHasTexture().loadBoolean(component.hasTexture());
 		shader.getAlpha().loadFloat(component.getAlpha());
 		shader.getWidth().loadFloat(component.getScale().x);
 		shader.getHeight().loadFloat(component.getScale().y);
@@ -63,20 +64,19 @@ public class UiRenderer {
 		if(component.hasTexture()) {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			component.getGuiTexture().bind();
-			shader.getGuiTexture().loadTexUnit(component.getGuiTexture().getID());
-			component.getGuiTexture().unbind();
 		}
+		shader.getHasTexture().loadBoolean(component.hasTexture());
 	}
 	
 	private void testScissor(UiComponent component) {
-		if(component.isScissor()) {
-			long windowID = Engine.getWindowInstance().getWindowID();
-			Vector2f displaySize = new Vector2f((float)WindowManager.getWindowSizeX(windowID), (float)WindowManager.getWindowSizeY(windowID));
-			if(component.getParentComponent().isScissor()) {
-				UiComponent parent = component.getParentComponent();
-				GL11.glScissor((int) (parent.getPosition().x*displaySize.x) ,(int) (parent.getPosition().y*displaySize.y) ,
-						(int) (parent.getScale().x*displaySize.x) ,(int) (parent.getScale().y*displaySize.y) );
-			}
+		if(component.getParentComponent() == null) return;
+		long windowID = Engine.getWindowInstance().getWindowID();
+		Vector2f displaySize = new Vector2f((float)WindowManager.getWindowSizeX(windowID), (float)WindowManager.getWindowSizeY(windowID));
+		if(component.getParentComponent().isScissor()) {
+			UiComponent parent = component.getParentComponent();
+			int x = Math.round(parent.getPosition().x * displaySize.x);
+			GL11.glScissor((int) (x - (parent.getScale().x/2)) ,(int) Math.round( (parent.getPosition().y + parent.getScale().y) *displaySize.y) ,
+					(int) Math.round(parent.getScale().x*displaySize.x) ,(int) Math.round(parent.getScale().y*displaySize.y) );
 		}
 	}
 	

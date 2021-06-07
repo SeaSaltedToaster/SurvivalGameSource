@@ -20,9 +20,9 @@ public class OctreeLeafBuilder {
 	public static int MATERIAL_SOLID = 1, MATERIAL_AIR = 0;
 	
 	private static float densityFunc(TerrainChunk chunk, Vector3f position, float[][][] terrainMap) {
-		float subX = Math.abs(chunk.getIndexX() * 64);
-		float subZ = Math.abs(chunk.getIndexZ() * 64);
-		return (float) terrainMap[(int) Math.abs(position.x-subX)][(int) position.y][(int) Math.abs(position.z-subZ)] - 5;
+		float subX = Math.abs(Math.abs(chunk.getIndexX()) * 64);
+		float subZ = Math.abs(Math.abs(chunk.getIndexZ()) * 64);
+		return (float) terrainMap[(int) Math.abs(position.x-subX) ][(int) position.y ][(int) Math.abs(position.z-subZ) ] - 5;
 	}
 
 	public static OctreeNode ConstructLeaf(OctreeNode leaf, TerrainChunk chunk) {

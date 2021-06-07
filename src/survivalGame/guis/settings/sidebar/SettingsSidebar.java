@@ -5,7 +5,7 @@ import seaSaltedEngine.guis.core.UiComponent;
 
 public class SettingsSidebar extends UiComponent {
 
-	private int TAB_COUNT = 5;
+	private int TAB_COUNT = 7;
 	
 	public SettingsSidebar() {
 		super(2);
@@ -24,7 +24,9 @@ public class SettingsSidebar extends UiComponent {
 		buttons[1] = new ControlsButton();
 		buttons[2] = new DisplayButton();
 		buttons[3] = new GraphicsButton();
-		buttons[4] = new CloseButton();
+		buttons[4] = new LanguageButton();
+		buttons[5] = new ModButton();
+		buttons[6] = new CloseButton();
 		
 		//Add all to sidebar
 		for(SidebarButton button : buttons) {

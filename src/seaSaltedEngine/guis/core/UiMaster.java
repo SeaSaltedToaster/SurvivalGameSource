@@ -32,6 +32,9 @@ public class UiMaster {
 	
 	public static void remove(UiComponent component) {
 		toRemove.add(component);
+		
+		for(UiComponent component2 : component.getChildren())
+			remove(component2);
 	}
 
 	public static List<UiComponent> getComponents() {

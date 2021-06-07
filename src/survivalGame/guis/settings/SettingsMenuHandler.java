@@ -7,10 +7,11 @@ public class SettingsMenuHandler {
 	public void handleReturn(String from) {
 		switch(from) {
 			case "PauseMenu":
-				GameMenus.getPauseMenu().setActive(true);
+				GameMenus.getPauseMenu().setActive(true); 
+				break;
 			case "MainMenu":
-				//TODO Open Main Menu
-			break;
+				GameMenus.getMainMenu().setActive(true); 
+				break;
 		}
 	}
 

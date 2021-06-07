@@ -90,17 +90,17 @@ public class UiComponent {
         Vector2f scale = getScale();
         double mouseCoordinatesX = Mouse.getMouseCoordsX();
         double mouseCoordinatesY = Mouse.getMouseCoordsY();
-        if (location.y + scale.y > mouseCoordinatesY && location.y - scale.y < mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX) {
+        if (location.y + scale.y > mouseCoordinatesY && location.y - scale.y < mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX  && isActive) {
         	whileHover();
         	if(isActive)
         		Engine.getCamera().setCancelUpdate(true);
-        	if(!isHovering)
+        	if(!isHovering && isActive)
         		onHover();
         	isHovering = true;
-        	if(Engine.getInputHandler().getMouseInstance().getButtonEvent().isLeftDown())
+        	if(Engine.getInputHandler().getMouseInstance().getButtonEvent().isLeftDown() && isActive)
         		onClick();
         } else {
-        	if(isHovering)
+        	if(isHovering && isActive)
         		stopHover();
         	isHovering = false;
         }

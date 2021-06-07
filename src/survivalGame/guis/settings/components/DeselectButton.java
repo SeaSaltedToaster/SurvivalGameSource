@@ -2,7 +2,9 @@ package survivalGame.guis.settings.components;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.guis.core.UiComponent;
+import seaSaltedEngine.render.model.texture.Texture;
 import survivalGame.guis.settings.tabs.ControlsTab;
+import survivalGame.resources.TextureRepository;
 
 public class DeselectButton extends UiComponent {
 
@@ -11,6 +13,8 @@ public class DeselectButton extends UiComponent {
 	
 	public DeselectButton(KeybindSelectListener listener) {
 		super(1);
+		this.setHasTexture(true);
+		this.setGuiTexture(new Texture(TextureRepository.X));
 		this.listener = listener;
 		this.hud = new KeybindHUD();
 		this.setScale(0.04f, 0.075f);

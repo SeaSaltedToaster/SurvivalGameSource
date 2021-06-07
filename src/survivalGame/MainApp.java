@@ -7,21 +7,21 @@ import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.render.display.Window;
 import seaSaltedEngine.render.model.loaders.WavefrontLoader;
 import survivalGame.main.GameState;
-import survivalGame.main.states.MainGame;
+import survivalGame.main.states.MenuState;
 
 public class MainApp {
 
 	private static GameState gameState;
 	
 	public static void main(String[] args) {
-		
 		EngineConfigs configs = getConfigs();
 		Engine.init(configs);
 		
-		gameState = new MainGame();
+		gameState = new MenuState();
 		gameState.init();
 		
-		WavefrontLoader.loadWavefrontModel("assets/trees/tree");
+		//Temporary for testing
+		WavefrontLoader.loadObjModel("assets/trees/tree");
 		
 		while(!Window.shouldClose()) {
 			gameState.update();
@@ -31,14 +31,15 @@ public class MainApp {
 		}
 		
 		gameState.deinit();
+		Engine.end();
 	}
 	
 	private static EngineConfigs getConfigs() {
 		EngineConfigs configs = new EngineConfigs();
-		configs.windowName = "Survival Game";
+		configs.windowName = "Survival Game v0.3";
 		configs.loggerType = LoggerType.BOTH;
 		configs.defaultColor = new Color(1f,1f,1f);
-		configs.fpsCap = 256;
+		configs.fpsCap = 1080;
 		configs.resourceFolder = "/res/";
 		return configs;
 	}
