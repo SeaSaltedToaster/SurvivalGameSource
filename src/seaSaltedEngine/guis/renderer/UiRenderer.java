@@ -61,7 +61,7 @@ public class UiRenderer {
 	}
 	
 	private void loadTexture(UiComponent component) {
-		if(component.hasTexture()) {
+		if(component.hasTexture() && component.getGuiTexture() != null) {
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			component.getGuiTexture().bind();
 		}

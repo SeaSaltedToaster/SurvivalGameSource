@@ -18,7 +18,7 @@ public class MainMenu {
 	
 	//Values and Constants
 	private Texture bg;
-	private boolean isOpen = false;
+	private boolean isOpen = true;
 	
 	public MainMenu() {
 		initBackground();

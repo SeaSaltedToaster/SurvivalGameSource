@@ -13,7 +13,7 @@ import seaSaltedEngine.collision.objects.CollisionSphere;
 import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.render.display.Window;
 import seaSaltedEngine.tools.math.Vector3f;
-import survivalGame.entity.EntityPickaxeTest;
+import survivalGame.entity.world.EntityTree;
 import survivalGame.world.GameWorld;
 
 public class PhysicsManager {
@@ -36,7 +36,7 @@ public class PhysicsManager {
     	fallShape = new CollisionSphere(new Vector3f(16,100,16),1,100, dynamicsWorld);
     	plane = new CollisionPlane(new Vector3f(0,0,0), 10, dynamicsWorld);
   
-    	entity = new EntityPickaxeTest(new seaSaltedEngine.basic.objects.Transform(new Vector3f(0,0,0),0,0,0));
+    	entity = new EntityTree(new seaSaltedEngine.basic.objects.Transform(new Vector3f(0,0,0),0,0,0));
     	GameWorld.getMainWorldEntityBatch().getEntities().add(entity);
     	dynamicsWorld.setDebugDrawer(new DebugDrawer());
     }

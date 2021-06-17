@@ -17,7 +17,8 @@ public class BackButton extends UiComponent {
 	@Override
 	public void onClick() {
 		GameMenus.getWorldSelectionMenu().setSelected(false);
-		GameMenus.getWorldSelectionMenu().getSelected().setColor(UiColors.BLACK);
+		if(GameMenus.getWorldSelectionMenu().getSelected() != null)
+			GameMenus.getWorldSelectionMenu().getSelected().setColor(UiColors.BLACK);
 		GameMenus.getWorldSelectionMenu().setActive(false);
 		GameMenus.getMainMenu().setActive(true);
 	}

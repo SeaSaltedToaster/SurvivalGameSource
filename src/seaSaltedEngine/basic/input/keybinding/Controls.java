@@ -12,10 +12,11 @@ public class Controls {
 	public static void initControls() {
 		keybindings.add(new Control("Move Forward", Keys.W));
 		keybindings.add(new Control("Move Backward", Keys.S));
-		keybindings.add(new Control("Strafe Left", Keys.A));
-		keybindings.add(new Control("Strafe Right", Keys.D));
+		keybindings.add(new Control("Open Chat", Keys.T));
+		keybindings.add(new Control("Send Chat", Keys.ENTER));
 		keybindings.add(new Control("Pause / Exit", Keys.ESC));
 		keybindings.add(new Control("Jump", Keys.SPACE));
+		keybindings.add(new Control("Inventory", Keys.E));
 	}
 	
 	public static void addControl(Control control) {

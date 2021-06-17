@@ -3,9 +3,10 @@ package survivalGame.world.generation;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import seaSaltedEngine.basic.logger.Logger;
+import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.objects.Axis;
 import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
+import seaSaltedEngine.tools.math.Vector2f;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.terrain.TerrainChunk;
 import survivalGame.world.terrain.generator.load.TerrainLoadRequest;
@@ -17,28 +18,32 @@ public class WorldGenerator {
 	//TODO Eventually take in a seed or world name for saving
 	public static void generateWorld() {
 		worldChunks = new HashMap<TerrainChunk, Boolean>();
-		generateTerrain(0,0);
+		generateTerrain(Engine.getCamera().getPosition());
 	}
 	
 	public static void updateWorld() {
 		
 	}
 	
-	private static void generateTerrain(int dx, int dz) {
+	public static void generateTerrain(Vector3f position) {
+		int currentChunkCoordX = (int) position.x / 64;
+		int currentChunkCoordZ = (int) position.z / 64;
 		//Basic Temporary Settings
-		float distance = 8;
-		float terrainSize = 64;
+		int terrainSize = 64;
+		int chunkDistance = 4;
+		int distance = (chunkDistance * terrainSize) / 2;
 		//Loop and create chunks every 64 tiles
 		int index = 1;
-		for(int x = dx; x < distance+dx; x++) {
-			for(int z = dz; z < distance+dx; z++) {
+		for(int x = (distance/terrainSize); x > -(distance/terrainSize); x--) {
+			for(int z = (distance/terrainSize); z > -(distance/terrainSize); z--) {
+				Vector2f viewedChunkCoord = new Vector2f(currentChunkCoordX+x, currentChunkCoordZ+z);
 				//Create
-				if(exists(x,z)) continue;
-				TerrainChunk chunk = new TerrainChunk(new Vector3f(x*terrainSize,0,z*terrainSize),x,z);
+				if(exists((int)viewedChunkCoord.x,(int)viewedChunkCoord.y)) continue;
+				TerrainChunk chunk = new TerrainChunk(new Vector3f(viewedChunkCoord.x*terrainSize,0,viewedChunkCoord.y*terrainSize),(int)viewedChunkCoord.x,(int)viewedChunkCoord.y, index);
 				dispatchRequest(chunk);
 				
 				//Broadcast
-				Logger.Log("Chunk generated... ("+index+"/"+(int)(distance*distance)+")"); index++;
+				index++;
 			}
 		}
 	}
@@ -56,7 +61,7 @@ public class WorldGenerator {
 		//Add to list (false = no render)
 		worldChunks.put(chunk, false);
 		
-		//Send request
+		//Send request (true = is new chunk)
 		TerrainLoadRequest request = new TerrainLoadRequest(chunk, true);
 		GlRequestProcessor.sendRequest(request);
 	}
@@ -94,8 +99,8 @@ public class WorldGenerator {
 	}
 	
 	public static void setLoadStatus(TerrainChunk chunk, boolean state) {
-		for(Entry<TerrainChunk, Boolean> entry : WorldGenerator.getWorldChunks().entrySet()) {
-			if(entry.getKey().equals(chunk))
+		for(Entry<TerrainChunk, Boolean> entry : worldChunks.entrySet()) {
+			if(entry.getKey().getIndexX() == chunk.getIndexX() && entry.getKey().getIndexZ() == chunk.getIndexZ())
 				entry.setValue(state);
 		}
 	}

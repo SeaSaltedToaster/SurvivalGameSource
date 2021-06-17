@@ -1,0 +1,54 @@
+1 Viking Sword
+2 Horned Helmet
+3 Viking Chestplate
+4 Viking Pants
+5 Viking Boots
+6 Candle
+7 Stone
+8 Stone Pickaxe
+9 Stone Shovel
+10 Stone Axe
+11 Stone Sword
+12 Stone Scythe
+13 Copper Bar
+14 Arrow
+15 Flaming Arrow
+16 Ice Arrow
+17 Steel Arrow
+18 Explosive Arrow
+19 Quiver
+20 Backpack
+21 Dirt
+22 Hoe
+23 Carrot
+24 Corn
+25 Dynamite
+26 Iron Ore
+27 Iron Pickaxe
+28 Bow
+29 Crossbow
+30 Longbow
+31 Iron Bow
+32 Viking Bow
+33 Viking Crossbow
+34 Wood
+35 Log
+36 Watering Can
+37 Wheat Seeds
+38 Potato
+39 Berry
+40 Sapling
+41 Iron Sword
+42 Iron Helmet
+43 Iron Chestplate
+44 Iron Pants
+45 Iron Boots
+46 Stick
+47 Emerald
+48 Copper Helmet
+49 Copper Chestplate
+50 Copper Pants
+51 Copper Boots
+52 Raw Pork
+53 Cooked Pork
+54 Berries

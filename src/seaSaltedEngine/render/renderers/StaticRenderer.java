@@ -31,6 +31,7 @@ public class StaticRenderer {
 		List<Entity> entityList = batch.getEntities();
 		for (Iterator<Entity> iterator = entityList.iterator(); iterator.hasNext();) {
 		    Entity entity = iterator.next();
+		    entity.update();
 			if(entity == null || altersRender(entity)) continue;
 		    loadComponents(entity);
 			renderModel(entity);
@@ -72,6 +73,7 @@ public class StaticRenderer {
 	}
 	
 	private void renderModel(Entity entity) {
+		if(!entity.hasComponent("Model")) return;
 		ModelComponent component = (ModelComponent) entity.getComponent("Model");
 		component.getMesh().getMeshVao().render();
 	}

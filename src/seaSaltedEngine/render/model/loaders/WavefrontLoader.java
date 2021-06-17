@@ -18,7 +18,7 @@ public class WavefrontLoader {
 	private static Material current;
 	
 	public static Mesh loadObjModel(String fileName) {
-		InputStreamReader isr = new InputStreamReader(Class.class.getResourceAsStream("/res/"+fileName+".obj"));
+		InputStreamReader isr = new InputStreamReader(WavefrontLoader.class.getResourceAsStream("/res/"+fileName+".obj"));
 		BufferedReader br = new BufferedReader(isr);
 		String line;
 		List<Vector3f> vertices = new ArrayList<Vector3f>();
@@ -56,7 +56,7 @@ public class WavefrontLoader {
 				}
 			}
 			
-			for (int i = 0; i < vertices.size()*1.45f; i++) {
+			for (int i = 0; i < vertices.size()*1.4f; i++) {
 				  colors.add(new Vector3f(1,1,1));
 			}
 

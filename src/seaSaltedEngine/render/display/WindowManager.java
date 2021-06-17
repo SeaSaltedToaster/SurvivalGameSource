@@ -24,6 +24,18 @@ public class WindowManager {
 	    return posY.get(0);
 	}
 	
+	public static double getWindowSizeX() {
+	    IntBuffer posX = BufferUtils.createIntBuffer(1);
+	    glfwGetWindowSize(Engine.getWindowInstance().getWindowID(), posX, null);
+	    return posX.get(0);
+	}
+	    
+	public static double getWindowSizeY() {
+	    IntBuffer posY = BufferUtils.createIntBuffer(1);
+	    glfwGetWindowSize(Engine.getWindowInstance().getWindowID(), null, posY);
+	    return posY.get(0);
+	}
+	
 	public static void updateWindowSize() {
 	    IntBuffer widthBuffer = BufferUtils.createIntBuffer(1); IntBuffer heightBuffer = BufferUtils.createIntBuffer(1);
 	    GLFW.glfwGetWindowSize(Engine.getWindowInstance().getWindowID(), widthBuffer, heightBuffer);

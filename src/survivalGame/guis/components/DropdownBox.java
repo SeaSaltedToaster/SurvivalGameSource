@@ -27,4 +27,20 @@ public class DropdownBox {
 	public void addItem(String item) {
 		items[items.length+1] = item;
 	}
+
+	public String[] getItems() {
+		return items;
+	}
+
+	public UiComponent getBox() {
+		return box;
+	}
+
+	public UiComponent getArrow() {
+		return arrow;
+	}
+
+	public int getMAX_VALUES() {
+		return MAX_VALUES;
+	}
 }

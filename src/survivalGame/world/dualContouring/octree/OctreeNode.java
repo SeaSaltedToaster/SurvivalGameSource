@@ -5,13 +5,13 @@ import seaSaltedEngine.tools.math.Vector3f;
 public class OctreeNode {
 
 	private Vector3f position;
-	private float size;
+	private int size;
 	
 	private OctreeNodeType nodeType;
 	private OctreeInfo nodeInfo;
 	private OctreeNode[] children;
 	
-	public OctreeNode(Vector3f position, float size, OctreeNodeType nodeType) {
+	public OctreeNode(Vector3f position, int size, OctreeNodeType nodeType) {
 		this.position = position;
 		this.size = size;
 		this.nodeType = nodeType;
@@ -22,7 +22,7 @@ public class OctreeNode {
 		return position;
 	}
 
-	public float getSize() {
+	public int getSize() {
 		return size;
 	}
 
@@ -42,7 +42,7 @@ public class OctreeNode {
 		this.position = position;
 	}
 
-	public void setSize(float size) {
+	public void setSize(int size) {
 		this.size = size;
 	}
 

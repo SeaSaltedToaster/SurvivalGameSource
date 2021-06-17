@@ -18,7 +18,7 @@ public class Texture {
 	
 	public Texture(String filename) {
 		BufferedImage bi;
-		BufferedInputStream strem = new BufferedInputStream(Class.class.getResourceAsStream(filename));
+		BufferedInputStream strem = new BufferedInputStream(Texture.class.getResourceAsStream(filename));
 		try {
 			bi = ImageIO.read(strem);
 			

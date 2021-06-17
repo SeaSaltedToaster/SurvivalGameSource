@@ -10,12 +10,12 @@ public class Logger {
 		Logger.type = type;
 	}
 	
-	public static void Log(String message) {
+	public static void Log(Object message) {
 		if(type == LoggerType.CONSOLE || type == LoggerType.BOTH) 
 			System.out.println("["+Time.getRealTime()+"]"+" INFO: "+message);
 	}
 	
-	public static void ServerLog(String message) {
+	public static void ServerLog(Object message) {
 		if(type == LoggerType.CONSOLE || type == LoggerType.BOTH) 
 			System.out.println("["+Time.getRealTime()+"]"+" SERVER INFO: "+message);
 	}

@@ -36,6 +36,8 @@ public class Vector3f {
     public float y;
     public float z;
 
+    public static Vector3f UP = new Vector3f(0,1,0);
+    
     /**
      * Creates a default 3-tuple vector with all values set to 0.
      */

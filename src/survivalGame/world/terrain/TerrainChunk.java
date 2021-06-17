@@ -3,8 +3,6 @@ package survivalGame.world.terrain;
 import java.util.ArrayList;
 import java.util.List;
 
-import seaSaltedEngine.basic.logger.Logger;
-import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.entity.Entity;
 import seaSaltedEngine.render.resourceManagement.GlRequestProcessor;
 import seaSaltedEngine.tools.math.Vector3f;
@@ -17,44 +15,51 @@ import survivalGame.world.generation.grass.GrassRenderManager;
 import survivalGame.world.generation.voxel.TerrainMapGenerator;
 import survivalGame.world.terrain.data.TerrainMesh;
 import survivalGame.world.terrain.generator.load.TerrainLoadRequest;
+import survivalGame.world.terrain.voxel.Voxel;
 
 public class TerrainChunk {
 
 	private Vector3f position;
-	private int indexX, indexZ;
+	private int indexX, indexZ, chunkID;
 	
+	private Voxel[][][] voxelMap;
 	private TerrainMesh mesh;
-	private int size= 64;
 	
 	public List<Entity> terrainEntities;
-	private Color[][][] colorMap;
-	private float[][][] terrainMap;
+	private OctreeNode node;
 	
-	public TerrainChunk(Vector3f position, int indexX, int indexZ) {
+	private int size = 65;
+
+	public TerrainChunk(Vector3f position, int indexX, int indexZ, int chunkID) {
 		this.position = position;
 		this.indexX = indexX;
 		this.indexZ = indexZ;
-		this.mesh = new TerrainMesh();
-		this.colorMap = new Color[size+3][size*2+1][size+3];
-		this.terrainEntities = new ArrayList<Entity>();
+		this.chunkID = chunkID;
 	}
 
 	public void generate(boolean newChunk) {
-		if(newChunk)
-			terrainMap = TerrainMapGenerator.generateTerrainMap(size, this);
-		OctreeNode node = OctreeBuilder.BuildOctree(this, getPosition(), size+2);
+		if(newChunk) {
+			mesh = new TerrainMesh();
+			terrainEntities = new ArrayList<Entity>();
+			voxelMap = new Voxel[size+1][size+1][size+1];
+			voxelMap = TerrainMapGenerator.generateTerrainMap(size+1, this);
+			node = OctreeBuilder.BuildOctree(this, getPosition(), size);
+		}
+		node = OctreeBuilder.ConstructOctreeNodes(node, this);
+		mesh.getVertices().clear(); mesh.getTriangles().clear();
 		DualContouring.GenerateMeshFromOctree(node, mesh.getVertices(), mesh.getTriangles(), this);
 		mesh.convertMeshData(); 
 	}
 	
-	public void generateMesh() {
+	public void generateMesh(boolean isNewChunk) {
 		mesh.getTerrainMesh().getMeshData().setMeshVao(mesh.generate().getMeshVao());
 		WorldGenerator.setLoadStatus(this, true);
-		addWorldEntities();
+		if(isNewChunk) addWorldEntities();
 	}
 	
 	public void regenerate() {
 		TerrainLoadRequest request = new TerrainLoadRequest(this, false);
+		request.setRequestId(chunkID);
 		GlRequestProcessor.sendRequest(request);
 	}
 	
@@ -67,13 +72,27 @@ public class TerrainChunk {
 			GameWorld.getMainWorldEntityBatch().add(entity);
 		}
 		terrainEntities.clear();
-		Logger.Log("Entity Count: "+ terrainEntities.size());
 	}
 	
-	public void setVoxelAt() {
-		for(int x = 32; x < 42; x++) {
-			for(int y = 50; y < 60; y++) {
-				terrainMap[x][y][1] = 5;
+	public void increaseVoxelAt(Vector3f pos, float radius) {
+		for(int x = (int) (pos.x - radius) - (indexX * size); x < pos.x - (indexX * size) + radius; x++) {
+			for(int y = (int) (pos.y - radius); y < pos.y + radius; y++) {
+				for(int z = (int) (pos.z - radius) - (indexZ * size); z < pos.z - (indexZ * size) + radius; z++) {
+					if(x > 64 || y > 64 || z > 64 || x < 0 || y < 0 || z < 0) break;
+						voxelMap[x][y][z].setVoxelDensity(voxelMap[x][y][z].getVoxelDensity()-1);
+				}
+			}
+		}
+		regenerate();
+	}
+	
+	public void decreaseVoxelAt(Vector3f pos, float radius) {
+		for(int x = (int) (pos.x - radius) - (indexX * size); x < pos.x - (indexX * size) + radius; x++) {
+			for(int y = (int) (pos.y - radius); y < pos.y + radius; y++) {
+				for(int z = (int) (pos.z - radius) - (indexZ * size); z < pos.z - (indexZ * size) + radius; z++) {
+					if(x > 64 || y > 64 || z > 64 || x < 0 || y < 0 || z < 0) break;
+						voxelMap[x][y][z].setVoxelDensity(voxelMap[x][y][z].getVoxelDensity()+1);
+				}
 			}
 		}
 		regenerate();
@@ -103,12 +122,8 @@ public class TerrainChunk {
 		return indexZ;
 	}
 
-	public float[][][] getTerrainMap() {
-		return terrainMap;
-	}
-
-	public Color[][][] getColorMap() {
-		return colorMap;
+	public Voxel[][][] getTerrainMap() {
+		return voxelMap;
 	}
 
 	public List<Entity> getTerrainEntities() {

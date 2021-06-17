@@ -1,5 +1,6 @@
 package survivalGame.guis;
 
+import survivalGame.guis.chat.UiChat;
 import survivalGame.guis.mainMenu.MainMenu;
 import survivalGame.guis.mainMenu.worldSelection.WorldSelectionMenu;
 import survivalGame.guis.pauseMenu.PauseMenu;
@@ -14,13 +15,18 @@ public class GameMenus {
 	private static PauseMenu pauseMenu;
 	private static SettingsMenu settingsMenu; 
 	private static MainMenu mainMenu;
+	
+	//Sub menus
 	private static WorldSelectionMenu worldSelectionMenu;
+	private static UiChat chat;
 	
 	public static void init() {
-		mainMenu = new MainMenu();
 		pauseMenu = new PauseMenu();
+		mainMenu = new MainMenu();
 		settingsMenu = new SettingsMenu();
+		
 		worldSelectionMenu = new WorldSelectionMenu();
+		chat = new UiChat();
 	}
 
 	public static PauseMenu getPauseMenu() {
@@ -37,6 +43,10 @@ public class GameMenus {
 	
 	public static WorldSelectionMenu getWorldSelectionMenu() {
 		return worldSelectionMenu;
+	}
+
+	public static UiChat getChat() {
+		return chat;
 	}
 
 	public static boolean isInMenu() {

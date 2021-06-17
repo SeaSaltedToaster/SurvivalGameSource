@@ -43,7 +43,7 @@ void main(void){
 
 	if(hasTexture) {
 		vec4 textureColor = texture(guiTexture,textureCoords);
-		if(textureColor.a < 0.1) {
+		if(textureColor.a < 0.25) {
 			discard;
 		}
 		out_Color = textureColor;

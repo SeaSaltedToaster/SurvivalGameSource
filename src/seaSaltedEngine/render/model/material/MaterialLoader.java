@@ -10,7 +10,7 @@ import seaSaltedEngine.tools.math.Vector3f;
 public class MaterialLoader {
 
 	public static List<Material> loadMaterial(String file) {
-		InputStreamReader isr = new InputStreamReader(Class.class.getResourceAsStream("/res/"+file+".mtl"));
+		InputStreamReader isr = new InputStreamReader(MaterialLoader.class.getResourceAsStream("/res/"+file+".mtl"));
 		BufferedReader br = new BufferedReader(isr);
 		String line;
 		

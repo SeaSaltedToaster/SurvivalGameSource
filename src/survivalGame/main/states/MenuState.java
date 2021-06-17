@@ -8,6 +8,7 @@ import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.basic.input.keybinding.Controls;
 import seaSaltedEngine.guis.text.TextMaster;
+import survivalGame.GameManager;
 import survivalGame.guis.GameMenus;
 import survivalGame.main.GameState;
 import survivalGame.resources.Sounds;
@@ -20,12 +21,14 @@ public class MenuState extends GameState {
 	public void init() {
 		Mouse.setMouseVisible(true);
 		
+		GameManager.initGame();
 		TextMaster.init();
 		AudioMaster.init();
 		Sounds.init();
 		Controls.initControls();
 		GameWorld.initialize();
 		GameMenus.init();
+		GameMenus.setInMenu(true);
 	}
 
 	@Override

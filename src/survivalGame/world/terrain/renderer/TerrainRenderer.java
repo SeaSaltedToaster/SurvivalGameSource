@@ -75,8 +75,8 @@ public class TerrainRenderer {
 	}
 	
 	private static void prepareInstance(TerrainChunk entity) {
-		float entityX = (entity.getPosition().x - entity.getIndexX() * 64) - entity.getIndexX();
-		float entityZ = (entity.getPosition().z - entity.getIndexZ() * 64) - entity.getIndexZ();
+		float entityX = (entity.getPosition().x - entity.getIndexX() * 64);
+		float entityZ = (entity.getPosition().z - entity.getIndexZ() * 64);
 		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(new Vector3f(entityX, 0, entityZ), 0, 0, 0, 1));
 	}
 

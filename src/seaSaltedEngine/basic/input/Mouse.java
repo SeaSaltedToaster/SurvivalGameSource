@@ -7,6 +7,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
 import java.nio.DoubleBuffer;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 
 import seaSaltedEngine.Engine;
 import seaSaltedEngine.basic.input.event.MouseButtonEvent;
@@ -20,6 +21,7 @@ public class Mouse {
 	public MousePositionCallback positionCallback;
 	
 	public static double dx, dy;
+	public static boolean isMouse = true;
 	
 	public Mouse() {
 		buttonEvent = new MouseButtonEvent();
@@ -29,6 +31,13 @@ public class Mouse {
 	public void update() {
 		dx = positionCallback.getDx();
 		dy = positionCallback.getDy();
+	}
+	
+	public static void setPosition(Vector2f position) {
+		long id = Engine.getWindowInstance().getWindowID();
+		Vector2f displaySize = new Vector2f((float) WindowManager.getWindowSizeX(id), (float) WindowManager.getWindowSizeY(id));
+		Vector2f fixed = displaySize.mul(position);
+		GLFW.glfwSetCursorPos(id, fixed.x, fixed.y);
 	}
 	
 	public static double getMouseCoordsX() {
@@ -58,10 +67,14 @@ public class Mouse {
 	}
 	
 	public static void setMouseVisible(boolean lock) {
-	    if(lock)
-	    	glfwSetInputMode(Engine.getWindowInstance().getWindowID(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	    else
-	    	glfwSetInputMode(Engine.getWindowInstance().getWindowID(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		if(lock == isMouse) return;
+		isMouse = lock;
+	    if(isMouse) {
+	    	glfwSetInputMode(Engine.getWindowInstance().getWindowID(), GLFW_CURSOR, GLFW_CURSOR_NORMAL); 
+	    }
+	    else {
+	    	glfwSetInputMode(Engine.getWindowInstance().getWindowID(), GLFW_CURSOR, GLFW_CURSOR_DISABLED); 
+	    }
 	}
 
 	public MouseButtonEvent getButtonEvent() {

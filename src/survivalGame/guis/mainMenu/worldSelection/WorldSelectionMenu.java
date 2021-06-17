@@ -39,6 +39,7 @@ public class WorldSelectionMenu extends UiComponent {
 	public void loadGame() {
 		//TODO Take in save file to load and add a loading menu
 		GameMenus.getWorldSelectionMenu().setActive(false);
+		GameMenus.setInMenu(false);
 		UiMaster.remove(GameMenus.getMainMenu().getBackground());
 		MainApp.loadGameState(new MainGame());
 	}

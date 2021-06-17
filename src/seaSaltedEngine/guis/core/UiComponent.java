@@ -19,7 +19,8 @@ public class UiComponent {
 	
 	private boolean isActive;
 	private boolean isHovering;
-	private boolean scissor;
+	private boolean scissor = false;
+	private boolean blocksCam = true;
 	private UiAnimator animator;
 	
 	private List<UiConstraint> constraints;
@@ -92,7 +93,7 @@ public class UiComponent {
         double mouseCoordinatesY = Mouse.getMouseCoordsY();
         if (location.y + scale.y > mouseCoordinatesY && location.y - scale.y < mouseCoordinatesY && location.x + scale.x > mouseCoordinatesX && location.x - scale.x < mouseCoordinatesX  && isActive) {
         	whileHover();
-        	if(isActive)
+        	if(isActive && blocksCam)
         		Engine.getCamera().setCancelUpdate(true);
         	if(!isHovering && isActive)
         		onHover();
@@ -130,6 +131,14 @@ public class UiComponent {
 		this.isActive = false;
 	}
 	
+	public boolean isBlocksCam() {
+		return blocksCam;
+	}
+
+	public void setBlocksCam(boolean blocksCam) {
+		this.blocksCam = blocksCam;
+	}
+
 	public void increasePosition(float dx, float dy) {
 		this.position.x += dx;
 		this.position.y += dy;

@@ -4,7 +4,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
-import seaSaltedEngine.Engine;
 import seaSaltedEngine.tools.GLFWUtils;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -49,8 +48,8 @@ public class Window {
 	public void update() {
     	glfwSwapBuffers(windowID);
     	glfwPollEvents();
+    	glfwSwapInterval(1);
     	
-    	GLFWUtils.sync(Engine.getConfigs().getFpsCap());
     	WindowManager.updateWindowSize();
     	delta = WindowManager.getDelta();
 	}

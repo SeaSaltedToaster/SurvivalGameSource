@@ -16,7 +16,7 @@ public class XmlParser {
 	public static XmlNode loadXmlFile(String file) {
 		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(new InputStreamReader(Class.class.getResourceAsStream("/res/"+file)));
+			reader = new BufferedReader(new InputStreamReader(XmlParser.class.getResourceAsStream("/res/"+file)));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Can't find the XML file: " + file);

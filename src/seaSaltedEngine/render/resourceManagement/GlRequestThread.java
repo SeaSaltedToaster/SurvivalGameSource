@@ -5,9 +5,8 @@ public class GlRequestThread extends Thread {
 	private static boolean running = true;
 	
 	public void run() {
-		this.setName("Background Loading thread");
 		while(running) {
-			GlRequestProcessor.dealWithTopRequests();
+			GlRequestProcessor.completeTopRequest();
 		}
 	}
 	

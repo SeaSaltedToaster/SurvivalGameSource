@@ -19,7 +19,7 @@ public class StaticShader extends Shader {
 	protected UniformFloat time = new UniformFloat("time");
 	
 	public StaticShader() {
-		super("/seaSaltedEngine/render/shaders/staticShader/vert.glsl", "/seaSaltedEngine/render/shaders/staticShader/frag.glsl", "in_position", "in_vertexColor", "in_normal");
+		super("/res/assets/shaders/vert.glsl", "/res/assets/shaders/frag.glsl", "in_position", "in_vertexColor", "in_normal");
 		super.storeAllUniformLocations(viewMatrix, transformationMatrix, projectionMatrix, lightPosition, lightAttenuation, sway, time); 
 	}
 

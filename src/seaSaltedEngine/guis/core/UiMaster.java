@@ -9,11 +9,16 @@ import seaSaltedEngine.guis.text.TextMaster;
 
 public class UiMaster {
 
+	//Array
 	private static List<UiComponent> components = new ArrayList<UiComponent>();
+	
+	//CCM
 	private static List<UiComponent> toRemove = new ArrayList<UiComponent>();
+	private static List<UiComponent> toAdd = new ArrayList<UiComponent>();
 	
 	public static void update() {
-		components.removeAll(toRemove);
+		components.removeAll(toRemove); toRemove.clear();
+		components.addAll(toAdd); toAdd.clear();
 		Engine.getCamera().setCancelUpdate(false);
 		List<UiComponent> updateList = components;
 		for(Iterator<UiComponent> iterator = updateList.iterator(); iterator.hasNext();) {
@@ -27,7 +32,7 @@ public class UiMaster {
 	}
 	
 	public static void add(UiComponent component) {
-		components.add(component);
+		toAdd.add(component);
 	}
 	
 	public static void remove(UiComponent component) {

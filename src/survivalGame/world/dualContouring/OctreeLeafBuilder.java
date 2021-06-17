@@ -14,15 +14,16 @@ import survivalGame.world.dualContouring.octree.OctreeNodeType;
 import survivalGame.world.dualContouring.quadraticErrorFunction.LevenQefSolver;
 import survivalGame.world.dualContouring.quadraticErrorFunction.QefData;
 import survivalGame.world.terrain.TerrainChunk;
+import survivalGame.world.terrain.voxel.Voxel;
 
 public class OctreeLeafBuilder {
 	
 	public static int MATERIAL_SOLID = 1, MATERIAL_AIR = 0;
 	
-	private static float densityFunc(TerrainChunk chunk, Vector3f position, float[][][] terrainMap) {
-		float subX = Math.abs(Math.abs(chunk.getIndexX()) * 64);
-		float subZ = Math.abs(Math.abs(chunk.getIndexZ()) * 64);
-		return (float) terrainMap[(int) Math.abs(position.x-subX) ][(int) position.y ][(int) Math.abs(position.z-subZ) ] - 5;
+	private static float densityFunc(TerrainChunk chunk, Vector3f position, Voxel[][][] terrainMap) {
+		float subX = Math.abs(position.x - (chunk.getIndexX() * 64));
+		float subZ = Math.abs(position.z - (chunk.getIndexZ() * 64));
+		return (float) terrainMap[(int) subX ][(int) position.y ][(int) subZ ].getVoxelDensity() - 5;
 	}
 
 	public static OctreeNode ConstructLeaf(OctreeNode leaf, TerrainChunk chunk) {
@@ -31,8 +32,8 @@ public class OctreeLeafBuilder {
         int corners = 0;
         float[] cube = new float[8];
         for (int i = 0; i < 8; i++) {
+        	
             Vector3f cornerPos = leaf.getPosition().add(CHILD_MIN_OFFSETS[i]);
-
             float density = densityFunc(chunk, cornerPos, chunk.getTerrainMap());
             
 		    int material = density < 0.f ? MATERIAL_SOLID : MATERIAL_AIR;
@@ -46,10 +47,10 @@ public class OctreeLeafBuilder {
         if(corners > 1 && leaf.getPosition().y > 35 && Math.random() > 0.8f) { //TODO Tidy in other method or class
         	chunk.addObject(new EntityGrass(new Transform(leaf.getPosition(),0,0,0)), 1f);
         }
-        if(corners > 1 && leaf.getPosition().y > 40 && Math.random() > 0.999f) {
+        if(corners > 1 && leaf.getPosition().y > 10 && Math.random() > 0.9995f) {
         	chunk.addObject(new EntityTree(new Transform(leaf.getPosition(),0,0,0)), 5f);
         }
-        if(corners > 1 && leaf.getPosition().y < 35 && Math.random() > 0.999f) {
+        if(corners > 1 && leaf.getPosition().y < 10 && Math.random() > 0.999f) {
         	chunk.addObject(new EntityCrystal(new Transform(leaf.getPosition(),0,0,0)), 5f);
         }
 

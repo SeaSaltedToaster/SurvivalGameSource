@@ -3,9 +3,9 @@ package seaSaltedEngine.basic.input.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
-import seaSaltedEngine.basic.controls.Controller;
 import seaSaltedEngine.guis.Listener;
 
 public class MouseButtonEvent extends GLFWMouseButtonCallback implements IKeyEvent {
@@ -23,7 +23,7 @@ public class MouseButtonEvent extends GLFWMouseButtonCallback implements IKeyEve
 	public void onMouseButtonEvent(int key, int action, int mods) {
 		notifyListeners(key, action);
 		
-		if(action == Controller.PRESS && key == Controller.LMB) {
+		if(action == GLFW.GLFW_PRESS && key == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			isLeftDown = true;
 		} else {
 			isLeftDown = false;

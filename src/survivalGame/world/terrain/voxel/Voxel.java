@@ -3,9 +3,9 @@ package survivalGame.world.terrain.voxel;
 public class Voxel {
 
 	private Material material;
-	private float voxelDensity;
+	private int voxelDensity;
 	
-	public Voxel(Material material, float voxelDensity) {
+	public Voxel(Material material, int voxelDensity) {
 		this.material = material;
 		this.voxelDensity = voxelDensity;
 	}
@@ -15,7 +15,7 @@ public class Voxel {
 		this.voxelDensity = 0;
 	}
 	
-	public Voxel(float voxelDensity) {
+	public Voxel(int voxelDensity) {
 		this.material = Materials.GRASS;
 		this.voxelDensity = voxelDensity;
 	}
@@ -24,7 +24,7 @@ public class Voxel {
 		return material;
 	}
 
-	public float getVoxelDensity() {
+	public int getVoxelDensity() {
 		return voxelDensity;
 	}
 
@@ -32,7 +32,7 @@ public class Voxel {
 		this.material = material;
 	}
 
-	public void setVoxelDensity(float voxelDensity) {
+	public void setVoxelDensity(int voxelDensity) {
 		this.voxelDensity = voxelDensity;
 	}
 	

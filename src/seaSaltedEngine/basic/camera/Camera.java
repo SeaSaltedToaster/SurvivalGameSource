@@ -12,9 +12,9 @@ public class Camera {
 	protected boolean cancelUpdate;
 	
 	public Camera() {
-		this.position = new Vector3f(0,50,0);
+		this.position = new Vector3f(512,16,512);
 		this.pitch = 0;
-		this.yaw = 135;
+		this.yaw = 0;
 		this.roll = 0;
 	}
 	
@@ -64,6 +64,14 @@ public class Camera {
 
 	public void setCancelUpdate(boolean cancelUpdate) {
 		this.cancelUpdate = cancelUpdate;
+	}
+	
+	public Vector3f getLookVec() {
+		Vector3f vector = new Vector3f(10,1,10);
+		vector.x = (float) 10;
+		vector.y = (float) -pitch / 5;
+		vector.z = (float) 10;
+		return vector;
 	}
 	
 }

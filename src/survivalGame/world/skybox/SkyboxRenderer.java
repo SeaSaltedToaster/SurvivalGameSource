@@ -3,26 +3,26 @@ package survivalGame.world.skybox;
 import org.lwjgl.glfw.GLFW;
 
 import seaSaltedEngine.Engine;
-import seaSaltedEngine.basic.objects.Transform;
 import seaSaltedEngine.basic.statistics.Debugger;
 import seaSaltedEngine.render.model.Mesh;
 import seaSaltedEngine.render.model.loaders.OldWavefrontLoader;
 import seaSaltedEngine.tools.OpenGL;
 import seaSaltedEngine.tools.math.MathUtils;
+import seaSaltedEngine.tools.math.Vector3f;
 
 public class SkyboxRenderer {
 	
 	private static SkyboxShader shader;
 	private static Mesh cubeMesh;
 	
-	private static final float SIZE = 1000f;
+	private static final float SIZE = 10000f;
 	
 	public static void init() {
 		shader = new SkyboxShader();
-		cubeMesh = OldWavefrontLoader.loadObjModel("assets/skybox");
 		shader.start();
 		shader.getProjectionMatrix().loadMatrix(Engine.getRenderer().getProjectionMatrix());
 		shader.stop();
+		cubeMesh = OldWavefrontLoader.loadObjModel("assets/skybox");
 	}
 	
 	public static void renderSkybox() {
@@ -47,7 +47,8 @@ public class SkyboxRenderer {
 	}
 	
 	private static void prepareInstance() {
-		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(Transform.Default.getPosition(), 0, 0, 0, SIZE));
+		Vector3f cameraPosition = Engine.getCamera().getPosition();
+		shader.getTransformationMatrix().loadMatrix(MathUtils.createTransformationMatrix(new Vector3f(cameraPosition.x, 0, cameraPosition.z), 0, 0, 0, SIZE));
 	}
 
 }

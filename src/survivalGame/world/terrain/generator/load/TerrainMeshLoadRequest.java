@@ -1,29 +1,21 @@
 package survivalGame.world.terrain.generator.load;
 
-import org.lwjgl.glfw.GLFW;
-
-import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.render.resourceManagement.GlRequest;
 import survivalGame.world.terrain.TerrainChunk;
 
 public class TerrainMeshLoadRequest extends GlRequest {
 	
 	protected TerrainChunk chunk;
+	protected boolean isNewChunk;
 	
-	public TerrainMeshLoadRequest(TerrainChunk chunk) {
+	public TerrainMeshLoadRequest(TerrainChunk chunk, boolean isNewChunk) {
 		this.chunk = chunk;
 	}
 	
 	@Override
 	public void execute() {
-		//Get start time
-		double startTime = GLFW.glfwGetTime();
-				
 		//Generate Mesh Data
-		chunk.generateMesh();
-		
-		//Log time to generate
-		Logger.Log("Chunk mesh load time: "+ (GLFW.glfwGetTime() - startTime) ); 
+		chunk.generateMesh(isNewChunk);
 	}
 
 	public TerrainChunk getChunk() {

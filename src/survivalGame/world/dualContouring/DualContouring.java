@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seaSaltedEngine.basic.objects.Axis;
-import seaSaltedEngine.basic.objects.Color;
 import seaSaltedEngine.basic.objects.Triangle;
 import seaSaltedEngine.basic.objects.Vertex;
-import seaSaltedEngine.tools.math.Vector2f;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.dualContouring.octree.OctreeNode;
 import survivalGame.world.dualContouring.tools.ComplexTriangle;
@@ -27,14 +25,12 @@ public class DualContouring {
         
         switch(node.getNodeType()) {
         	case Node_Leaf:
-        		Vector3f pos = node.getPosition();
         		node.getNodeInfo().setIndice(vertexBuffer.size());
-        		float subX = Math.abs(chunk.getIndexX() * 64);
-        		float subZ = Math.abs(chunk.getIndexZ() * 64);
-                Vertex vertex = new Vertex(pos, new Vector3f(0,1,0), chunk.getColorMap()[(int) (pos.x - subX)][(int) pos.y][(int) (pos.z - subZ)]);
+        		int subX = Math.abs(chunk.getIndexX() * 64);
+        		int subZ = Math.abs(chunk.getIndexZ() * 64);
+                Vertex vertex = new Vertex(node.getPosition(), Vector3f.UP, 
+                		chunk.getTerrainMap()[(int) (node.getPosition().x - subX)][(int) node.getPosition().y][(int) (node.getPosition().z - subZ)].getMaterial().getColor());
                 vertexBuffer.add(vertex);
-//                debugEdges(vertex, chunk);
-//                adjustEdgeVertex(vertex, chunk);
                 break;
         	case Node_Internal:
                 for (int i = 0; i < 8; i++) {
@@ -56,19 +52,6 @@ public class DualContouring {
     				}
     			}
     		}
-    	}
-    }
-    
-    public static void debugEdges(Vertex vertex, TerrainChunk chunk) {
-    	for(int i = 0; i < 64; i++) {
-    		if(chunk.getPosition().toVector2f().add(new Vector2f(i,0)).subtract(vertex.getPosition().toVector2f()).lengthSquared() < 2)
-    			vertex.setVertexColor(new Color(1,0,0));
-    		if(chunk.getPosition().toVector2f().add(new Vector2f(0,i)).subtract(vertex.getPosition().toVector2f()).lengthSquared() < 2)
-    			vertex.setVertexColor(new Color(1,0,0));
-    		if(chunk.getPosition().toVector2f().add(new Vector2f(i,64)).subtract(vertex.getPosition().toVector2f()).lengthSquared() < 2)
-    			vertex.setVertexColor(new Color(1,0,0));
-    		if(chunk.getPosition().toVector2f().add(new Vector2f(64,i)).subtract(vertex.getPosition().toVector2f()).lengthSquared() < 2)
-    			vertex.setVertexColor(new Color(1,0,0));
     	}
     }
     

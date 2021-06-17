@@ -28,7 +28,6 @@ public class PlayButton extends UiComponent {
 	
 	@Override
 	public void onClick() {
-		GameMenus.setInMenu(false);
 		GameMenus.getMainMenu().setActive(false);
 		GameMenus.getWorldSelectionMenu().setActive(true);
 	}
