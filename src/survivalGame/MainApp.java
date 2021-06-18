@@ -35,7 +35,7 @@ public class MainApp {
 		configs.windowName = "Survival Game v0.3.1";
 		configs.loggerType = LoggerType.BOTH;
 		configs.defaultColor = new Color(1f,1f,1f);
-		configs.fpsCap = 1080;
+		configs.fpsCap = 512;
 		configs.resourceFolder = "/res/";
 		return configs;
 	}
