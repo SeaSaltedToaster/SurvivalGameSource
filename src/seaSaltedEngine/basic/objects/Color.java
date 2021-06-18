@@ -36,6 +36,13 @@ public class Color {
 		this.b = b;
 	}
 	
+	public Color add(Vector3f other) {
+        float x = this.r + other.x;
+        float y = this.g + other.y;
+        float z = this.b + other.z;
+        return new Color(x, y, z);
+    }
+	
 	public Vector3f toVector() {
 		return new Vector3f(r,g,b);
 	}

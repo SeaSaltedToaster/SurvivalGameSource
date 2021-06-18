@@ -9,7 +9,6 @@ import seaSaltedEngine.audio.management.AudioMaster;
 import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.input.Mouse;
 import seaSaltedEngine.basic.objects.Transform;
-import seaSaltedEngine.collision.PhysicsManager;
 import survivalGame.entity.EntityPlayer;
 import survivalGame.guis.GameMenus;
 import survivalGame.guis.chat.UiChat;
@@ -34,7 +33,6 @@ public class MainGame extends GameState {
 		Mouse.setMouseVisible(false);
 		ModLoader.loadMods();
 		SkyboxRenderer.init();
-		PhysicsManager.init();
 		WorldGenerator.generateWorld();
 		GameMenus.setInMenu(false);
 		

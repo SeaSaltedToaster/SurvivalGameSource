@@ -3,8 +3,8 @@ package survivalGame.world.generation.voxel;
 import seaSaltedEngine.tools.math.Vector3f;
 import survivalGame.world.generation.noise.SimplexNoise;
 import survivalGame.world.terrain.TerrainChunk;
-import survivalGame.world.terrain.voxel.Materials;
 import survivalGame.world.terrain.voxel.Material;
+import survivalGame.world.terrain.voxel.Materials;
 import survivalGame.world.terrain.voxel.Voxel;
 
 public class TerrainMapGenerator {
@@ -13,7 +13,7 @@ public class TerrainMapGenerator {
 	
 	public static Voxel[][][] generateTerrainMap(int size, TerrainChunk chunk) {
 		
-		Voxel[][][] terrainMap = initializeGenerator(size);
+		Voxel[][][] terrainMap = chunk.getTerrainMap();
 //		int[][][] caveMap = TerrainCaveGenerator.GenerateMap(size+2);
 		
 		for (int x = 0; x < size; x++) {
@@ -42,11 +42,6 @@ public class TerrainMapGenerator {
                 }
             }
 		}
-		return terrainMap;
-	}
-
-	private static Voxel[][][] initializeGenerator(int size) {
-		Voxel[][][] terrainMap = new Voxel[size][size][size];
 		return terrainMap;
 	}
 	

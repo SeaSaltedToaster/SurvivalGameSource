@@ -7,6 +7,7 @@ import seaSaltedEngine.basic.camera.FirstPersonCamera;
 import seaSaltedEngine.basic.input.InputHandler;
 import seaSaltedEngine.basic.logger.Logger;
 import seaSaltedEngine.basic.statistics.Debugger;
+import seaSaltedEngine.collision.PhysicsManager;
 import seaSaltedEngine.guis.core.UiMaster;
 import seaSaltedEngine.guis.renderer.UiRenderer;
 import seaSaltedEngine.render.MasterRenderer;
@@ -29,6 +30,7 @@ public class Engine {
 	private static Camera camera;
 	
 	public static void init(EngineConfigs configs) {
+		Logger.Log("Initializing SeaSaltedEngine...");
 		Engine.configs = configs;
 		Engine.windowInstance = Window.newInstance(configs.windowName);
 		Engine.inputHandler = new InputHandler(windowInstance);
@@ -37,6 +39,7 @@ public class Engine {
 		Engine.renderer = new MasterRenderer();
 		Engine.uiRenderer = new UiRenderer();
 		
+		PhysicsManager.init();
 		TextureLoader.init();
 		GlRequestProcessor.init();
 		Debugger.init();
